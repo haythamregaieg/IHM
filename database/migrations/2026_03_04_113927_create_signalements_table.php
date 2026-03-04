@@ -11,10 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('signalements', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+    Schema::create('signalements', function (Blueprint $table) {
+    $table->id('idSignalement');
+    $table->foreignId('idAdmin')
+          ->constrained('admins','idAdmin')
+          ->cascadeOnDelete();
+    $table->string('description');
+    $table->date('date');
+    $table->string('statut');
+    $table->timestamps();
+});
     }
 
     /**

@@ -12,9 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('domaines', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+    $table->id('idDomaine');
+    $table->string('nom');
+    $table->timestamps();
+});
     }
 
     /**
