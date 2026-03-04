@@ -16,5 +16,18 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+Route::middleware(['auth'])->group(function(){
 
+    Route::resource('entreprises', EntrepriseController::class);
+    Route::resource('domaines', DomaineController::class);
+    Route::resource('categories', CategorieController::class);
+    Route::resource('regions', RegionController::class);
+    Route::resource('offres', OffreController::class);
+    Route::resource('candidatures', CandidatureController::class);
+    Route::resource('certificats', CertificatController::class);
+    Route::resource('favoris', OffreEnregistreController::class);
+    Route::resource('messages', MessageController::class);
+    Route::resource('signalements', SignalementController::class);
+
+});
 require __DIR__.'/auth.php';
