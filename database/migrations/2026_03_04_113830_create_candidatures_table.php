@@ -11,10 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('candidatures', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+       Schema::create('candidatures', function (Blueprint $table) {
+    $table->id('idCandidature');
+
+    $table->foreignId('idCandidat')
+          ->constrained('candidats','idCandidat')
+          ->cascadeOnDelete();
+
+    $table->foreignId('idOffre')
+          ->constrained('offres','idOffre')
+          ->cascadeOnDelete();
+
+    $table->date('dateCandidature');
+    $table->string('statut');
+    $table->text('lettreMotivation');
+    $table->timestamps();
+});
     }
 
     /**

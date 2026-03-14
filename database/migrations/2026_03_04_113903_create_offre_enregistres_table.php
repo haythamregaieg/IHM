@@ -11,10 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('offre_enregistres', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+       Schema::create('offre_enregistres', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('idCandidat')
+          ->constrained('candidats','idCandidat')
+          ->cascadeOnDelete();
+    $table->foreignId('idOffre')
+          ->constrained('offres','idOffre')
+          ->cascadeOnDelete();
+    $table->date('dateAjout');
+    $table->timestamps();
+});
     }
 
     /**

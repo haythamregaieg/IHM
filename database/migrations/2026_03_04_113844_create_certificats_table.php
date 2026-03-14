@@ -11,10 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('certificats', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+       Schema::create('certificats', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('idCandidat')
+          ->constrained('candidats','idCandidat')
+          ->cascadeOnDelete();
+    $table->string('nom');
+    $table->string('organisme');
+    $table->date('dateObtention');
+    $table->timestamps();
+});
     }
 
     /**

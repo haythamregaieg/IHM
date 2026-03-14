@@ -1,6 +1,16 @@
 <?php
 
+use App\Http\Controllers\CandidatureController;
+use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\CertificatController;
+use App\Http\Controllers\DomaineController;
+use App\Http\Controllers\EntrepriseController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\OffreController;
+use App\Http\Controllers\OffreEnregistreController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegionController;
+use App\Http\Controllers\SignalementController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
