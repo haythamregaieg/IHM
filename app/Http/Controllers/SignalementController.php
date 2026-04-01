@@ -12,15 +12,8 @@ class SignalementController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $signalements = Signalement::with('admin')->get();
+        return response()->json($signalements);
     }
 
     /**
@@ -28,38 +21,48 @@ class SignalementController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'idAdmin' => 'required|exists:admins,id',
+            'description' => 'required|string',
+            'date' => 'required|date',
+            'statut' => 'required|string|max:255',
+        ]);
+
+        $signalement = Signalement::create($validated);
+        return response()->json($signalement, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Signalement $signalement)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Signalement $signalement)
-    {
-        //
+        $signalement = Signalement::with('admin')->findOrFail($id);
+        return response()->json($signalement);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Signalement $signalement)
+    public function update(Request $request, $id)
     {
-        //
+        $signalement = Signalement::findOrFail($id);
+
+        $validated = $request->validate([
+            'statut' => 'sometimes|string|max:255',
+        ]);
+
+        $signalement->update($validated);
+        return response()->json($signalement);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Signalement $signalement)
+    public function destroy($id)
     {
-        //
+        $signalement = Signalement::findOrFail($id);
+        $signalement->delete();
+        return response()->json(null, 204);
     }
 }

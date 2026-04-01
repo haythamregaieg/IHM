@@ -12,15 +12,8 @@ class EntrepriseController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $entreprises = Entreprise::all();
+        return response()->json($entreprises);
     }
 
     /**
@@ -28,38 +21,37 @@ class EntrepriseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Add enterprise specific validation once fields are defined in migrations later
+        $entreprise = Entreprise::create($request->all());
+        return response()->json($entreprise, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Entreprise $entreprise)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Entreprise $entreprise)
-    {
-        //
+        $entreprise = Entreprise::findOrFail($id);
+        return response()->json($entreprise);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Entreprise $entreprise)
+    public function update(Request $request, $id)
     {
-        //
+        $entreprise = Entreprise::findOrFail($id);
+        $entreprise->update($request->all());
+        return response()->json($entreprise);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Entreprise $entreprise)
+    public function destroy($id)
     {
-        //
+        $entreprise = Entreprise::findOrFail($id);
+        $entreprise->delete();
+        return response()->json(null, 204);
     }
 }

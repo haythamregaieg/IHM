@@ -12,15 +12,8 @@ class CategorieController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $categories = Categorie::all();
+        return response()->json($categories);
     }
 
     /**
@@ -28,38 +21,45 @@ class CategorieController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nom' => 'required|string|max:255',
+        ]);
+
+        $categorie = Categorie::create($validated);
+        return response()->json($categorie, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Categorie $categorie)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Categorie $categorie)
-    {
-        //
+        $categorie = Categorie::findOrFail($id);
+        return response()->json($categorie);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Categorie $categorie)
+    public function update(Request $request, $id)
     {
-        //
+        $categorie = Categorie::findOrFail($id);
+
+        $validated = $request->validate([
+            'nom' => 'sometimes|string|max:255',
+        ]);
+
+        $categorie->update($validated);
+        return response()->json($categorie);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Categorie $categorie)
+    public function destroy($id)
     {
-        //
+        $categorie = Categorie::findOrFail($id);
+        $categorie->delete();
+        return response()->json(null, 204);
     }
 }

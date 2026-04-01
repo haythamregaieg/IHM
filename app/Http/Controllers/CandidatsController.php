@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\candidats;
+use App\Models\Candidats;
 use Illuminate\Http\Request;
 
 class CandidatsController extends Controller
@@ -12,15 +12,8 @@ class CandidatsController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $candidats = Candidats::all();
+        return response()->json($candidats);
     }
 
     /**
@@ -28,38 +21,36 @@ class CandidatsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $candidat = Candidats::create($request->all());
+        return response()->json($candidat, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(candidats $candidats)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(candidats $candidats)
-    {
-        //
+        $candidat = Candidats::findOrFail($id);
+        return response()->json($candidat);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, candidats $candidats)
+    public function update(Request $request, $id)
     {
-        //
+        $candidat = Candidats::findOrFail($id);
+        $candidat->update($request->all());
+        return response()->json($candidat);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(candidats $candidats)
+    public function destroy($id)
     {
-        //
+        $candidat = Candidats::findOrFail($id);
+        $candidat->delete();
+        return response()->json(null, 204);
     }
 }
