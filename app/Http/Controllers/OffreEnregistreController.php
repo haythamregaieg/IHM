@@ -12,15 +12,8 @@ class OffreEnregistreController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $offresEnregistrees = OffreEnregistre::with(['candidat', 'offre'])->get();
+        return response()->json($offresEnregistrees);
     }
 
     /**
@@ -28,38 +21,43 @@ class OffreEnregistreController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'idCandidat' => 'required|exists:candidats,id',
+            'idOffre' => 'required|exists:offres,idOffre',
+            'dateAjout' => 'required|date',
+        ]);
+
+        $offreEnregistree = OffreEnregistre::create($validated);
+        return response()->json($offreEnregistree, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(OffreEnregistre $offreEnregistre)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(OffreEnregistre $offreEnregistre)
-    {
-        //
+        $offreEnregistree = OffreEnregistre::with(['candidat', 'offre'])->findOrFail($id);
+        return response()->json($offreEnregistree);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, OffreEnregistre $offreEnregistre)
+    public function update(Request $request, $id)
     {
-        //
+        // Favoris functionally are usually not "updated" but we'll include it for completeness
+        $offreEnregistree = OffreEnregistre::findOrFail($id);
+        $offreEnregistree->update($request->all());
+        return response()->json($offreEnregistree);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(OffreEnregistre $offreEnregistre)
+    public function destroy($id)
     {
-        //
+        $offreEnregistree = OffreEnregistre::findOrFail($id);
+        $offreEnregistree->delete();
+        return response()->json(null, 204);
     }
 }

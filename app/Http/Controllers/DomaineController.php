@@ -12,15 +12,8 @@ class DomaineController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $domaines = Domaine::all();
+        return response()->json($domaines);
     }
 
     /**
@@ -28,38 +21,45 @@ class DomaineController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nom' => 'required|string|max:255',
+        ]);
+
+        $domaine = Domaine::create($validated);
+        return response()->json($domaine, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Domaine $domaine)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Domaine $domaine)
-    {
-        //
+        $domaine = Domaine::findOrFail($id);
+        return response()->json($domaine);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Domaine $domaine)
+    public function update(Request $request, $id)
     {
-        //
+        $domaine = Domaine::findOrFail($id);
+
+        $validated = $request->validate([
+            'nom' => 'sometimes|string|max:255',
+        ]);
+
+        $domaine->update($validated);
+        return response()->json($domaine);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Domaine $domaine)
+    public function destroy($id)
     {
-        //
+        $domaine = Domaine::findOrFail($id);
+        $domaine->delete();
+        return response()->json(null, 204);
     }
 }

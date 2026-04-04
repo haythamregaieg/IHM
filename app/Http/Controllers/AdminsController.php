@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\admins;
+use App\Models\Admins;
 use Illuminate\Http\Request;
 
 class AdminsController extends Controller
@@ -12,15 +12,8 @@ class AdminsController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $admins = Admins::all();
+        return response()->json($admins);
     }
 
     /**
@@ -28,38 +21,36 @@ class AdminsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $admin = Admins::create($request->all());
+        return response()->json($admin, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(admins $admins)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(admins $admins)
-    {
-        //
+        $admin = Admins::findOrFail($id);
+        return response()->json($admin);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, admins $admins)
+    public function update(Request $request, $id)
     {
-        //
+        $admin = Admins::findOrFail($id);
+        $admin->update($request->all());
+        return response()->json($admin);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(admins $admins)
+    public function destroy($id)
     {
-        //
+        $admin = Admins::findOrFail($id);
+        $admin->delete();
+        return response()->json(null, 204);
     }
 }

@@ -21,6 +21,7 @@ return new class extends Migration
     $table->foreignId('idDomaine')
           ->constrained('domaines','idDomaine');
 
+
     $table->foreignId('idCategorie')
           ->constrained('categories','idCategorie');
 
@@ -38,7 +39,7 @@ return new class extends Migration
     $table->string('localisation');
     $table->timestamps();
 });
-    }
+}
 
     /**
      * Reverse the migrations.

@@ -12,15 +12,8 @@ class CandidatureController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $candidatures = Candidature::with(['candidat', 'offre'])->get();
+        return response()->json($candidatures);
     }
 
     /**
@@ -28,38 +21,49 @@ class CandidatureController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'idCandidat' => 'required|exists:candidats,id',
+            'idOffre' => 'required|exists:offres,idOffre',
+            'dateCandidature' => 'required|date',
+            'statut' => 'required|string|max:255',
+            'lettreMotivation' => 'required|string',
+        ]);
+
+        $candidature = Candidature::create($validated);
+        return response()->json($candidature, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Candidature $candidature)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Candidature $candidature)
-    {
-        //
+        $candidature = Candidature::with(['candidat', 'offre'])->findOrFail($id);
+        return response()->json($candidature);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Candidature $candidature)
+    public function update(Request $request, $id)
     {
-        //
+        $candidature = Candidature::findOrFail($id);
+
+        $validated = $request->validate([
+            'statut' => 'sometimes|string|max:255',
+        ]);
+
+        $candidature->update($validated);
+        return response()->json($candidature);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Candidature $candidature)
+    public function destroy($id)
     {
-        //
+        $candidature = Candidature::findOrFail($id);
+        $candidature->delete();
+        return response()->json(null, 204);
     }
 }

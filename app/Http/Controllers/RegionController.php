@@ -12,15 +12,8 @@ class RegionController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $regions = Region::all();
+        return response()->json($regions);
     }
 
     /**
@@ -28,38 +21,47 @@ class RegionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'pays' => 'required|string|max:255',
+            'ville' => 'required|string|max:255',
+        ]);
+
+        $region = Region::create($validated);
+        return response()->json($region, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Region $region)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Region $region)
-    {
-        //
+        $region = Region::findOrFail($id);
+        return response()->json($region);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Region $region)
+    public function update(Request $request, $id)
     {
-        //
+        $region = Region::findOrFail($id);
+
+        $validated = $request->validate([
+            'pays' => 'sometimes|string|max:255',
+            'ville' => 'sometimes|string|max:255',
+        ]);
+
+        $region->update($validated);
+        return response()->json($region);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Region $region)
+    public function destroy($id)
     {
-        //
+        $region = Region::findOrFail($id);
+        $region->delete();
+        return response()->json(null, 204);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminsController;
+use App\Http\Controllers\CandidatsController;
 use App\Http\Controllers\CandidatureController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\CertificatController;
@@ -26,18 +28,20 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 Route::middleware(['auth'])->group(function(){
-
-    Route::resource('entreprises', EntrepriseController::class);
-    Route::resource('domaines', DomaineController::class);
-    Route::resource('categories', CategorieController::class);
-    Route::resource('regions', RegionController::class);
-    Route::resource('offres', OffreController::class);
-    Route::resource('candidatures', CandidatureController::class);
-    Route::resource('certificats', CertificatController::class);
-    Route::resource('favoris', OffreEnregistreController::class);
-    Route::resource('messages', MessageController::class);
-    Route::resource('signalements', SignalementController::class);
-
+    Route::apiResource('entreprises', EntrepriseController::class);
+    Route::apiResource('domaines', DomaineController::class);
+    Route::apiResource('categories', CategorieController::class);
+    Route::apiResource('regions', RegionController::class);
+    Route::apiResource('offres', OffreController::class);
+    Route::apiResource('candidatures', CandidatureController::class);
+    Route::apiResource('certificats', CertificatController::class);
+    Route::apiResource('favoris', OffreEnregistreController::class);
+    Route::apiResource('messages', MessageController::class);
+    Route::apiResource('signalements', SignalementController::class);
+    Route::apiResource('admins', AdminsController::class);
+    Route::apiResource('candidats', CandidatsController::class);
 });
+
 require __DIR__.'/auth.php';

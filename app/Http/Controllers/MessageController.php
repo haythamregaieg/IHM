@@ -12,15 +12,8 @@ class MessageController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $messages = Message::with(['entreprise', 'candidat'])->get();
+        return response()->json($messages);
     }
 
     /**
@@ -28,38 +21,48 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'idEntreprise' => 'required|exists:entreprises,id',
+            'idCandidat' => 'required|exists:candidats,id',
+            'contenu' => 'required|string',
+            'dateEnvoi' => 'required|date',
+        ]);
+
+        $message = Message::create($validated);
+        return response()->json($message, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Message $message)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Message $message)
-    {
-        //
+        $message = Message::with(['entreprise', 'candidat'])->findOrFail($id);
+        return response()->json($message);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Message $message)
+    public function update(Request $request, $id)
     {
-        //
+        $message = Message::findOrFail($id);
+
+        $validated = $request->validate([
+            'contenu' => 'sometimes|string',
+        ]);
+
+        $message->update($validated);
+        return response()->json($message);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Message $message)
+    public function destroy($id)
     {
-        //
+        $message = Message::findOrFail($id);
+        $message->delete();
+        return response()->json(null, 204);
     }
 }

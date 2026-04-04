@@ -2,9 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class admins extends Model
 {
-    //
+    use HasFactory;
+
+    public function signalements()
+    {
+        return $this->hasMany(Signalement::class, 'idAdmin', 'id');
+    }
 }

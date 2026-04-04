@@ -12,15 +12,8 @@ class CertificatController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $certificats = Certificat::with('candidat')->get();
+        return response()->json($certificats);
     }
 
     /**
@@ -28,38 +21,50 @@ class CertificatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'idCandidat' => 'required|exists:candidats,id',
+            'nom' => 'required|string|max:255',
+            'organisme' => 'required|string|max:255',
+            'dateObtention' => 'required|date',
+        ]);
+
+        $certificat = Certificat::create($validated);
+        return response()->json($certificat, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Certificat $certificat)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Certificat $certificat)
-    {
-        //
+        $certificat = Certificat::with('candidat')->findOrFail($id);
+        return response()->json($certificat);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Certificat $certificat)
+    public function update(Request $request, $id)
     {
-        //
+        $certificat = Certificat::findOrFail($id);
+
+        $validated = $request->validate([
+            'nom' => 'sometimes|string|max:255',
+            'organisme' => 'sometimes|string|max:255',
+            'dateObtention' => 'sometimes|date',
+        ]);
+
+        $certificat->update($validated);
+        return response()->json($certificat);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Certificat $certificat)
+    public function destroy($id)
     {
-        //
+        $certificat = Certificat::findOrFail($id);
+        $certificat->delete();
+        return response()->json(null, 204);
     }
 }
