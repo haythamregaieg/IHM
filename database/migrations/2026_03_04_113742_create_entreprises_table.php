@@ -12,21 +12,25 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('entreprises', function (Blueprint $table) {
-    $table->id('idEntreprise');
-    $table->string('raisonSociale');
-    $table->text('description')->nullable();
-    $table->string('identifiantLegal')->unique();
-    $table->string('domaine');
-    $table->string('pays');
-    $table->string('ville');
-    $table->string('telephone');
-    $table->string('logo')->nullable();
-    $table->string('siteWeb')->nullable();
-    $table->string('email')->unique();
-    $table->string('motDePasse');
-    $table->string('statut')->default('en_attente');
-    $table->timestamps();
-});
+            $table->id('idEntreprise');
+            $table->string('raison_sociale');
+            $table->text('description')->nullable();
+            $table->string('identifiant_legal')->unique();
+            $table->unsignedBigInteger('idDomaine')->nullable();
+            $table->unsignedBigInteger('idRegion')->nullable();
+            $table->string('pays')->nullable();
+            $table->string('ville')->nullable();
+            $table->string('telephone')->nullable();
+            $table->string('logo_path')->nullable();
+            $table->string('site_web')->nullable();
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->string('statut')->default('en_attente');
+            $table->timestamps();
+
+            $table->foreign('idDomaine')->references('idDomaine')->on('domaines')->onDelete('set null');
+            $table->foreign('idRegion')->references('idRegion')->on('regions')->onDelete('set null');
+        });
     }
 
     /**

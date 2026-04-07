@@ -1,29 +1,32 @@
 <?php
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Signalement extends Model
 {
-    use HasFactory;
-
+    protected $table = 'signalements';
     protected $primaryKey = 'idSignalement';
 
     protected $fillable = [
-        'idAdmin',
-        'description',
-        'date',
-        'statut',
+        'idAdmin', 'signaleur_type', 'signaleur_id',
+        'cible_type', 'cible_id', 'description', 'date', 'statut',
     ];
 
-    protected $casts = [
-        'date' => 'date',
-    ];
+    protected $casts = ['date' => 'date'];
 
     public function admin()
     {
-        return $this->belongsTo(admins::class, 'idAdmin', 'id');
+        return $this->belongsTo(Admin::class, 'idAdmin');
+    }
+
+    public function signaleur()
+    {
+        return $this->morphTo();
+    }
+
+    public function cible()
+    {
+        return $this->morphTo();
     }
 }

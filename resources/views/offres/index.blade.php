@@ -1,0 +1,281 @@
+@extends('layouts.app')
+@section('title',"Offres d'emploi — JobPlatform")
+@section('content')
+<div class="bg-[#F8FAFC] min-h-[calc(100vh-64px)]">
+  <!-- Hero Search Section -->
+  <div class="bg-white border-b border-slate-100 py-12 lg:py-16 relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-96 h-96 bg-brand-50 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl opacity-50"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 text-center lg:text-left">
+      <h1 class="text-4xl lg:text-6xl font-black text-slate-900 tracking-tight mb-4" style="font-family:Outfit">Trouvez votre <span class="text-brand-600">futur job</span></h1>
+      <p class="text-slate-500 font-medium text-lg lg:text-xl max-w-2xl mb-10">Explorez des milliers d'offres d'emploi vérifiées en Tunisie et propulsez votre carrière.</p>
+      
+      <div class="card p-2 flex flex-col md:flex-row gap-2 shadow-2xl shadow-brand-500/10 max-w-4xl border-slate-100">
+        <div class="flex-[2] relative">
+          <svg class="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <input id="f-q" type="text" class="input border-transparent bg-slate-50/50 pl-14 h-14 font-medium focus:bg-white" placeholder="Titre du poste, mots-clés..." onkeydown="if(event.key==='Enter')load(1)">
+        </div>
+        <div class="flex-1 relative border-l border-slate-100">
+          <svg class="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          <select id="f-reg" class="input border-transparent bg-slate-50/50 pl-14 h-14 appearance-none cursor-pointer font-bold text-slate-700 focus:bg-white">
+            <option value="">Toute la Tunisie</option>
+          </select>
+        </div>
+        <button onclick="load(1)" class="btn btn-primary px-10 h-14 text-lg">Rechercher</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+    <div class="flex flex-col lg:flex-row gap-10">
+      <!-- Sidebar filtres -->
+      <aside class="w-full lg:w-80 flex-shrink-0">
+        <div class="lg:sticky lg:top-24 space-y-8">
+          <div class="card p-8 border-slate-100">
+            <h3 class="font-black text-slate-900 mb-8 flex items-center gap-2">
+              <span>🎯</span> Filtres avancés
+            </h3>
+            
+            <div class="space-y-6">
+              <div class="space-y-2">
+                <label class="label text-[10px] font-black uppercase tracking-widest text-slate-400">Domaine d'activité</label>
+                <select id="f-dom" class="input bg-slate-50 border-transparent text-sm h-12 font-bold text-slate-700 cursor-pointer focus:bg-white transition-all"><option value="">Tous les domaines</option></select>
+              </div>
+              
+              <div class="space-y-2">
+                <label class="label text-[10px] font-black uppercase tracking-widest text-slate-400">Type de contrat</label>
+                <select id="f-con" class="input bg-slate-50 border-transparent text-sm h-12 font-bold text-slate-700 cursor-pointer focus:bg-white transition-all">
+                  <option value="">Tous les types</option>
+                  <option>CDI</option>
+                  <option>CDD</option>
+                  <option>Stage</option>
+                  <option>Freelance</option>
+                  <option>Alternance</option>
+                </select>
+              </div>
+
+              <div class="space-y-2">
+                <label class="label text-[10px] font-black uppercase tracking-widest text-slate-400">Rémunération min (DT)</label>
+                <input id="f-rmin" type="number" min="0" class="input bg-slate-50 border-transparent text-sm h-12 font-bold text-slate-700 focus:bg-white transition-all" placeholder="Ex: 1500">
+              </div>
+
+              <div class="pt-6 border-t border-slate-50 flex flex-col gap-3">
+                <button onclick="load(1)" class="btn btn-secondary w-full justify-center h-12 text-sm">Appliquer les filtres</button>
+                <button onclick="reset()" class="text-xs font-black text-slate-400 hover:text-red-500 transition-colors py-2">↺ Réinitialiser tout</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Premium Banner -->
+          <div class="card p-8 bg-gradient-to-br from-brand-600 to-brand-900 text-white relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl transition-transform group-hover:scale-150 duration-700"></div>
+            <div class="relative z-10">
+              <h4 class="font-black text-lg mb-2">Soyez le premier informé !</h4>
+              <p class="text-brand-100 text-xs font-medium mb-6 leading-relaxed">Activez les alertes emploi pour recevoir les nouvelles offres directement dans votre boîte mail.</p>
+              <button class="w-full py-3 bg-white text-brand-600 rounded-xl font-black text-xs hover:bg-brand-50 transition-all active:scale-95">Activer les alertes</button>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Résultats -->
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center justify-between mb-8 flex-wrap gap-4">
+          <div>
+            <h2 id="rc" class="text-xl font-black text-slate-900 tracking-tight">Chargement...</h2>
+            <p class="text-slate-400 text-sm font-medium">Offres classées par pertinence</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-xs font-black text-slate-400 uppercase tracking-widest">Trier par</span>
+            <select id="f-sort" onchange="load(1)" class="input !py-2 !h-auto !w-auto text-xs font-black border-slate-100 shadow-sm cursor-pointer">
+              <option value="latest">Plus récentes</option>
+              <option value="salary">Meilleur salaire</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="list" class="space-y-6">
+          <!-- Skeletons Loading -->
+          <div class="animate-pulse space-y-6">
+            <template x-for="i in 3">
+              <div class="card p-8 h-48 bg-slate-50 border-transparent"></div>
+            </template>
+          </div>
+        </div>
+
+        <!-- Pagination Modernisée -->
+        <div id="pag" class="flex justify-center gap-3 mt-12 flex-wrap"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+@push('scripts')
+<script>
+const cc = {
+  CDI: 'badge-blue',
+  CDD: 'badge-amber',
+  Stage: 'badge-green',
+  Freelance: 'badge-purple',
+  Alternance: 'badge-slate'
+};
+
+async function load(page = 1) {
+  const q = document.getElementById('f-q').value;
+  const dom = document.getElementById('f-dom').value;
+  const reg = document.getElementById('f-reg').value;
+  const con = document.getElementById('f-con').value;
+  const rmin = document.getElementById('f-rmin').value;
+  const sort = document.getElementById('f-sort').value;
+
+  let url = `/offres?page=${page}&sort=${sort}`;
+  if (q) url += '&q=' + encodeURIComponent(q);
+  if (dom) url += '&idDomaine=' + dom;
+  if (reg) url += '&idRegion=' + reg;
+  if (con) url += '&typeContrat=' + encodeURIComponent(con);
+  if (rmin) url += '&remunMin=' + rmin;
+
+  const listEl = document.getElementById('list');
+  // Loading skeletons
+  listEl.innerHTML = Array(3).fill(0).map(() => `
+    <div class="card p-8 h-48 bg-slate-50 border-transparent animate-pulse flex gap-6">
+      <div class="w-16 h-16 bg-slate-100 rounded-[24px]"></div>
+      <div class="flex-1 space-y-4">
+        <div class="h-6 bg-slate-100 rounded-full w-1/3"></div>
+        <div class="h-4 bg-slate-100 rounded-full w-1/4"></div>
+        <div class="h-4 bg-slate-100 rounded-full w-full"></div>
+      </div>
+    </div>
+  `).join('');
+
+  try {
+    const res = await API.get(url);
+    if (!res?.ok) throw new Error();
+    
+    const data = await res.json();
+    const items = data.data || [];
+    
+    document.getElementById('rc').textContent = `${data.total || 0} offre${data.total > 1 ? 's' : ''} disponible${data.total > 1 ? 's' : ''}`;
+
+    if (!items.length) {
+      listEl.innerHTML = `
+        <div class="text-center py-24 bg-white rounded-[48px] border-2 border-dashed border-slate-100 animate-slide-up">
+          <div class="text-7xl mb-8 grayscale opacity-30">🔍</div>
+          <h3 class="text-2xl font-black text-slate-900 mb-3">Aucune offre trouvée</h3>
+          <p class="text-slate-400 font-medium mb-10 max-w-sm mx-auto">Nous n'avons pas trouvé d'offres correspondant à vos filtres actuels. Essayez d'élargir votre recherche.</p>
+          <button onclick="reset()" class="btn btn-secondary px-10">Voir toutes les offres</button>
+        </div>
+      `;
+      return;
+    }
+
+    listEl.innerHTML = items.map(o => `
+      <div class="card card-hover p-8 group border-slate-100 animate-slide-up relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-50 rounded-full -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+        <div class="flex flex-col md:flex-row gap-8 items-start relative z-10">
+          <div class="w-16 h-16 rounded-[24px] flex items-center justify-center text-white font-black text-2xl flex-shrink-0 shadow-xl shadow-brand-500/10 transition-transform duration-500 group-hover:scale-110 overflow-hidden" 
+               style="background:linear-gradient(135deg,#2B5CE6,#1535a0)">
+            ${o.entreprise?.logo_path ? `<img src="/storage/${o.entreprise.logo_path}" class="w-full h-full object-cover">` : (o.entreprise?.raison_sociale || '?').charAt(0).toUpperCase()}
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-4 mb-3 flex-wrap">
+              <div>
+                <h3 class="text-2xl font-black text-slate-900 group-hover:text-brand-600 transition-colors leading-tight mb-1" style="font-family:Outfit">${o.titre}</h3>
+                <div class="flex items-center gap-2">
+                  <span class="text-base font-bold text-brand-600">${o.entreprise?.raison_sociale || 'Entreprise'}</span>
+                  <span class="w-1 h-1 bg-slate-200 rounded-full"></span>
+                  <span class="text-sm font-bold text-slate-400">Publiée ${new Date(o.datePublication).toLocaleDateString('fr-FR')}</span>
+                </div>
+              </div>
+              <span class="badge ${cc[o.typeContrat] || 'badge-slate'} px-4 py-1.5 text-xs font-black uppercase tracking-widest">${o.typeContrat}</span>
+            </div>
+            
+            <p class="text-sm text-slate-500 font-medium mb-6 line-clamp-2 leading-relaxed">
+              ${o.description ? o.description.substring(0, 160) : ''}...
+            </p>
+            
+            <div class="flex flex-wrap items-center gap-4">
+              <div class="flex items-center gap-2 bg-slate-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-slate-500">
+                <span>📍</span> ${o.localisation}
+              </div>
+              ${o.remuneration ? `
+                <div class="flex items-center gap-2 bg-green-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-green-600">
+                  <span>💰</span> ${Number(o.remuneration).toLocaleString()} DT / mois
+                </div>
+              ` : ''}
+              <div class="flex items-center gap-2 bg-brand-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-brand-600">
+                <span>🏷️</span> ${o.domaine?.nom || 'Général'}
+              </div>
+            </div>
+          </div>
+          <div class="flex md:flex-col gap-2 w-full md:w-auto mt-4 md:mt-0">
+            <a href="/offres/${o.idOffre}" class="btn btn-secondary flex-1 justify-center py-3.5 px-8">Détails</a>
+            ${o.dejaPostule ? `
+              <button disabled class="btn btn-primary flex-1 justify-center py-3.5 px-8 opacity-50 cursor-not-allowed">Déjà postulé</button>
+            ` : `
+              <a href="/offres/${o.idOffre}" class="btn btn-primary flex-1 justify-center py-3.5 px-8">Postuler</a>
+            `}
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    // Pagination
+    const lp = data.last_page || 1;
+    const pg = document.getElementById('pag');
+    pg.innerHTML = lp > 1 ? Array.from({ length: lp }, (_, i) => `
+      <button onclick="load(${i + 1})" 
+              class="w-10 h-10 rounded-xl font-black text-sm transition-all flex items-center justify-center
+              ${i + 1 === page ? 'bg-brand-600 text-white shadow-lg shadow-brand-500/30 scale-110' : 'bg-white border border-slate-100 text-slate-500 hover:bg-slate-50 active:scale-95'}">
+        ${i + 1}
+      </button>
+    `).join('') : '';
+    
+    // Scroll to top of list
+    if (page > 1) window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  } catch (e) {
+    listEl.innerHTML = '<div class="card p-12 text-center text-red-500 font-black border-red-100 bg-red-50">Erreur lors du chargement des offres. Veuillez actualiser la page.</div>';
+  }
+}
+
+function reset() {
+  ['f-q', 'f-dom', 'f-reg', 'f-con', 'f-rmin'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  load(1);
+}
+
+// Data fetching
+(async () => {
+  const [d, r] = await Promise.all([API.get('/domaines'), API.get('/regions')]);
+  
+  const fill = (sid, items, pk) => {
+    const s = document.getElementById(sid);
+    if (!s || !items) return;
+    s.innerHTML = '<option value="">Sélectionnez une option</option>';
+    items.forEach(x => {
+      const o = document.createElement('option');
+      o.value = x[pk];
+      o.textContent = x.nom || x.ville; // Fallback pour région
+      s.appendChild(o);
+    });
+  };
+
+  if (d?.ok) fill('f-dom', await d.json(), 'idDomaine');
+  if (r?.ok) fill('f-reg', await r.json(), 'idRegion');
+
+  // Handle URL params
+  const p = new URLSearchParams(location.search);
+  const map = { q: 'f-q', idDomaine: 'f-dom', idRegion: 'f-reg', typeContrat: 'f-con' };
+  Object.keys(map).forEach(k => {
+    const v = p.get(k);
+    const el = document.getElementById(map[k]);
+    if (v && el) el.value = v;
+  });
+
+  load(1);
+})();
+</script>
+@endpush
+@endsection

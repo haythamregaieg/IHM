@@ -1,27 +1,19 @@
 <?php
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class OffreEnregistre extends Model
 {
-    use HasFactory;
+    protected $table = 'offre_enregistres';
 
-    protected $fillable = [
-        'idCandidat',
-        'idOffre',
-        'dateAjout',
-    ];
+    protected $fillable = ['idCandidat', 'idOffre', 'dateAjout'];
 
-    protected $casts = [
-        'dateAjout' => 'date',
-    ];
+    protected $casts = ['dateAjout' => 'datetime'];
 
     public function candidat()
     {
-        return $this->belongsTo(candidats::class, 'idCandidat', 'id');
+        return $this->belongsTo(Candidat::class, 'idCandidat');
     }
 
     public function offre()

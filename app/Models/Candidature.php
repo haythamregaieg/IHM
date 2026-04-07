@@ -1,31 +1,24 @@
 <?php
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Candidature extends Model
 {
-    use HasFactory;
-
+    protected $table = 'candidatures';
     protected $primaryKey = 'idCandidature';
 
     protected $fillable = [
-        'idCandidat',
-        'idOffre',
-        'dateCandidature',
-        'statut',
-        'lettreMotivation',
+        'idCandidat', 'idOffre', 'dateCandidature',
+        'statut', 'lettreMotivation', 'cv_path',
+        'telephone', 'email_contact', 'specialite', 'niveau_experience',
     ];
 
-    protected $casts = [
-        'dateCandidature' => 'date',
-    ];
+    protected $casts = ['dateCandidature' => 'date'];
 
     public function candidat()
     {
-        return $this->belongsTo(candidats::class, 'idCandidat', 'id');
+        return $this->belongsTo(Candidat::class, 'idCandidat');
     }
 
     public function offre()

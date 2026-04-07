@@ -1,0 +1,8 @@
+[2026-04-06 22:13:31] local.INFO: Login attempt for entreprise email: test@gmail.com  
+[2026-04-06 22:13:31] local.INFO: Entreprise found. Status: valide  
+[2026-04-06 22:13:31] local.INFO: Password check result: false  
+[2026-04-06 22:21:23] local.INFO: Login attempt for entreprise email: ceg@gmail.com  
+[2026-04-06 22:21:23] local.INFO: Entreprise found. Status: valide  
+[2026-04-06 22:21:23] local.INFO: Password check result: false  
+[2026-04-06 22:22:21] local.INFO: Login attempt for entreprise email: test2@email.com  
+[2026-04-06 22:22:21] local.INFO: Entreprise not found in DB.  

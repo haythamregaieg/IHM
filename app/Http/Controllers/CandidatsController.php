@@ -1,56 +1,28 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Models\Candidats;
+use App\Models\Candidat;
 use Illuminate\Http\Request;
 
 class CandidatsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // ADMIN: Liste de tous les candidats
     public function index()
     {
-        $candidats = Candidats::all();
+        $candidats = Candidat::with('domaine')->latest()->get();
         return response()->json($candidats);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $candidat = Candidats::create($request->all());
-        return response()->json($candidat, 201);
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
-        $candidat = Candidats::findOrFail($id);
+        $candidat = Candidat::with(['domaine', 'certificats'])->findOrFail($id);
         return response()->json($candidat);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
-    {
-        $candidat = Candidats::findOrFail($id);
-        $candidat->update($request->all());
-        return response()->json($candidat);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
+    // ADMIN: Bloquer/desactiver (delete soft si utilise)
     public function destroy($id)
     {
-        $candidat = Candidats::findOrFail($id);
-        $candidat->delete();
+        Candidat::findOrFail($id)->delete();
         return response()->json(null, 204);
     }
 }

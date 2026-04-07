@@ -1,40 +1,28 @@
 <?php
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Offre extends Model
 {
-    use HasFactory;
-
+    protected $table = 'offres';
     protected $primaryKey = 'idOffre';
 
     protected $fillable = [
-        'idEntreprise',
-        'idDomaine',
-        'idCategorie',
-        'idRegion',
-        'titre',
-        'typeContrat',
-        'description',
-        'competencesRequises',
-        'remuneration',
-        'datePublication',
-        'dateLimite',
-        'statut',
-        'localisation',
+        'idEntreprise', 'idDomaine', 'idCategorie', 'idRegion',
+        'titre', 'typeContrat', 'description', 'competencesRequises',
+        'remuneration', 'datePublication', 'dateLimite', 'statut', 'localisation', 'vues',
     ];
 
     protected $casts = [
         'datePublication' => 'date',
         'dateLimite' => 'date',
+        'remuneration' => 'float',
     ];
 
     public function entreprise()
     {
-        return $this->belongsTo(Entreprise::class, 'idEntreprise', 'id');
+        return $this->belongsTo(Entreprise::class, 'idEntreprise');
     }
 
     public function domaine()
@@ -57,7 +45,7 @@ class Offre extends Model
         return $this->hasMany(Candidature::class, 'idOffre', 'idOffre');
     }
 
-    public function favoris()
+    public function offresEnregistrees()
     {
         return $this->hasMany(OffreEnregistre::class, 'idOffre', 'idOffre');
     }

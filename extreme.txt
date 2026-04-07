@@ -1,0 +1,9 @@
+[2026-04-06 22:13:31] local.INFO: Password check result: false  
+[2026-04-06 22:21:23] local.INFO: Password check result: false  
+[2026-04-06 22:26:17] local.INFO: EXTREME LOGIN LOG:  
+[2026-04-06 22:26:17] local.INFO: Email provided: [ceg@gmail.com]  
+[2026-04-06 22:26:17] local.INFO: MotDePasse length: 11  
+[2026-04-06 22:26:17] local.INFO: MotDePasse string: [Admin@12345]  
+[2026-04-06 22:26:17] local.INFO: DB Hash: [$2y$12$4ZGvxsuR2Mk.0VmzQD4ZBOGEnVXg0.DewpVjNuZrM5qMhyFT4HEZe]  
+[2026-04-06 22:26:17] local.INFO: DB Hash Length: 60  
+[2026-04-06 22:26:17] local.INFO: Password check result: false  

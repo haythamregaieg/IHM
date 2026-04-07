@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Signalement;
@@ -7,62 +6,79 @@ use Illuminate\Http\Request;
 
 class SignalementController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $signalements = Signalement::with('admin')->get();
-        return response()->json($signalements);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    // CANDIDAT/ENTREPRISE: Creer un signalement
     public function store(Request $request)
     {
+        $user     = $request->user();
+        $userType = $request->attributes->get('user_type');
+
         $validated = $request->validate([
-            'idAdmin' => 'required|exists:admins,id',
-            'description' => 'required|string',
-            'date' => 'required|date',
-            'statut' => 'required|string|max:255',
+            'cible_type' => 'required|in:offre,candidat,entreprise,message',
+            'cible_id'   => 'required|integer',
+            'description'=> 'required|string',
         ]);
 
-        $signalement = Signalement::create($validated);
+        $signalement = Signalement::create([
+            'signaleur_type' => $userType,
+            'signaleur_id'   => $user->getKey(),
+            'cible_type'     => $validated['cible_type'],
+            'cible_id'       => $validated['cible_id'],
+            'description'    => $validated['description'],
+            'date'           => now()->toDateString(),
+            'statut'         => 'en_attente',
+        ]);
+
         return response()->json($signalement, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
+    // ADMIN: Liste des signalements
+    public function index(Request $request)
+    {
+        $query = Signalement::with(['signaleur', 'cible', 'admin'])->latest();
+        if ($request->filled('statut')) $query->where('statut', $request->statut);
+        return response()->json($query->get());
+    }
+
     public function show($id)
     {
-        $signalement = Signalement::with('admin')->findOrFail($id);
+        $signalement = Signalement::with(['signaleur', 'cible', 'admin:idAdmin,nom,prenom'])->findOrFail($id);
         return response()->json($signalement);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    // ADMIN: Traiter un signalement
     public function update(Request $request, $id)
     {
         $signalement = Signalement::findOrFail($id);
+        $request->validate(['statut' => 'required|in:en_attente,traite,rejete']);
+        
+        $admin = $request->user();
+        $adminId = $admin->idAdmin ?? $admin->getKey();
 
-        $validated = $request->validate([
-            'statut' => 'sometimes|string|max:255',
-        ]);
+        if (!$adminId) {
+            return response()->json(['message' => 'Admin ID non trouvé'], 401);
+        }
 
-        $signalement->update($validated);
-        return response()->json($signalement);
+        try {
+            $signalement->update([
+                'statut'  => $request->statut,
+                'idAdmin' => $adminId,
+            ]);
+
+            // Rechargement avec précaution pour éviter les erreurs polymorphes si cible inexistante
+            $signalement->load(['signaleur', 'cible', 'admin']);
+            
+            return response()->json($signalement);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Erreur lors du traitement du signalement',
+                'error'   => $e->getMessage()
+            ], 500);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
-        $signalement = Signalement::findOrFail($id);
-        $signalement->delete();
+        Signalement::findOrFail($id)->delete();
         return response()->json(null, 204);
     }
 }
