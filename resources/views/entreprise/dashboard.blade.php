@@ -190,6 +190,9 @@
                     <span class="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-xl">💼 <span class="text-slate-600" x-text="o.typeContrat"></span></span>
                     <span class="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-xl">📍 <span class="text-slate-600" x-text="(o.region?.ville || '') + (o.localisation ? ' - ' + o.localisation : '')"></span></span>
                     <span class="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-xl">📅 Limite: <span class="text-slate-600" x-text="o.dateLimite ? new Date(o.dateLimite).toLocaleDateString('fr-FR') : 'N/A'"></span></span>
+                    <span class="flex items-center gap-2 bg-purple-50 px-3 py-1.5 rounded-xl text-purple-600">⚡ Exp: <span x-text="o.experience || 'N/A'"></span></span>
+                    <span class="flex items-center gap-2 bg-blue-50 px-3 py-1.5 rounded-xl text-blue-600">🏠 Mode: <span x-text="o.mode_travail || 'N/A'"></span></span>
+                    <span class="flex items-center gap-2 bg-emerald-50 px-3 py-1.5 rounded-xl text-emerald-600">🎓 Étude: <span x-text="o.niveau_etude || 'N/A'"></span></span>
                     <span class="flex items-center gap-2 bg-brand-50 px-3 py-1.5 rounded-xl text-brand-600">👥 <span x-text="(o.candidatures_count || 0) + ' candidatures'"></span></span>
                   </div>
                 </div>
@@ -394,7 +397,7 @@
                   </div>
                   <div class="space-y-2">
                     <label class="label">Site Web</label>
-                    <input x-model="eprofil.siteWeb" type="url" class="input" placeholder="https://www.votre-entreprise.com">
+                    <input x-model="eprofil.site_web" type="url" class="input" placeholder="https://www.votre-entreprise.com">
                   </div>
                 </div>
               </div>
@@ -533,7 +536,7 @@
                 </h4>
                 <template x-if="selCand?.cv_path">
                   <div class="rounded-3xl border border-slate-700 overflow-hidden bg-slate-800 h-[500px]">
-                    <iframe :src="'/storage/' + selCand.cv_path" class="w-full h-full border-none"></iframe>
+                    <iframe :src="selCand ? '/storage/' + selCand.cv_path : ''" class="w-full h-full border-none"></iframe>
                   </div>
                 </template>
                 <template x-if="!selCand?.cv_path">
@@ -546,7 +549,7 @@
 
             <div class="p-6 border-t border-slate-800 flex gap-4 bg-slate-900/50">
               <button @click="dmOpen=false" class="btn btn-secondary flex-1 justify-center py-4 font-black">Fermer</button>
-              <a x-show="selCand?.cv_path" :href="'/storage/' + selCand.cv_path" download class="btn btn-gold flex-1 justify-center py-4 font-black">Télécharger le CV</a>
+              <a x-show="selCand?.cv_path" :href="selCand ? '/storage/' + selCand.cv_path : '#'" download class="btn btn-gold flex-1 justify-center py-4 font-black">Télécharger le CV</a>
             </div>
           </div>
         </div>
@@ -614,6 +617,27 @@
                 <div class="space-y-3">
                   <label class="label">Compétences requises * <span class="text-xs font-bold text-slate-400">(séparées par des virgules)</span></label>
                   <input id="om-comp" class="input" required placeholder="Ex: PHP, Laravel, Docker, English...">
+                </div>
+
+                <div class="space-y-3">
+                  <label class="label">Expérience demandée *</label>
+                  <input id="om-exp" class="input" required placeholder="Ex: 2-3 ans, Débutant accepté...">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div class="space-y-3">
+                    <label class="label">Mode de travail *</label>
+                    <select id="om-mode" class="input" required>
+                      <option value="">Sélectionnez un mode</option>
+                      <option>Télétravail</option>
+                      <option>Sur site</option>
+                      <option>Hybride</option>
+                    </select>
+                  </div>
+                  <div class="space-y-3">
+                    <label class="label">Niveau d'étude *</label>
+                    <input id="om-etude" class="input" required placeholder="Ex: Bac+3, Master, Ingénieur...">
+                  </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -720,6 +744,14 @@ function appE() {
             }
             await this.loadAll();
             
+            // Fetch fresh profile data
+            const resMe = await API.get('/entreprise/me');
+            if (resMe?.ok) {
+                const freshU = await resMe.json();
+                this.eprofil = { ...freshU };
+                localStorage.setItem('jp_usr', JSON.stringify(freshU));
+            }
+            
             // Check for unread messages periodically
             this.checkUnread();
             setInterval(() => this.checkUnread(), 30000); // Every 30 seconds
@@ -776,6 +808,9 @@ function appE() {
                 document.getElementById('om-reg').value = o.idRegion || '';
                 document.getElementById('om-desc').value = o.description || '';
                 document.getElementById('om-comp').value = o.competencesRequises || '';
+                document.getElementById('om-exp').value = o.experience || '';
+                document.getElementById('om-mode').value = o.mode_travail || '';
+                document.getElementById('om-etude').value = o.niveau_etude || '';
                 document.getElementById('om-rem').value = o.remuneration || '';
                 document.getElementById('om-date').value = o.dateLimite ? o.dateLimite.split('T')[0] : '';
             } else {
@@ -815,11 +850,14 @@ function appE() {
             const idRegion = document.getElementById('om-reg')?.value;
             const description = document.getElementById('om-desc')?.value;
             const competencesRequises = document.getElementById('om-comp')?.value;
-            const remuneration = document.getElementById('om-rem')?.value;
-            const dateLimite = document.getElementById('om-date')?.value;
+            const experience = document.getElementById('om-exp')?.value || '';
+            const mode_travail = document.getElementById('om-mode')?.value || '';
+            const niveau_etude = document.getElementById('om-etude')?.value || '';
+            const remuneration = document.getElementById('om-rem')?.value || null;
+            const dateLimite = document.getElementById('om-date')?.value || '';
             
             // Validation rapide
-            if (!titre || !typeContrat || !localisation || !idDomaine || !idCategorie || !idRegion || !description || !competencesRequises || !dateLimite) {
+            if (!titre || !typeContrat || !localisation || !idDomaine || !idCategorie || !idRegion || !description || !competencesRequises || !experience || !mode_travail || !niveau_etude || !dateLimite) {
                 errDiv.innerHTML = 'Veuillez remplir tous les champs obligatoires.';
                 errDiv.classList.remove('hidden');
                 btn.disabled = false;
@@ -828,17 +866,22 @@ function appE() {
             }
             
             const data = {
-                titre: titre,
-                typeContrat: typeContrat,
-                localisation: localisation,
-                idDomaine: parseInt(idDomaine),
-                idCategorie: parseInt(idCategorie),
-                idRegion: parseInt(idRegion),
-                description: description,
-                competencesRequises: competencesRequises,
+                titre: String(titre).trim(),
+                typeContrat: String(typeContrat).trim(),
+                localisation: String(localisation).trim(),
+                idDomaine: parseInt(idDomaine) || null,
+                idCategorie: parseInt(idCategorie) || null,
+                idRegion: parseInt(idRegion) || null,
+                description: String(description).trim(),
+                competencesRequises: String(competencesRequises).trim(),
+                experience: String(experience).trim(),
+                mode_travail: String(mode_travail).trim(),
+                niveau_etude: String(niveau_etude).trim(),
                 remuneration: remuneration ? parseFloat(remuneration) : null,
                 dateLimite: dateLimite
             };
+            
+            console.log('Sending data:', data); // Debug log
             
             try {
                 let response;
@@ -967,6 +1010,8 @@ function appE() {
             if (r?.ok) {
                 const u = await r.json();
                 localStorage.setItem('jp_usr', JSON.stringify(u));
+                this.eprofil = { ...u };
+                this.cname = u.raison_sociale || '';
                 toast('Profil entreprise mis à jour ! ✓');
             } else {
                 toast('Erreur lors de la sauvegarde.', 'error');

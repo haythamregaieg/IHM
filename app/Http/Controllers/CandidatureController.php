@@ -123,7 +123,7 @@ class CandidatureController extends Controller
         $idEntreprise = $request->user()->idEntreprise;
         $offresIds = Offre::where('idEntreprise', $idEntreprise)->pluck('idOffre');
 
-        $query = Candidature::with(['candidat.certificats', 'candidat.experiences', 'candidat.domaine', 'offre'])
+        $query = Candidature::with(['candidat', 'candidat.certificats', 'candidat.experiences', 'candidat.domaine', 'offre'])
             ->whereIn('idOffre', $offresIds);
 
         if ($request->filled('statut')) {
@@ -136,7 +136,7 @@ class CandidatureController extends Controller
     // ENTREPRISE: Candidatures pour une offre spécifique
     public function parOffre(Request $request, $idOffre)
     {
-        $candidatures = Candidature::with(['candidat.certificats', 'candidat.experiences', 'candidat.domaine'])
+        $candidatures = Candidature::with(['candidat', 'candidat.certificats', 'candidat.experiences', 'candidat.domaine'])
             ->where('idOffre', $idOffre)
             ->latest()
             ->get();

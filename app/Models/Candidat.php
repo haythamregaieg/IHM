@@ -37,7 +37,7 @@ class Candidat extends Authenticatable
 
     public function certificats()
     {
-        return $this->hasMany(Certificat::class, 'idCandidat');
+        return $this->hasMany(Certificat::class, 'idCandidat', 'idCandidat');
     }
 
     public function experiences()

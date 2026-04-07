@@ -10,7 +10,8 @@ class Offre extends Model
 
     protected $fillable = [
         'idEntreprise', 'idDomaine', 'idCategorie', 'idRegion',
-        'titre', 'typeContrat', 'description', 'competencesRequises',
+        'titre', 'typeContrat', 'description', 'competencesRequises', 'experience',
+        'mode_travail', 'niveau_etude',
         'remuneration', 'datePublication', 'dateLimite', 'statut', 'localisation', 'vues',
     ];
 

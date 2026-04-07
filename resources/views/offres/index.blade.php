@@ -205,6 +205,21 @@ async function load(page = 1) {
               <div class="flex items-center gap-2 bg-brand-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-brand-600">
                 <span>🏷️</span> ${o.domaine?.nom || 'Général'}
               </div>
+              ${o.experience ? `
+                <div class="flex items-center gap-2 bg-purple-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-purple-600">
+                  <span>⚡</span> ${o.experience}
+                </div>
+              ` : ''}
+              ${o.mode_travail ? `
+                <div class="flex items-center gap-2 bg-blue-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-blue-600">
+                  <span>🏠</span> ${o.mode_travail}
+                </div>
+              ` : ''}
+              ${o.niveau_etude ? `
+                <div class="flex items-center gap-2 bg-emerald-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-emerald-600">
+                  <span>🎓</span> ${o.niveau_etude}
+                </div>
+              ` : ''}
             </div>
           </div>
           <div class="flex md:flex-col gap-2 w-full md:w-auto mt-4 md:mt-0">

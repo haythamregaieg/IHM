@@ -119,6 +119,8 @@ class AuthEntrepriseController extends Controller
             'idRegion'    => 'nullable|exists:regions,idRegion',
             'telephone'   => 'nullable|string|max:20',
             'site_web'    => 'nullable|url|max:255',
+            'pays'        => 'nullable|string|max:255',
+            'ville'       => 'nullable|string|max:255',
             'logo'        => 'nullable|image|max:2048',
         ]);
 

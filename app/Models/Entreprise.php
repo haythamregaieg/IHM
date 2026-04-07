@@ -15,7 +15,7 @@ class Entreprise extends Authenticatable
     protected $fillable = [
         'raison_sociale', 'description', 'identifiant_legal',
         'idDomaine', 'idRegion', 'telephone', 'email', 'password',
-        'logo_path', 'site_web', 'statut',
+        'logo_path', 'site_web', 'statut', 'pays', 'ville',
     ];
 
     protected $hidden = ['password', 'remember_token'];

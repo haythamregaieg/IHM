@@ -18,7 +18,7 @@ class Candidature extends Model
 
     public function candidat()
     {
-        return $this->belongsTo(Candidat::class, 'idCandidat');
+        return $this->belongsTo(Candidat::class, 'idCandidat', 'idCandidat');
     }
 
     public function offre()

@@ -275,6 +275,18 @@ function toggleCVUpload(show) {
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Publiée</p>
                 <p class="font-bold text-slate-700">📅 ${new Date(o.datePublication).toLocaleDateString('fr-FR')}</p>
               </div>
+              <div class="space-y-1">
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Expérience</p>
+                <p class="font-bold text-slate-700">⚡ ${o.experience || 'Non spécifiée'}</p>
+              </div>
+              <div class="space-y-1">
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Mode</p>
+                <p class="font-bold text-slate-700">🏠 ${o.mode_travail || 'Non spécifié'}</p>
+              </div>
+              <div class="space-y-1">
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Études</p>
+                <p class="font-bold text-slate-700">🎓 ${o.niveau_etude || 'Non spécifié'}</p>
+              </div>
             </div>
 
             <div class="space-y-10">

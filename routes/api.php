@@ -96,25 +96,25 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 // ROUTES CANDIDAT
 // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 Route::middleware('candidat')->prefix('candidat')->group(function () {
-    Route::post('/logout',           [AuthCandidatController::class, 'logout']);
-    Route::get('/me',                [AuthCandidatController::class, 'me']);
-    Route::post('/profile',          [AuthCandidatController::class, 'updateProfile']);
-    Route::post('/importer-cv',      [AuthCandidatController::class, 'importCV']);
-    Route::put('/password',          [AuthCandidatController::class, 'updatePassword']);
+    Route::post('/logout',           [\App\Http\Controllers\Auth\AuthCandidatController::class, 'logout']);
+    Route::get('/me',                [\App\Http\Controllers\Auth\AuthCandidatController::class, 'me']);
+    Route::post('/profile',          [\App\Http\Controllers\Auth\AuthCandidatController::class, 'updateProfile']);
+    Route::post('/importer-cv',      [\App\Http\Controllers\Auth\AuthCandidatController::class, 'importCV']);
+    Route::put('/password',          [\App\Http\Controllers\Auth\AuthCandidatController::class, 'updatePassword']);
 
     // Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'candidatStats']);
+    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'candidatStats']);
 
     // Candidatures
-    Route::get('/candidatures',               [CandidatureController::class, 'mesCandidatures']);
-    Route::post('/candidatures',              [CandidatureController::class, 'store']);
-    Route::delete('/candidatures/{id}',       [CandidatureController::class, 'destroy']);
+    Route::get('/candidatures',               [\App\Http\Controllers\CandidatureController::class, 'mesCandidatures']);
+    Route::post('/candidatures',              [\App\Http\Controllers\CandidatureController::class, 'store']);
+    Route::delete('/candidatures/{id}',       [\App\Http\Controllers\CandidatureController::class, 'destroy']);
 
     // Favoris
-    Route::get('/favoris',                    [OffreEnregistreController::class, 'index']);
-    Route::post('/favoris',                   [OffreEnregistreController::class, 'store']);
-    Route::delete('/favoris/{id}',            [OffreEnregistreController::class, 'destroy']);
-    Route::post('/favoris/toggle/{idOffre}',  [OffreEnregistreController::class, 'toggle']);
+    Route::get('/favoris',                    [\App\Http\Controllers\OffreEnregistreController::class, 'index']);
+    Route::post('/favoris',                   [\App\Http\Controllers\OffreEnregistreController::class, 'store']);
+    Route::delete('/favoris/{id}',            [\App\Http\Controllers\OffreEnregistreController::class, 'destroy']);
+    Route::post('/favoris/toggle/{idOffre}',  [\App\Http\Controllers\OffreEnregistreController::class, 'toggle']);
 
     // Certificats
     Route::get('/certificats',                       [\App\Http\Controllers\CertificatController::class, 'index']);
@@ -129,14 +129,14 @@ Route::middleware('candidat')->prefix('candidat')->group(function () {
     Route::delete('/experiences/{id}',               [\App\Http\Controllers\ExperienceController::class, 'destroy']);
 
     // Messages
-    Route::get('/messages/unread-count',              [MessageController::class, 'unreadCount']);
-    Route::get('/messages',                           [MessageController::class, 'mesConversations']);
-    Route::get('/messages/{idEntreprise}',            [MessageController::class, 'conversation']);
-    Route::post('/messages',                          [MessageController::class, 'store']);
-    Route::delete('/messages/{id}',                   [MessageController::class, 'destroy']);
+    Route::get('/messages/unread-count',              [\App\Http\Controllers\MessageController::class, 'unreadCount']);
+    Route::get('/messages',                           [\App\Http\Controllers\MessageController::class, 'mesConversations']);
+    Route::get('/messages/{idEntreprise}',            [\App\Http\Controllers\MessageController::class, 'conversation']);
+    Route::post('/messages',                          [\App\Http\Controllers\MessageController::class, 'store']);
+    Route::delete('/messages/{id}',                   [\App\Http\Controllers\MessageController::class, 'destroy']);
 
     // Signalements
-    Route::post('/signalements', [SignalementController::class, 'store']);
+    Route::post('/signalements', [\App\Http\Controllers\SignalementController::class, 'store']);
 });
 
 // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€

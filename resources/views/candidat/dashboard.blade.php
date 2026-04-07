@@ -232,9 +232,18 @@
         </div>
 
         <div class="card p-4 glass border-white/50 flex flex-col md:flex-row gap-4 shadow-2xl shadow-brand-500/5">
-          <div class="flex-[2] relative">
+          <div class="flex-[1.5] relative">
             <svg class="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-            <input x-model="searchQ" type="text" class="input border-transparent bg-slate-50/50 pl-14 focus:bg-white h-14 text-lg font-medium" placeholder="Titre, compétence, entreprise..." @keydown.enter="searchOffres(1)">
+            <input x-model="searchQ" type="text" class="input border-transparent bg-slate-50/50 pl-14 focus:bg-white h-14 text-lg font-medium" placeholder="Titre, compétence..." @keydown.enter="searchOffres(1)">
+          </div>
+          <div class="flex-1 relative">
+            <svg class="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            <select x-model="searchDomaine" class="input border-transparent bg-slate-50/50 pl-14 h-14 appearance-none cursor-pointer font-bold text-slate-700">
+              <option value="">Tous les domaines</option>
+              <template x-for="d in domaines" :key="d.idDomaine">
+                <option :value="d.idDomaine" x-text="d.nom"></option>
+              </template>
+            </select>
           </div>
           <div class="flex-1 relative">
             <svg class="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
@@ -297,7 +306,7 @@
           <div class="text-7xl mb-8 grayscale opacity-30">🏜️</div>
           <h3 class="text-2xl font-black text-slate-900 mb-3">Aucun résultat trouvé</h3>
           <p class="text-slate-400 font-medium mb-10 max-w-md mx-auto">Nous n'avons pas trouvé d'offres correspondant à vos critères. Essayez d'élargir votre recherche.</p>
-          <button @click="searchQ='';searchRegion='';searchOffres(1)" class="btn btn-secondary px-8">Réinitialiser les filtres</button>
+          <button @click="searchQ='';searchRegion='';searchDomaine='';searchOffres(1)" class="btn btn-secondary px-8">Réinitialiser les filtres</button>
         </div>
         
         <!-- Loading State Initial -->
@@ -867,6 +876,7 @@ function appC(){
     filtCand: '',
     searchQ: '',
     searchRegion: '',
+    searchDomaine: '',
     searchContrat: '',
     searchResults: {},
     initialSearchDone: false,
@@ -918,9 +928,12 @@ function appC(){
 
       this.calcCompletion();
       
-      // Initial search based on profile
-      if(this.profil.specialite || (this.profil.domaine && this.profil.domaine.nom)){
-        this.searchQ = this.profil.specialite || this.profil.domaine.nom;
+      // Initial search based on profile (Prioritize Domain over Specialty)
+      if(this.profil.idDomaine){
+        this.searchDomaine = this.profil.idDomaine;
+        this.searchOffres(1);
+      } else if(this.profil.specialite){
+        this.searchQ = this.profil.specialite;
         this.searchOffres(1);
       } else {
         this.searchOffres(1); // Load everything if no preference
@@ -982,6 +995,7 @@ function appC(){
       let url = `/offres?page=${page}`;
       if(this.searchQ) url += '&q=' + encodeURIComponent(this.searchQ);
       if(this.searchRegion) url += '&idRegion=' + this.searchRegion;
+      if(this.searchDomaine) url += '&idDomaine=' + this.searchDomaine;
       const r = await API.get(url);
       if(r?.ok) {
         this.searchResults = await r.json();
