@@ -87,18 +87,15 @@ h1,h2,h3,h4,h5{font-family:'Outfit',sans-serif;letter-spacing:-0.02em}
 </head>
 <body>
 <!-- NAVBAR -->
-<nav class="bg-white border-b border-slate-100 sticky top-0 z-40" style="box-shadow:0 1px 0 rgba(0,0,0,.05)">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16 gap-4">
+<nav class="bg-white/95 backdrop-blur border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-17 min-h-[68px] gap-4">
     <a href="/" class="flex items-center gap-2.5 flex-shrink-0">
       <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,#2B5CE6,#1a44c9)">
         <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
       </div>
       <span style="font-family:Outfit,sans-serif;font-weight:700;font-size:1.15rem" class="text-slate-800">Job<span style="color:#2B5CE6">Platform</span></span>
     </a>
-    <div class="hidden md:flex items-center gap-6">
-      <a href="/offres" class="nav-link">Offres d'emploi</a>
-    </div>
-    <div id="nav-auth" class="flex items-center gap-2"></div>
+    <div id="nav-auth" class="flex items-center gap-2 md:gap-3"></div>
   </div>
 </nav>
 <!-- TOAST -->
@@ -175,9 +172,9 @@ window.toast=function(msg,type='success'){
       ? `<img src="/storage/${imgPath}" class="w-full h-full object-cover">`
       : init;
 
-    nav.innerHTML=`<a href="${href}" class="flex items-center gap-2 px-3 py-1.5 rounded-xl hover:bg-slate-50"><div class="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold overflow-hidden" style="background:${colors[type]}">${avatar}</div><span class="font-semibold text-sm text-slate-700">${name.substring(0,20)}</span></a><button onclick="API.logout()" class="btn btn-ghost btn-sm">Déconnexion</button>`;
+    nav.innerHTML=`<a href="${href}" class="flex items-center gap-2 px-3 py-2 rounded-xl border border-transparent hover:bg-slate-50 hover:border-slate-200 transition-all"><div class="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold overflow-hidden shadow-sm" style="background:${colors[type]}">${avatar}</div><span class="font-semibold text-sm text-slate-700">${name.substring(0,20)}</span></a><button onclick="API.logout()" class="btn btn-ghost btn-sm border border-slate-200 hover:border-slate-300">Déconnexion</button>`;
   }else{
-    nav.innerHTML=`<a href="/connexion" class="btn btn-secondary btn-sm">Connexion</a><a href="/inscription" class="btn btn-primary btn-sm">S'inscrire</a>`;
+    nav.innerHTML=`<a href="/connexion" class="btn btn-secondary btn-sm border border-slate-200">Connexion</a><a href="/inscription" class="btn btn-primary btn-sm">S'inscrire</a>`;
   }
 })();
 </script>
