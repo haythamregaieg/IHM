@@ -6,8 +6,15 @@
   <aside class="sidebar hidden lg:flex flex-col bg-white border-r border-slate-100 shadow-sm w-72 flex-shrink-0">
     <div class="px-6 py-10 text-center">
       <div class="relative inline-block mb-4">
-        <div class="w-24 h-24 rounded-[32px] flex items-center justify-center text-white font-black text-3xl shadow-2xl shadow-brand-500/20 transition-transform hover:scale-105 duration-500" 
-             style="background:linear-gradient(135deg,#2B5CE6,#1535a0)" x-text="ini"></div>
+        <div class="w-24 h-24 rounded-[32px] flex items-center justify-center text-white font-black text-3xl shadow-2xl shadow-brand-500/20 transition-transform hover:scale-105 duration-500 overflow-hidden" 
+             style="background:linear-gradient(135deg,#2B5CE6,#1535a0)">
+          <template x-if="profil.photo_path">
+            <img :src="'/storage/'+profil.photo_path" class="w-full h-full object-cover">
+          </template>
+          <template x-if="!profil.photo_path">
+            <span x-text="ini"></span>
+          </template>
+        </div>
         <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-green-500 border-4 border-white rounded-full shadow-sm"></div>
       </div>
       <h2 class="font-black text-slate-900 text-xl leading-tight mb-1" x-text="uname" style="font-family:Outfit"></h2>
@@ -483,6 +490,26 @@
           </div>
 
           <div class="space-y-8">
+            <div class="card p-8">
+              <h3 class="text-lg font-black text-slate-900 mb-6 flex items-center gap-2">
+                <span class="text-brand-500">🖼️</span> Photo de profil
+              </h3>
+              <div class="flex flex-col items-center gap-6 p-8 rounded-[32px] bg-slate-50/50 border-2 border-dashed border-slate-200">
+                <div class="w-32 h-32 rounded-[32px] bg-white flex items-center justify-center text-5xl shadow-xl border border-slate-100 overflow-hidden">
+                  <template x-if="profil.photo_path">
+                    <img :src="'/storage/'+profil.photo_path" class="w-full h-full object-cover">
+                  </template>
+                  <template x-if="!profil.photo_path">
+                    <span x-text="ini"></span>
+                  </template>
+                </div>
+                <label class="btn btn-secondary w-full justify-center py-3.5 cursor-pointer">
+                  Changer la photo
+                  <input type="file" id="photo-f" accept="image/*" class="hidden" @change="uploadPhoto($event)">
+                </label>
+              </div>
+            </div>
+
             <div class="card p-8">
               <h3 class="text-lg font-black text-slate-900 mb-6 flex items-center gap-2">
                 <span class="text-brand-500">🔒</span> Sécurité
@@ -1039,6 +1066,22 @@ function appC(){
         toast('CV importé avec succès ! 🎉');
         this.calcCompletion();
       } else toast('Erreur lors de l\'import.', 'error');
+    },
+    async uploadPhoto(event){
+      const file = event.target.files[0];
+      if(!file) return;
+      
+      const fd = new FormData();
+      fd.append('photo', file);
+      
+      const r = await API.post('/candidat/profile', fd, true);
+      if(r?.ok){
+        const u = await r.json();
+        this.profil = {...u};
+        localStorage.setItem('jp_usr', JSON.stringify(u));
+        this.updateHeader(u);
+        toast('Photo de profil mise à jour ! ✓');
+      } else toast('Erreur lors de l\'envoi de la photo.', 'error');
     },
     async changePwd(){
       if(this.pwdForm.nouveau !== this.pwdForm.conf){

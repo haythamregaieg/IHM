@@ -168,8 +168,14 @@ window.toast=function(msg,type='success'){
     const name=type==='admin'?'Admin':type==='candidat'?((u.prenom||'')+(u.nom?' '+u.nom:'')):(u.raison_sociale||'Entreprise');
     const href=type==='admin'?'/admin':type==='candidat'?'/mon-espace':'/recruteur';
     const init=name.substring(0,2).toUpperCase();
+    const imgPath = type==='candidat' ? u.photo_path : (type==='entreprise' ? u.logo_path : null);
     const colors={admin:'#dc2626',candidat:'#2B5CE6',entreprise:'#F6A623'};
-    nav.innerHTML=`<a href="${href}" class="flex items-center gap-2 px-3 py-1.5 rounded-xl hover:bg-slate-50"><div class="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold" style="background:${colors[type]}">${init}</div><span class="font-semibold text-sm text-slate-700">${name.substring(0,20)}</span></a><button onclick="API.logout()" class="btn btn-ghost btn-sm">Déconnexion</button>`;
+    
+    const avatar = imgPath 
+      ? `<img src="/storage/${imgPath}" class="w-full h-full object-cover">`
+      : init;
+
+    nav.innerHTML=`<a href="${href}" class="flex items-center gap-2 px-3 py-1.5 rounded-xl hover:bg-slate-50"><div class="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold overflow-hidden" style="background:${colors[type]}">${avatar}</div><span class="font-semibold text-sm text-slate-700">${name.substring(0,20)}</span></a><button onclick="API.logout()" class="btn btn-ghost btn-sm">Déconnexion</button>`;
   }else{
     nav.innerHTML=`<a href="/connexion" class="btn btn-secondary btn-sm">Connexion</a><a href="/inscription" class="btn btn-primary btn-sm">S'inscrire</a>`;
   }

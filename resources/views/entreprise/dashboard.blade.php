@@ -6,8 +6,15 @@
   <aside class="sidebar hidden lg:flex flex-col bg-white border-r border-slate-100 shadow-sm w-72 flex-shrink-0">
     <div class="px-6 py-10 text-center">
       <div class="relative inline-block mb-4">
-        <div class="w-24 h-24 rounded-[32px] flex items-center justify-center text-white font-black text-3xl shadow-2xl shadow-amber-500/20 transition-transform hover:scale-105 duration-500" 
-             style="background:linear-gradient(135deg,#F6A623,#d97706)" x-text="ini"></div>
+        <div class="w-24 h-24 rounded-[32px] flex items-center justify-center text-white font-black text-3xl shadow-2xl shadow-amber-500/20 transition-transform hover:scale-105 duration-500 overflow-hidden" 
+             style="background:linear-gradient(135deg,#F6A623,#d97706)">
+          <template x-if="eprofil.logo_path">
+            <img :src="'/storage/'+eprofil.logo_path" class="w-full h-full object-cover">
+          </template>
+          <template x-if="!eprofil.logo_path">
+            <span x-text="ini"></span>
+          </template>
+        </div>
         <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-green-500 border-4 border-white rounded-full shadow-sm"></div>
       </div>
       <h2 class="font-black text-slate-900 text-xl leading-tight mb-1" x-text="cname" style="font-family:Outfit"></h2>
@@ -240,8 +247,15 @@
             <div class="card p-8 group hover:border-brand-100 transition-all">
               <div class="flex flex-col lg:flex-row gap-8">
                 <div class="flex items-start gap-6 flex-1">
-                  <div class="w-16 h-16 rounded-[24px] flex items-center justify-center text-white font-black text-2xl shadow-xl shadow-brand-500/10 group-hover:scale-110 transition-transform duration-500" 
-                       style="background:linear-gradient(135deg,#2B5CE6,#1535a0)" x-text="((c.candidat?.prenom||'?').charAt(0)+(c.candidat?.nom||'?').charAt(0)).toUpperCase()"></div>
+                  <div class="w-16 h-16 rounded-[24px] flex items-center justify-center text-white font-black text-2xl shadow-xl shadow-brand-500/10 group-hover:scale-110 transition-transform duration-500 overflow-hidden" 
+                       style="background:linear-gradient(135deg,#2B5CE6,#1535a0)">
+                    <template x-if="c.candidat?.photo_path">
+                      <img :src="'/storage/'+c.candidat.photo_path" class="w-full h-full object-cover">
+                    </template>
+                    <template x-if="!c.candidat?.photo_path">
+                      <span x-text="((c.candidat?.prenom||'?').charAt(0)+(c.candidat?.nom||'?').charAt(0)).toUpperCase()"></span>
+                    </template>
+                  </div>
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-3 mb-1">
                         <h3 class="text-xl font-black text-slate-900" x-text="(c.candidat?.prenom||'')+' '+(c.candidat?.nom||'')"></h3>
@@ -412,10 +426,10 @@
               </h3>
               <div class="flex flex-col items-center gap-6 p-8 rounded-[32px] bg-slate-50/50 border-2 border-dashed border-slate-200">
                 <div class="w-32 h-32 rounded-[32px] bg-white flex items-center justify-center text-5xl shadow-xl border border-slate-100 overflow-hidden">
-                  <template x-if="eprofil.logo">
-                    <img :src="'/storage/'+eprofil.logo" class="w-full h-full object-cover">
+                  <template x-if="eprofil.logo_path">
+                    <img :src="'/storage/'+eprofil.logo_path" class="w-full h-full object-cover">
                   </template>
-                  <template x-if="!eprofil.logo">
+                  <template x-if="!eprofil.logo_path">
                     <span x-text="ini"></span>
                   </template>
                 </div>
@@ -435,8 +449,14 @@
           <div class="card card-dark p-0 w-full max-w-4xl shadow-2xl animate-pop-in relative overflow-hidden max-h-[90vh] flex flex-col">
             <div class="p-8 border-b border-slate-800 flex justify-between items-center bg-slate-900/50">
               <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-amber-500 flex items-center justify-center text-white font-black text-xl" 
-                     x-text="((selCand?.candidat?.prenom||'?').charAt(0)+(selCand?.candidat?.nom||'?').charAt(0)).toUpperCase()"></div>
+                <div class="w-12 h-12 rounded-xl bg-amber-500 flex items-center justify-center text-white font-black text-xl overflow-hidden">
+                  <template x-if="selCand?.candidat?.photo_path">
+                    <img :src="'/storage/'+selCand.candidat.photo_path" class="w-full h-full object-cover">
+                  </template>
+                  <template x-if="!selCand?.candidat?.photo_path">
+                    <span x-text="((selCand?.candidat?.prenom||'?').charAt(0)+(selCand?.candidat?.nom||'?').charAt(0)).toUpperCase()"></span>
+                  </template>
+                </div>
                 <div>
                   <h3 class="text-xl font-black text-white" x-text="(selCand?.candidat?.prenom||'')+' '+(selCand?.candidat?.nom||'')"></h3>
                   <p class="text-xs font-bold text-slate-400 uppercase tracking-widest" x-text="'Postulé le ' + new Date(selCand?.dateCandidature).toLocaleDateString('fr-FR')"></p>
