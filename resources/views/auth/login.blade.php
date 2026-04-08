@@ -10,20 +10,22 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
         </svg>
       </div>
-      <h1 class="text-4xl font-bold text-slate-900 tracking-tight mb-2" style="font-family:Outfit">Bon retour ! 👋</h1>
+      <h1 class="text-4xl font-bold text-slate-900 tracking-tight mb-2" style="font-family:Outfit">Bon retour</h1>
       <p class="text-slate-500 font-medium">Connectez-vous pour accéder à votre espace personnalisé.</p>
     </div>
 
     <!-- Role Selector Tabs (REMOVED) -->
 
     <!-- Login Card -->
-    <div class="card card-dark p-10 relative overflow-hidden">
+    <div class="card card-dark p-8 md:p-10 relative overflow-hidden border border-slate-800">
       <div class="absolute top-0 right-0 w-32 h-32 bg-brand-500/10 rounded-full -translate-y-1/2 translate-x-1/2 -z-0"></div>
       
       <div class="relative z-10">
-        <div id="err" class="hidden mb-6 p-4 rounded-2xl text-sm font-bold border border-red-100 bg-red-50 text-red-600 animate-shake"></div>
+        <div id="err" role="alert" aria-live="assertive" class="hidden mb-6 p-4 rounded-2xl text-sm font-bold border border-red-100 bg-red-50 text-red-600 animate-shake"></div>
         
         <form id="lf" onsubmit="doLogin(event)" class="space-y-6">
+          <div class="rounded-2xl border border-slate-800 bg-slate-900/40 p-4 space-y-5">
+            <div class="text-[11px] font-black uppercase tracking-widest text-slate-400"></div>
           <div class="space-y-2">
             <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Adresse Email</label>
             <div class="relative group">
@@ -40,8 +42,9 @@
             <div class="relative group">
               <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-brand-500 transition-colors">🔒</span>
               <input id="l-pwd" name="password" type="password" class="input pl-12 pr-12 h-14 font-medium" placeholder="••••••••" required autocomplete="current-password">
-              <button type="button" onclick="togglePwd(this)" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-600 transition-colors">👁️</button>
+              <button type="button" onclick="togglePwd(this)" aria-label="Afficher ou masquer le mot de passe" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-600 transition-colors">👁️</button>
             </div>
+          </div>
           </div>
 
           <div class="flex items-center gap-3 py-2">

@@ -8,7 +8,7 @@
     <!-- Header -->
     <div class="text-center mb-10">
       <div class="inline-flex items-center justify-center w-20 h-20 rounded-[28px] shadow-2xl mb-6 group hover:scale-110 transition-transform duration-500"
-           :class="isCandidat ? 'bg-gradient-to-br from-brand-600 to-brand-800 shadow-brand-500/30' : 'bg-gradient-to-br from-amber-500 to-amber-700 shadow-amber-500/30'">
+           :class="isCandidat ? 'bg-gradient-to-br from-brand-600 to-brand-800 shadow-brand-500/30' : 'bg-gradient-to-br from-orange-500 to-orange-700 shadow-orange-500/30'">
         <template x-if="isCandidat">
           <svg class="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
@@ -21,7 +21,7 @@
         </template>
       </div>
       <h1 class="text-4xl font-bold text-slate-900 tracking-tight mb-2" style="font-family:Outfit">
-        <span x-text="isCandidat ? 'Rejoignez-nous ! 🚀' : 'Espace Recruteur 🏢'"></span>
+        <span x-text="isCandidat ? 'Créer un compte candidat' : 'Créer un compte entreprise'"></span>
       </h1>
       <p class="text-slate-500 font-medium" x-text="isCandidat ? 'Créez votre profil candidat et accédez aux meilleures opportunités.' : 'Inscrivez votre entreprise et trouvez vos futurs collaborateurs.'"></p>
     </div>
@@ -34,43 +34,44 @@
         <span>👤</span> Candidat
       </button>
       <button @click="isCandidat = false" 
-              :class="!isCandidat ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/20' : 'text-slate-500 hover:bg-slate-50'"
+              :class="!isCandidat ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/20' : 'text-slate-500 hover:bg-slate-50'"
               class="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold transition-all">
         <span>🏢</span> Entreprise
       </button>
     </div>
 
     <!-- Registration Card -->
-    <div class="card card-dark p-10 relative overflow-hidden">
+    <div class="card card-dark p-8 md:p-10 relative overflow-hidden border border-slate-800">
       <div class="absolute top-0 right-0 w-32 h-32 rounded-full -translate-y-1/2 translate-x-1/2 -z-0"
-           :class="isCandidat ? 'bg-brand-500/10' : 'bg-amber-500/10'"></div>
+           :class="isCandidat ? 'bg-brand-500/10' : 'bg-orange-500/10'"></div>
       
       <div class="relative z-10">
         <!-- Info Banner for Company -->
         <template x-if="!isCandidat">
-          <div class="mb-8 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex gap-4 items-start">
+          <div class="mb-8 p-4 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex gap-4 items-start">
             <span class="text-2xl">ℹ️</span>
-            <p class="text-sm font-bold text-amber-200 leading-relaxed">
+            <p class="text-sm font-bold text-orange-200 leading-relaxed">
               Pour garantir la qualité de notre plateforme, chaque compte entreprise est soumis à une validation manuelle par nos administrateurs.
             </p>
           </div>
         </template>
 
-        <div id="err" class="hidden mb-6 p-4 rounded-2xl text-sm font-bold border border-red-100 bg-red-50 text-red-600 animate-shake"></div>
+        <div id="err" role="alert" aria-live="assertive" class="hidden mb-6 p-4 rounded-2xl text-sm font-bold border border-red-100 bg-red-50 text-red-600 animate-shake"></div>
         
         <form @submit.prevent="submitForm" class="space-y-6">
           
           <!-- Candidat Specific Fields -->
           <template x-if="isCandidat">
-            <div class="space-y-6">
+            <div class="space-y-6 rounded-2xl border border-slate-800 bg-slate-900/40 p-4 md:p-5">
+              <div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Informations personnelles</div>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
                   <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Prénom *</label>
-                  <input x-model="form.prenom" type="text" class="input h-14 font-medium" required placeholder="Ex: Ahmed">
+                  <input x-model="form.prenom" type="text" class="input h-14 font-medium" required placeholder="Ex: Ahmed" autocomplete="given-name">
                 </div>
                 <div class="space-y-2">
                   <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Nom *</label>
-                  <input x-model="form.nom" type="text" class="input h-14 font-medium" required placeholder="Ex: Ben Ali">
+                  <input x-model="form.nom" type="text" class="input h-14 font-medium" required placeholder="Ex: Ben Ali" autocomplete="family-name">
                 </div>
               </div>
 
@@ -119,11 +120,12 @@
 
           <!-- Entreprise Specific Fields -->
           <template x-if="!isCandidat">
-            <div class="space-y-6">
+            <div class="space-y-6 rounded-2xl border border-slate-800 bg-slate-900/40 p-4 md:p-5">
+              <div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Informations entreprise</div>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
                   <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Raison Sociale *</label>
-                  <input x-model="form.raisonSociale" type="text" class="input h-14 font-medium" required placeholder="Nom de l'entreprise">
+                  <input x-model="form.raisonSociale" type="text" class="input h-14 font-medium" required placeholder="Nom de l'entreprise" autocomplete="organization">
                 </div>
                 <div class="space-y-2">
                   <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Identifiant Légal *</label>
@@ -148,19 +150,29 @@
                 </div>
                 <div class="space-y-2">
                   <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Téléphone</label>
-                  <input x-model="form.telephone" type="tel" class="input h-14 font-medium" placeholder="+216 71 000 000">
+                  <input x-model="form.telephone" type="tel" class="input h-14 font-medium" placeholder="+216 71 000 000" autocomplete="tel">
                 </div>
               </div>
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
                   <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Pays</label>
-                  <input x-model="form.pays" type="text" class="input h-14 font-medium" value="Tunisie">
+                  <input x-model="form.pays" type="text" class="input h-14 font-medium" value="Tunisie" autocomplete="country-name">
                 </div>
                 <div class="space-y-2">
-                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Ville</label>
-                  <input x-model="form.ville" type="text" class="input h-14 font-medium" placeholder="Ex: Tunis">
+                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Région</label>
+                  <select x-model="form.idRegion" class="input h-14 font-medium appearance-none cursor-pointer">
+                    <option value="">Sélectionner une région</option>
+                    <template x-for="r in regions" :key="r.idRegion">
+                      <option :value="r.idRegion" x-text="r.ville"></option>
+                    </template>
+                  </select>
                 </div>
+              </div>
+
+              <div class="space-y-2">
+                <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Ville (optionnel)</label>
+                <input x-model="form.ville" type="text" class="input h-14 font-medium" placeholder="Ex: Tunis centre" autocomplete="address-level2">
               </div>
 
               <div class="space-y-2">
@@ -171,37 +183,45 @@
           </template>
 
           <!-- Common Fields -->
-          <div class="space-y-2">
+          <div class="space-y-2 rounded-2xl border border-slate-800 bg-slate-900/30 p-4">
+            <div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Compte</div>
             <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Adresse Email *</label>
-            <input x-model="form.email" type="email" class="input h-14 font-medium" required placeholder="votre@email.com">
+            <input x-model="form.email" type="email" class="input h-14 font-medium" required placeholder="votre@email.com" autocomplete="email">
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 rounded-2xl border border-slate-800 bg-slate-900/30 p-4">
             <div class="space-y-2">
               <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Mot de passe *</label>
-              <input x-model="form.motDePasse" type="password" class="input h-14 font-medium" required minlength="8" placeholder="••••••••">
+              <input x-model="form.motDePasse" type="password" class="input h-14 font-medium" required minlength="8" placeholder="••••••••" autocomplete="new-password">
             </div>
             <div class="space-y-2">
               <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Confirmation *</label>
-              <input x-model="form.motDePasse_confirmation" type="password" class="input h-14 font-medium" required placeholder="••••••••">
+              <input x-model="form.motDePasse_confirmation" type="password" class="input h-14 font-medium" required placeholder="••••••••" autocomplete="new-password">
             </div>
           </div>
+          <p class="text-xs text-slate-400 font-semibold -mt-3">Mot de passe: au moins 8 caracteres avec lettres et chiffres.</p>
 
           <div class="space-y-2" x-show="isCandidat">
-            <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Localisation</label>
-            <input x-model="form.localisation" type="text" class="input h-14 font-medium" placeholder="Ex: Tunis, Sfax...">
+            <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Région</label>
+            <select x-model="form.localisation" class="input h-14 font-medium appearance-none cursor-pointer">
+              <option value="">Sélectionner une région</option>
+              <template x-for="r in regions" :key="r.idRegion">
+                <option :value="r.ville" x-text="r.ville"></option>
+              </template>
+            </select>
           </div>
 
           <div class="flex items-start gap-3 py-2">
-            <input type="checkbox" id="terms" required class="mt-1 w-5 h-5 rounded-lg border-slate-200 text-brand-600 focus:ring-brand-500 cursor-pointer">
+            <input x-model="termsAccepted" type="checkbox" id="terms" required class="mt-1 w-5 h-5 rounded-lg border-slate-200 text-brand-600 focus:ring-brand-500 cursor-pointer">
             <label for="terms" class="text-sm font-medium text-slate-500 leading-relaxed cursor-pointer">
               J'accepte les <a href="#" class="font-bold text-brand-600 hover:underline">Conditions d'Utilisation</a> et la <a href="#" class="font-bold text-brand-600 hover:underline">Politique de Confidentialité</a>.
             </label>
           </div>
 
           <button type="submit" id="r-btn" 
-                  :class="isCandidat ? 'btn-primary shadow-brand-500/30' : 'btn-gold shadow-amber-500/30'"
-                  class="btn btn-lg w-full justify-center h-14 text-lg shadow-xl mt-4">
+                  :class="isCandidat ? 'btn-primary shadow-brand-500/30' : 'btn-gold shadow-orange-500/30'"
+                  :disabled="!termsAccepted"
+                  class="btn btn-lg w-full justify-center h-14 text-lg shadow-xl mt-4 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none">
             <span x-text="isCandidat ? 'Créer mon compte' : 'Soumettre ma demande'"></span> <span class="ml-2">→</span>
           </button>
         </form>
@@ -223,15 +243,21 @@ function registerApp() {
   return {
     isCandidat: true,
     domaines: [],
+    regions: [],
     form: {
       prenom: '', nom: '', email: '', idDomaine: '', specialite: '', niveauEtude: '',
-      niveauExperience: '', localisation: '', raisonSociale: '', identifiantLegal: '',
+      niveauExperience: '', localisation: '', raisonSociale: '', identifiantLegal: '', idRegion: '',
       description: '', telephone: '', pays: 'Tunisie', ville: '', siteWeb: '',
       motDePasse: '', motDePasse_confirmation: ''
     },
+    termsAccepted: false,
     async init() {
-      const res = await API.get('/domaines');
-      if (res?.ok) this.domaines = await res.json();
+      const [resDomaines, resRegions] = await Promise.all([
+        API.get('/domaines'),
+        API.get('/regions')
+      ]);
+      if (resDomaines?.ok) this.domaines = await resDomaines.json();
+      if (resRegions?.ok) this.regions = await resRegions.json();
       
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('type') === 'entreprise') this.isCandidat = false;

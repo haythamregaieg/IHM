@@ -447,8 +447,13 @@
                   <input type="tel" x-model="profil.telephone" class="input" placeholder="Ex: 55 123 456">
                 </div>
                 <div class="space-y-2">
-                  <label class="label">Localisation</label>
-                  <input type="text" x-model="profil.localisation" class="input" placeholder="Ex: Tunis, Tunisie">
+                  <label class="label">Région</label>
+                  <select x-model="profileRegion" class="input">
+                    <option value="">Sélectionnez une région</option>
+                    <template x-for="r in regions" :key="r.idRegion">
+                      <option :value="r.ville" x-text="r.ville"></option>
+                    </template>
+                  </select>
                 </div>
               </div>
               <button @click="saveProfile()" class="btn btn-primary mt-10 px-10 h-14 text-lg w-full md:w-auto">Sauvegarder les modifications</button>
@@ -907,6 +912,7 @@ function appC(){
     searchContrat: '',
     searchResults: {},
     initialSearchDone: false,
+    profileRegion: '',
     pwdForm: {ancien:'', nouveau:'', conf:''},
     completion: 0,
     nav: [
@@ -935,6 +941,7 @@ function appC(){
       const u = API.user();
       if(u){
         this.profil = {...u};
+        this.profileRegion = u.localisation || '';
         this.updateHeader(u);
       }
 
@@ -949,6 +956,7 @@ function appC(){
       if(resMe?.ok){
         const freshUser = await resMe.json();
         this.profil = {...freshUser};
+        this.profileRegion = freshUser.localisation || '';
         this.updateHeader(freshUser);
         localStorage.setItem('jp_usr', JSON.stringify(freshUser));
       }
@@ -1042,11 +1050,13 @@ function appC(){
       }
     },
     async saveProfile(){
+      this.profil.localisation = this.profileRegion || '';
       const r = await API.post('/candidat/profile', this.profil);
       if(r?.ok){
         const u = await r.json();
         localStorage.setItem('jp_usr', JSON.stringify(u));
         this.profil = {...u};
+        this.profileRegion = u.localisation || '';
         this.updateHeader(u);
         toast('Profil mis à jour ! ✓');
         this.calcCompletion();

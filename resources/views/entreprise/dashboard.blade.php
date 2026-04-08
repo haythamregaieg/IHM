@@ -402,8 +402,17 @@
                     <input x-model="eprofil.pays" class="input" placeholder="Ex: Tunisie">
                   </div>
                   <div class="space-y-2">
-                    <label class="label">Ville</label>
-                    <input x-model="eprofil.ville" class="input" placeholder="Ex: Tunis">
+                    <label class="label">Région</label>
+                    <select x-model="eprofil.idRegion" class="input">
+                      <option value="">Sélectionnez une région</option>
+                      <template x-for="r in regions" :key="r.idRegion">
+                        <option :value="r.idRegion" x-text="r.ville"></option>
+                      </template>
+                    </select>
+                  </div>
+                  <div class="space-y-2">
+                    <label class="label">Ville (optionnel)</label>
+                    <input x-model="eprofil.ville" class="input" placeholder="Ex: Tunis centre">
                   </div>
                   <div class="space-y-2">
                     <label class="label">Téléphone de contact</label>
@@ -731,6 +740,7 @@ function appE() {
         activMsgC: null,
         newMsgE: '',
         eprofil: {},
+        regions: [],
         omOpen: false,
         dmOpen: false,
         selCand: null,
@@ -762,6 +772,8 @@ function appE() {
                 this.ini = (u.raison_sociale || '?').substring(0, 2).toUpperCase();
                 this.eprofil = { ...u };
             }
+            const resRegions = await API.get('/regions');
+            if (resRegions?.ok) this.regions = await resRegions.json();
             await this.loadAll();
             
             // Fetch fresh profile data
@@ -1023,8 +1035,9 @@ function appE() {
             const fd = new FormData();
             fd.append('_method', 'PUT');
             ['description', 'pays', 'ville', 'telephone', 'site_web'].forEach(k => {
-                if (this.eprofil[k]) fd.append(k, this.eprofil[k]);
+                fd.append(k, this.eprofil[k] ?? '');
             });
+            fd.append('idRegion', this.eprofil.idRegion ? String(this.eprofil.idRegion) : '');
             
             const r = await API.post('/entreprise/profile', fd, true);
             if (r?.ok) {
