@@ -17,14 +17,14 @@
     <!-- Role Selector Tabs (REMOVED) -->
 
     <!-- Login Card -->
-    <div class="card card-dark p-8 md:p-10 relative overflow-hidden border border-slate-800">
-      <div class="absolute top-0 right-0 w-32 h-32 bg-brand-500/10 rounded-full -translate-y-1/2 translate-x-1/2 -z-0"></div>
+    <div class="card p-8 md:p-10 relative overflow-hidden border border-brand-300 bg-brand-200/75">
+      <div class="absolute top-0 right-0 w-32 h-32 bg-brand-100 rounded-full -translate-y-1/2 translate-x-1/2 -z-0"></div>
       
       <div class="relative z-10">
         <div id="err" role="alert" aria-live="assertive" class="hidden mb-6 p-4 rounded-2xl text-sm font-bold border border-red-100 bg-red-50 text-red-600 animate-shake"></div>
         
         <form id="lf" onsubmit="doLogin(event)" class="space-y-6">
-          <div class="rounded-2xl border border-slate-800 bg-slate-900/40 p-4 space-y-5">
+          <div class="rounded-2xl border border-brand-300 bg-brand-100/70 p-4 space-y-5">
             <div class="text-[11px] font-black uppercase tracking-widest text-slate-400"></div>
           <div class="space-y-2">
             <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Adresse Email</label>
@@ -42,19 +42,21 @@
             <div class="relative group">
               <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-brand-500 transition-colors">🔒</span>
               <input id="l-pwd" name="password" type="password" class="input pl-12 pr-12 h-14 font-medium" placeholder="••••••••" required autocomplete="current-password">
-              <button type="button" onclick="togglePwd(this)" aria-label="Afficher ou masquer le mot de passe" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-600 transition-colors">👁️</button>
+              <button type="button" onclick="togglePwd(this)" aria-label="Afficher le mot de passe" class="absolute right-4 top-1/2 -translate-y-1/2 text-brand-500 hover:text-brand-600 transition-colors">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7S3.732 16.057 2.458 12z"/>
+                </svg>
+              </button>
             </div>
           </div>
           </div>
 
-          <div class="flex items-center gap-3 py-2">
-            <input type="checkbox" id="remember" class="w-5 h-5 rounded-lg border-slate-200 text-brand-600 focus:ring-brand-500 cursor-pointer">
-            <label for="remember" class="text-sm font-bold text-slate-500 cursor-pointer">Se souvenir de moi</label>
+          <div class="flex justify-center">
+            <button type="submit" id="l-btn" class="btn btn-primary btn-lg w-full sm:w-auto sm:min-w-[260px] justify-center h-14 text-lg shadow-xl shadow-brand-500/30">
+              Se connecter <span class="ml-2">→</span>
+            </button>
           </div>
-
-          <button type="submit" id="l-btn" class="btn btn-primary btn-lg w-full justify-center h-14 text-lg shadow-xl shadow-brand-500/30">
-            Se connecter <span class="ml-2">→</span>
-          </button>
         </form>
 
         <div class="mt-10 pt-8 border-t border-slate-50 text-center">
@@ -73,7 +75,11 @@
 function togglePwd(btn) {
   const input = btn.previousElementSibling;
   input.type = input.type === 'password' ? 'text' : 'password';
-  btn.textContent = input.type === 'password' ? '👁️' : '🙈';
+  const isVisible = input.type === 'text';
+  btn.setAttribute('aria-label', isVisible ? 'Masquer le mot de passe' : 'Afficher le mot de passe');
+  btn.innerHTML = isVisible
+    ? '<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.27-2.943-9.543-7a9.97 9.97 0 012.19-3.568m3.1-2.373A9.956 9.956 0 0112 5c4.478 0 8.27 2.943 9.543 7a9.965 9.965 0 01-4.132 5.411M15 12a3 3 0 00-3-3m0 0a2.99 2.99 0 00-2.121.879M12 9l0 0m0 0L4 20"/></svg>'
+    : '<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7S3.732 16.057 2.458 12z"/></svg>';
 }
 
 async function doLogin(e) {

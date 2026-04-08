@@ -394,9 +394,9 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div class="lg:col-span-2 space-y-8">
-            <div class="card card-dark p-10">
+            <div class="card p-10 border border-brand-300 bg-brand-200/75">
               <h3 class="text-xl font-black mb-8 flex items-center gap-3">
-                <span class="w-10 h-10 rounded-xl bg-brand-500/10 flex items-center justify-center text-lg">👤</span> Informations générales
+                <span class="w-10 h-10 rounded-xl bg-brand-100 flex items-center justify-center text-lg">👤</span> Informations générales
               </h3>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="space-y-2">

@@ -387,9 +387,9 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div class="lg:col-span-2 space-y-8">
-            <div class="card card-dark p-10">
+            <div class="card p-10 border border-brand-300 bg-brand-200/75">
               <h3 class="text-xl font-black mb-8 flex items-center gap-3">
-                <span class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-lg">🏢</span> Informations entreprise
+                <span class="w-10 h-10 rounded-xl bg-brand-100 flex items-center justify-center text-lg">🏢</span> Informations entreprise
               </h3>
               <div class="space-y-6">
                 <div class="space-y-2">
@@ -585,23 +585,22 @@
       </div>
 
       <!-- Modal Offre -->
-      <div id="om" role="dialog" aria-modal="true" aria-labelledby="om-title" x-show="omOpen" x-cloak class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md" @click.self="closeOM()">
+      <div id="om" role="dialog" aria-modal="true" aria-labelledby="om-title" x-show="omOpen" x-cloak class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-md" @click.self="closeOM()">
         <div class="flex items-center justify-center min-h-full p-4">
-          <div class="card card-dark p-10 w-full max-w-3xl shadow-2xl animate-pop-in relative overflow-hidden max-h-[95vh] overflow-y-auto no-scrollbar">
-            <div class="absolute top-0 right-0 w-48 h-48 bg-amber-500/10 rounded-full -translate-y-1/2 translate-x-1/2 -z-0"></div>
+          <div class="card p-0 w-full max-w-3xl shadow-2xl animate-pop-in relative overflow-hidden max-h-[95vh] border border-amber-300 bg-amber-100/70 flex flex-col">
+            <div class="absolute top-0 right-0 w-48 h-48 bg-amber-200 rounded-full -translate-y-1/2 translate-x-1/2 -z-0"></div>
             
-            <div class="relative z-10">
-              <div class="flex justify-between items-center mb-10">
+            <div class="relative z-10 flex flex-col min-h-0">
+              <div class="flex justify-between items-center p-6 md:p-8 border-b border-amber-200 bg-amber-100/80 sticky top-0 z-10">
                 <div>
                   <h3 id="om-title" class="text-3xl font-black tracking-tight">Publier une <span class="text-amber-500">offre</span></h3>
                   <p class="font-medium">Décrivez le poste pour attirer les meilleurs candidats.</p>
                 </div>
-                <button @click="closeOM()" class="w-12 h-12 rounded-2xl bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center text-3xl transition-colors">&times;</button>
+                <button @click="closeOM()" class="w-12 h-12 rounded-2xl bg-white text-slate-500 hover:text-slate-700 flex items-center justify-center text-3xl transition-colors">&times;</button>
               </div>
-
+              <div class="p-6 md:p-8 overflow-y-auto">
               <div id="om-err" class="hidden mb-6 p-4 rounded-2xl bg-red-50 text-red-600 text-sm font-bold border border-red-100"></div>
-              
-              <form @submit.prevent="submitOM" class="space-y-8">
+              <form @submit.prevent="submitOM" class="space-y-8 pb-2">
                 <input type="hidden" id="om-id">
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -680,11 +679,12 @@
                   </div>
                 </div>
 
-                <div class="flex gap-4 pt-4">
+                <div class="flex gap-4 pt-2 sticky bottom-0 bg-amber-100/95 backdrop-blur-sm pb-1">
                   <button type="button" @click="closeOM()" class="btn btn-secondary flex-1 justify-center py-5 font-black text-lg">Annuler</button>
                   <button type="submit" id="om-btn" class="btn btn-gold flex-1 justify-center py-5 font-black text-lg shadow-xl shadow-amber-500/30">Enregistrer l'offre ✓</button>
                 </div>
               </form>
+              </div>
             </div>
           </div>
         </div>

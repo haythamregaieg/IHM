@@ -8,7 +8,7 @@
     <!-- Header -->
     <div class="text-center mb-10">
       <div class="inline-flex items-center justify-center w-20 h-20 rounded-[28px] shadow-2xl mb-6 group hover:scale-110 transition-transform duration-500"
-           :class="isCandidat ? 'bg-gradient-to-br from-brand-600 to-brand-800 shadow-brand-500/30' : 'bg-gradient-to-br from-orange-500 to-orange-700 shadow-orange-500/30'">
+           :class="isCandidat ? 'bg-gradient-to-br from-brand-600 to-brand-800 shadow-brand-500/30' : 'bg-gradient-to-br from-slate-700 to-slate-900 shadow-slate-800/30'">
         <template x-if="isCandidat">
           <svg class="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
@@ -34,23 +34,23 @@
         <span>👤</span> Candidat
       </button>
       <button @click="isCandidat = false" 
-              :class="!isCandidat ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/20' : 'text-slate-500 hover:bg-slate-50'"
+              :class="!isCandidat ? 'bg-slate-800 text-white shadow-lg shadow-slate-800/25' : 'text-slate-500 hover:bg-slate-50'"
               class="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold transition-all">
         <span>🏢</span> Entreprise
       </button>
     </div>
 
     <!-- Registration Card -->
-    <div class="card card-dark p-8 md:p-10 relative overflow-hidden border border-slate-800">
+    <div class="card p-8 md:p-10 relative overflow-hidden border border-brand-300 bg-brand-200/75">
       <div class="absolute top-0 right-0 w-32 h-32 rounded-full -translate-y-1/2 translate-x-1/2 -z-0"
-           :class="isCandidat ? 'bg-brand-500/10' : 'bg-orange-500/10'"></div>
+           :class="isCandidat ? 'bg-brand-500/10' : 'bg-slate-500/10'"></div>
       
       <div class="relative z-10">
         <!-- Info Banner for Company -->
         <template x-if="!isCandidat">
-          <div class="mb-8 p-4 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex gap-4 items-start">
+          <div class="mb-8 p-4 rounded-2xl bg-slate-300 border border-slate-400 flex gap-4 items-start">
             <span class="text-2xl">ℹ️</span>
-            <p class="text-sm font-bold text-orange-200 leading-relaxed">
+            <p class="text-sm font-bold text-slate-700 leading-relaxed">
               Pour garantir la qualité de notre plateforme, chaque compte entreprise est soumis à une validation manuelle par nos administrateurs.
             </p>
           </div>
@@ -62,7 +62,7 @@
           
           <!-- Candidat Specific Fields -->
           <template x-if="isCandidat">
-            <div class="space-y-6 rounded-2xl border border-slate-800 bg-slate-900/40 p-4 md:p-5">
+            <div class="space-y-6 rounded-2xl border border-brand-300 bg-brand-100/70 p-4 md:p-5">
               <div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Informations personnelles</div>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
@@ -120,7 +120,7 @@
 
           <!-- Entreprise Specific Fields -->
           <template x-if="!isCandidat">
-            <div class="space-y-6 rounded-2xl border border-slate-800 bg-slate-900/40 p-4 md:p-5">
+            <div class="space-y-6 rounded-2xl border border-brand-300 bg-brand-100/70 p-4 md:p-5">
               <div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Informations entreprise</div>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
@@ -183,13 +183,13 @@
           </template>
 
           <!-- Common Fields -->
-          <div class="space-y-2 rounded-2xl border border-slate-800 bg-slate-900/30 p-4">
+          <div class="space-y-2 rounded-2xl border border-brand-300 bg-brand-100/70 p-4">
             <div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Compte</div>
             <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Adresse Email *</label>
             <input x-model="form.email" type="email" class="input h-14 font-medium" required placeholder="votre@email.com" autocomplete="email">
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 rounded-2xl border border-slate-800 bg-slate-900/30 p-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 rounded-2xl border border-brand-300 bg-brand-100/70 p-4">
             <div class="space-y-2">
               <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Mot de passe *</label>
               <input x-model="form.motDePasse" type="password" class="input h-14 font-medium" required minlength="8" placeholder="••••••••" autocomplete="new-password">
@@ -219,7 +219,7 @@
           </div>
 
           <button type="submit" id="r-btn" 
-                  :class="isCandidat ? 'btn-primary shadow-brand-500/30' : 'btn-gold shadow-orange-500/30'"
+                  :class="isCandidat ? 'btn-primary shadow-brand-500/30' : 'bg-slate-800 text-white hover:bg-slate-900 shadow-slate-900/30'"
                   :disabled="!termsAccepted"
                   class="btn btn-lg w-full justify-center h-14 text-lg shadow-xl mt-4 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none">
             <span x-text="isCandidat ? 'Créer mon compte' : 'Soumettre ma demande'"></span> <span class="ml-2">→</span>
