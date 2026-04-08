@@ -9,7 +9,7 @@
         <div class="w-24 h-24 rounded-[32px] flex items-center justify-center text-white font-black text-3xl shadow-2xl shadow-amber-500/20 transition-transform hover:scale-105 duration-500 overflow-hidden" 
              style="background:linear-gradient(135deg,#F6A623,#d97706)">
           <template x-if="eprofil.logo_path">
-            <img :src="'/storage/'+eprofil.logo_path" class="w-full h-full object-cover">
+            <img :src="'/storage/'+eprofil.logo_path" :alt="'Logo ' + (eprofil.raison_sociale || 'entreprise')" class="w-full h-full object-cover">
           </template>
           <template x-if="!eprofil.logo_path">
             <span x-text="ini"></span>
@@ -427,7 +427,7 @@
               <div class="flex flex-col items-center gap-6 p-8 rounded-[32px] bg-slate-50/50 border-2 border-dashed border-slate-200">
                 <div class="w-32 h-32 rounded-[32px] bg-white flex items-center justify-center text-5xl shadow-xl border border-slate-100 overflow-hidden">
                   <template x-if="eprofil.logo_path">
-                    <img :src="'/storage/'+eprofil.logo_path" class="w-full h-full object-cover">
+                    <img :src="'/storage/'+eprofil.logo_path" :alt="'Logo ' + (eprofil.raison_sociale || 'entreprise')" class="w-full h-full object-cover">
                   </template>
                   <template x-if="!eprofil.logo_path">
                     <span x-text="ini"></span>
@@ -444,21 +444,21 @@
       </div>
 
       <!-- Modal Détails Candidature -->
-      <div id="dm-c" x-show="dmOpen" x-cloak class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md" @click.self="dmOpen=false">
+      <div id="dm-c" role="dialog" aria-modal="true" aria-labelledby="dm-c-title" x-show="dmOpen" x-cloak class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md" @click.self="dmOpen=false">
         <div class="flex items-center justify-center min-h-full p-4">
           <div class="card card-dark p-0 w-full max-w-4xl shadow-2xl animate-pop-in relative overflow-hidden max-h-[90vh] flex flex-col">
             <div class="p-8 border-b border-slate-800 flex justify-between items-center bg-slate-900/50">
               <div class="flex items-center gap-4">
                 <div class="w-12 h-12 rounded-xl bg-amber-500 flex items-center justify-center text-white font-black text-xl overflow-hidden">
                   <template x-if="selCand?.candidat?.photo_path">
-                    <img :src="'/storage/'+selCand.candidat.photo_path" class="w-full h-full object-cover">
+                    <img :src="'/storage/'+selCand.candidat.photo_path" :alt="(selCand?.candidat?.prenom||'') + ' ' + (selCand?.candidat?.nom||'')" class="w-full h-full object-cover">
                   </template>
                   <template x-if="!selCand?.candidat?.photo_path">
                     <span x-text="((selCand?.candidat?.prenom||'?').charAt(0)+(selCand?.candidat?.nom||'?').charAt(0)).toUpperCase()"></span>
                   </template>
                 </div>
                 <div>
-                  <h3 class="text-xl font-black text-white" x-text="(selCand?.candidat?.prenom||'')+' '+(selCand?.candidat?.nom||'')"></h3>
+                  <h3 id="dm-c-title" class="text-xl font-black text-white" x-text="(selCand?.candidat?.prenom||'')+' '+(selCand?.candidat?.nom||'')"></h3>
                   <p class="text-xs font-bold text-slate-400 uppercase tracking-widest" x-text="'Postulé le ' + new Date(selCand?.dateCandidature).toLocaleDateString('fr-FR')"></p>
                 </div>
               </div>
@@ -576,7 +576,7 @@
       </div>
 
       <!-- Modal Offre -->
-      <div id="om" x-show="omOpen" x-cloak class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md" @click.self="closeOM()">
+      <div id="om" role="dialog" aria-modal="true" aria-labelledby="om-title" x-show="omOpen" x-cloak class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md" @click.self="closeOM()">
         <div class="flex items-center justify-center min-h-full p-4">
           <div class="card card-dark p-10 w-full max-w-3xl shadow-2xl animate-pop-in relative overflow-hidden max-h-[95vh] overflow-y-auto no-scrollbar">
             <div class="absolute top-0 right-0 w-48 h-48 bg-amber-500/10 rounded-full -translate-y-1/2 translate-x-1/2 -z-0"></div>

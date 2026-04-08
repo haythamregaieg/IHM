@@ -179,27 +179,42 @@
       <div class="flex-1 w-full">
         <div class="card p-12 shadow-3xl border-none bg-white rounded-[48px]">
           <h3 class="text-3xl font-black text-slate-900 mb-10 text-center">Questions fréquentes</h3>
-          <div class="space-y-8">
-            <div class="group cursor-pointer">
-              <h4 class="font-black text-xl text-slate-800 group-hover:text-brand-600 transition-colors mb-3 flex items-center justify-between">
-                C'est gratuit ?
-                <span class="text-brand-300 text-2xl">+</span>
-              </h4>
-              <p class="text-slate-500 font-bold leading-relaxed">Oui ! Pour tous les candidats, c'est 100% gratuit, pour toujours.</p>
+          <div class="space-y-4" x-data="{open:null}">
+            <div class="border border-slate-100 rounded-2xl overflow-hidden">
+              <button @click="open=open===0?null:0"
+                      :aria-expanded="open===0"
+                      aria-controls="faq-0"
+                      class="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 transition-colors">
+                <span class="font-black text-lg text-slate-800" :class="open===0?'text-brand-600':''">C'est gratuit ?</span>
+                <span class="text-brand-300 text-2xl font-bold transition-transform duration-300" :class="open===0?'rotate-45':''">+</span>
+              </button>
+              <div id="faq-0" x-show="open===0" x-collapse class="px-6 pb-5">
+                <p class="text-slate-500 font-bold leading-relaxed">Oui ! Pour tous les candidats, c'est 100% gratuit, pour toujours.</p>
+              </div>
             </div>
-            <div class="group cursor-pointer">
-              <h4 class="font-black text-xl text-slate-800 group-hover:text-brand-600 transition-colors mb-3 flex items-center justify-between">
-                Comment s'inscrire ?
-                <span class="text-brand-300 text-2xl">+</span>
-              </h4>
-              <p class="text-slate-500 font-bold leading-relaxed">Cliquez sur le bouton bleu "S'inscrire" en haut de la page.</p>
+            <div class="border border-slate-100 rounded-2xl overflow-hidden">
+              <button @click="open=open===1?null:1"
+                      :aria-expanded="open===1"
+                      aria-controls="faq-1"
+                      class="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 transition-colors">
+                <span class="font-black text-lg text-slate-800" :class="open===1?'text-brand-600':''">Comment s'inscrire ?</span>
+                <span class="text-brand-300 text-2xl font-bold transition-transform duration-300" :class="open===1?'rotate-45':''">+</span>
+              </button>
+              <div id="faq-1" x-show="open===1" x-collapse class="px-6 pb-5">
+                <p class="text-slate-500 font-bold leading-relaxed">Cliquez sur le bouton bleu "S'inscrire" en haut de la page.</p>
+              </div>
             </div>
-            <div class="group cursor-pointer">
-              <h4 class="font-black text-xl text-slate-800 group-hover:text-brand-600 transition-colors mb-3 flex items-center justify-between">
-                Et si j'ai un problème ?
-                <span class="text-brand-300 text-2xl">+</span>
-              </h4>
-              <p class="text-slate-500 font-bold leading-relaxed">Notre équipe est là pour vous aider à chaque étape par email ou téléphone.</p>
+            <div class="border border-slate-100 rounded-2xl overflow-hidden">
+              <button @click="open=open===2?null:2"
+                      :aria-expanded="open===2"
+                      aria-controls="faq-2"
+                      class="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 transition-colors">
+                <span class="font-black text-lg text-slate-800" :class="open===2?'text-brand-600':''">Et si j'ai un problème ?</span>
+                <span class="text-brand-300 text-2xl font-bold transition-transform duration-300" :class="open===2?'rotate-45':''">+</span>
+              </button>
+              <div id="faq-2" x-show="open===2" x-collapse class="px-6 pb-5">
+                <p class="text-slate-500 font-bold leading-relaxed">Notre équipe est là pour vous aider à chaque étape par email ou téléphone.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -253,7 +268,7 @@
           <div class="relative z-10 flex flex-col h-full">
             <div class="flex justify-between items-start mb-10">
               <div class="w-20 h-20 rounded-[28px] bg-white border border-slate-100 flex items-center justify-center text-brand-600 font-black text-4xl shadow-sm group-hover:scale-110 transition-transform duration-500 overflow-hidden">
-                ${o.entreprise?.logo_path ? `<img src="/storage/${o.entreprise.logo_path}" class="w-full h-full object-cover">` : (o.entreprise?.raison_sociale || '?').charAt(0).toUpperCase()}
+                ${o.entreprise?.logo_path ? `<img src="/storage/${o.entreprise.logo_path}" alt="Logo ${o.entreprise?.raison_sociale || 'entreprise'}" class="w-full h-full object-cover">` : (o.entreprise?.raison_sociale || '?').charAt(0).toUpperCase()}
               </div>
               <span class="px-5 py-2.5 rounded-2xl text-xs font-black uppercase tracking-widest border ${cc[o.typeContrat] || 'bg-slate-50 text-slate-500 border-slate-100'}">
                 ${o.typeContrat}

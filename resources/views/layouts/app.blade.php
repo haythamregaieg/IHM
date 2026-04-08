@@ -82,6 +82,32 @@ h1,h2,h3,h4,h5{font-family:'Outfit',sans-serif;letter-spacing:-0.02em}
 .card-dark h1, .card-dark h2, .card-dark h3 { color: #fff!important; }
 .card-dark p { color: #94a3b8!important; }
 .card-dark .border-t { border-color: #1e293b!important; }
+
+/* Bouton brand (alias btn-primary) */
+.btn-brand{background:linear-gradient(135deg,#2B5CE6,#1a44c9);color:#fff;box-shadow:0 10px 15px -3px rgba(43,92,230,0.3)}
+.btn-brand:hover{transform:translateY(-1px);box-shadow:0 20px 25px -5px rgba(43,92,230,0.4);filter:brightness(1.05)}
+.btn-brand:active{transform:translateY(0)}
+
+/* Boutons admin */
+.btn-success{background:#16a34a;color:#fff;box-shadow:0 4px 6px -1px rgba(22,163,74,0.3)}
+.btn-success:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn-danger{background:#dc2626;color:#fff;box-shadow:0 4px 6px -1px rgba(220,38,38,0.3)}
+.btn-danger:hover{filter:brightness(1.1);transform:translateY(-1px)}
+
+/* Shadow supplémentaire */
+.shadow-3xl{box-shadow:0 35px 60px -15px rgba(0,0,0,0.3)}
+
+/* Animations feedback */
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.animate-shake{animation:shake .4s ease}
+
+/* Masquer scrollbar sur nav mobile */
+.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+.no-scrollbar::-webkit-scrollbar{display:none}
+
+/* Focus visible pour accessibilité clavier */
+:focus-visible{outline:2px solid #2B5CE6;outline-offset:2px}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid #2B5CE6;outline-offset:2px}
 </style>
 @stack('styles')
 </head>
@@ -96,14 +122,14 @@ h1,h2,h3,h4,h5{font-family:'Outfit',sans-serif;letter-spacing:-0.02em}
       <span style="font-family:Outfit,sans-serif;font-weight:800;font-size:1.15rem" class="text-slate-800">Job<span style="color:#2B5CE6">Platform</span></span>
     </a>
     <div class="hidden md:flex items-center gap-6">
-      <a href="/offres" class="nav-link">Offres d'emploi</a>
+      <a href="/offres" id="nav-offres" class="text-sm font-semibold text-slate-600 hover:text-brand-600 transition-colors px-3 py-2 rounded-xl hover:bg-slate-50">Offres d'emploi</a>
     </div>
     <div id="nav-auth" class="flex items-center gap-2"></div>
   </div>
 </nav>
 <!-- TOAST -->
-<div id="toast" class="fixed top-5 right-5 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl text-white text-sm font-semibold shadow-2xl transition-all duration-400 translate-x-96 opacity-0 max-w-xs" style="min-width:220px">
-  <span id="toast-icon" class="text-base"></span><span id="toast-txt"></span>
+<div id="toast" role="alert" aria-live="polite" aria-atomic="true" class="fixed top-5 right-5 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl text-white text-sm font-semibold shadow-2xl transition-all duration-400 translate-x-96 opacity-0 max-w-xs" style="min-width:220px">
+  <span id="toast-icon" class="text-base" aria-hidden="true"></span><span id="toast-txt"></span>
 </div>
 @yield('content')
 <footer class="mt-20 bg-slate-900 text-slate-400">
@@ -159,6 +185,15 @@ window.toast=function(msg,type='success'){
   el.classList.remove('translate-x-96','opacity-0');
   setTimeout(()=>el.classList.add('translate-x-96','opacity-0'),3200)
 };
+// ── Active nav link ──────────────────────────────────────────────────
+(function(){
+  const path = window.location.pathname;
+  const el = document.getElementById('nav-offres');
+  if(el && path.startsWith('/offres')){
+    el.classList.add('text-brand-600','bg-brand-50');
+    el.setAttribute('aria-current','page');
+  }
+})();
 // ── Navbar ───────────────────────────────────────────────────────────
 (function(){
   const nav=document.getElementById('nav-auth');
@@ -171,7 +206,7 @@ window.toast=function(msg,type='success'){
     const imgPath = type==='candidat' ? u.photo_path : (type==='entreprise' ? u.logo_path : null);
     const colors={admin:'#dc2626',candidat:'#2B5CE6',entreprise:'#F6A623'};
     
-    const avatar = imgPath 
+    const avatar = imgPath
       ? `<img src="/storage/${imgPath}" class="w-full h-full object-cover">`
       : init;
 

@@ -174,7 +174,7 @@ async function load(page = 1) {
         <div class="flex flex-col md:flex-row gap-8 items-start relative z-10">
           <div class="w-16 h-16 rounded-[24px] flex items-center justify-center text-white font-black text-2xl flex-shrink-0 shadow-xl shadow-brand-500/10 transition-transform duration-500 group-hover:scale-110 overflow-hidden" 
                style="background:linear-gradient(135deg,#2B5CE6,#1535a0)">
-            ${o.entreprise?.logo_path ? `<img src="/storage/${o.entreprise.logo_path}" class="w-full h-full object-cover">` : (o.entreprise?.raison_sociale || '?').charAt(0).toUpperCase()}
+            ${o.entreprise?.logo_path ? `<img src="/storage/${o.entreprise.logo_path}" alt="Logo ${o.entreprise?.raison_sociale || 'entreprise'}" class="w-full h-full object-cover">` : (o.entreprise?.raison_sociale || '?').charAt(0).toUpperCase()}
           </div>
           <div class="flex-1 min-w-0">
             <div class="flex items-start justify-between gap-4 mb-3 flex-wrap">
@@ -268,7 +268,8 @@ function reset() {
   const fill = (sid, items, pk) => {
     const s = document.getElementById(sid);
     if (!s || !items) return;
-    s.innerHTML = '<option value="">Sélectionnez une option</option>';
+    const defaultText = sid === 'f-reg' ? 'Toute la Tunisie' : 'Tous les domaines';
+    s.innerHTML = `<option value="">${defaultText}</option>`;
     items.forEach(x => {
       const o = document.createElement('option');
       o.value = x[pk];
