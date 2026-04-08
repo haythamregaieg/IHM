@@ -5,11 +5,11 @@
   <!-- Hero Search Section -->
   <div class="bg-white border-b border-slate-100 py-12 lg:py-16 relative overflow-hidden">
     <div class="absolute top-0 right-0 w-96 h-96 bg-brand-50 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl opacity-50"></div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 text-center lg:text-left">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 text-center">
       <h1 class="text-4xl lg:text-6xl font-black text-slate-900 tracking-tight mb-4" style="font-family:Outfit">Trouvez votre <span class="text-brand-600">futur job</span></h1>
-      <p class="text-slate-500 font-medium text-lg lg:text-xl max-w-2xl mb-10">Explorez des milliers d'offres d'emploi vérifiées en Tunisie et propulsez votre carrière.</p>
+      <p class="text-slate-500 font-medium text-lg lg:text-xl max-w-2xl mx-auto mb-10">Explorez des milliers d'offres d'emploi vérifiées en Tunisie et propulsez votre carrière.</p>
       
-      <div class="card p-2 flex flex-col md:flex-row gap-2 shadow-2xl shadow-brand-500/10 max-w-4xl border-slate-100">
+      <div class="card p-2 flex flex-col md:flex-row gap-2 shadow-2xl shadow-brand-500/10 max-w-4xl mx-auto border-slate-100">
         <div class="flex-[2] relative">
           <svg class="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
           <input id="f-q" type="text" class="input border-transparent bg-slate-50/50 pl-14 h-14 font-medium focus:bg-white" placeholder="Titre du poste, mots-clés..." onkeydown="if(event.key==='Enter')load(1)">
@@ -82,7 +82,7 @@
         <div class="flex items-center justify-between mb-8 flex-wrap gap-4">
           <div>
             <h2 id="rc" class="text-xl font-black text-slate-900 tracking-tight">Chargement...</h2>
-            <p class="text-slate-400 text-sm font-medium">Offres classées par pertinence</p>
+            <p class="text-slate-400 text-sm font-medium">Offres triées par pertinence</p>
           </div>
           <div class="flex items-center gap-3">
             <span class="text-xs font-black text-slate-400 uppercase tracking-widest">Trier par</span>
@@ -118,6 +118,203 @@ const cc = {
   Freelance: 'badge-purple',
   Alternance: 'badge-slate'
 };
+
+const domainIcons = {
+  'informatique & technologie': '💻',
+  'finance & comptabilite': '💰',
+  'marketing & communication': '📣',
+  'ressources humaines': '🤝',
+  'sante & medecine': '⚕️',
+  'ingenierie & industrie': '⚙️',
+  'commerce & vente': '🛒',
+  'education & formation': '🎓',
+  'droit & juridique': '⚖️',
+  'architecture & btp': '🏗️',
+  'mecaniques': '🔧'
+};
+
+function getDomainIcon(domainName = '') {
+  const key = domainName
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+  return domainIcons[key] || '💼';
+}
+
+function getOfferImage(o) {
+  const normalizedDomain = (o?.domaine?.nom || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+
+  const byDomain = {
+    informatique: [
+      'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80'
+    ],
+    finance: [
+      'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80'
+    ],
+    marketing: [
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?auto=format&fit=crop&w=1200&q=80'
+    ],
+    ressources: [
+      'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80'
+    ],
+    sante: [
+      'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=1200&q=80'
+    ],
+    ingenierie: [
+      'https://images.unsplash.com/photo-1581092446327-9f89c3f3f2c5?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=1200&q=80'
+    ],
+    commerce: [
+      'https://images.unsplash.com/photo-1607082349566-187342175e2f?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1200&q=80'
+    ],
+    education: [
+      'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1200&q=80'
+    ],
+    droit: [
+      'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1593115057322-e94b77572f20?auto=format&fit=crop&w=1200&q=80'
+    ],
+    architecture: [
+      'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1200&q=80'
+    ],
+    mecanique: [
+      'https://images.unsplash.com/photo-1487754180451-c456f719a1fc?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?auto=format&fit=crop&w=1200&q=80'
+    ]
+  };
+
+  const matchedKey = Object.keys(byDomain).find(k => normalizedDomain.includes(k));
+  const selectedPool = matchedKey ? byDomain[matchedKey] : [
+    'https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80'
+  ];
+
+  const numericId = Number(o?.idOffre) || 0;
+  return selectedPool[numericId % selectedPool.length];
+}
+
+function escapeHtml(str = '') {
+  return String(str)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+function renderOfferCard(o) {
+  return `
+    <div class="card card-hover p-8 group border-slate-100 animate-slide-up relative overflow-hidden">
+      <div class="absolute top-0 right-0 w-32 h-32 bg-brand-50 rounded-full -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+      <div class="flex flex-col md:flex-row gap-8 items-start relative z-10">
+        <div class="w-16 h-16 rounded-[24px] flex items-center justify-center text-white font-black text-2xl flex-shrink-0 shadow-xl shadow-brand-500/10 transition-transform duration-500 group-hover:scale-110 overflow-hidden" 
+             style="background:linear-gradient(135deg,#2B5CE6,#1535a0)">
+          ${o.entreprise?.logo_path ? `<img src="/storage/${o.entreprise.logo_path}" class="w-full h-full object-cover">` : (o.entreprise?.raison_sociale || '?').charAt(0).toUpperCase()}
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-start justify-between gap-4 mb-3 flex-wrap">
+            <div>
+              <h3 class="text-2xl font-black text-slate-900 group-hover:text-brand-600 transition-colors leading-tight mb-1" style="font-family:Outfit">${escapeHtml(o.titre)}</h3>
+              <div class="flex items-center gap-2">
+                <span class="text-base font-bold text-brand-600">${escapeHtml(o.entreprise?.raison_sociale || 'Entreprise')}</span>
+                <span class="w-1 h-1 bg-slate-200 rounded-full"></span>
+                <span class="text-sm font-bold text-slate-400">Publiée ${new Date(o.datePublication).toLocaleDateString('fr-FR')}</span>
+              </div>
+            </div>
+            <span class="badge ${cc[o.typeContrat] || 'badge-slate'} px-4 py-1.5 text-xs font-black uppercase tracking-widest">${escapeHtml(o.typeContrat || 'Contrat')}</span>
+          </div>
+          
+          <div class="mb-6 relative rounded-2xl overflow-hidden border border-slate-100 h-28 bg-slate-100">
+            <img src="${getOfferImage(o)}"
+                 alt="Illustration de l'offre ${escapeHtml(o.titre)}"
+                 class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-r from-slate-900/55 via-slate-900/25 to-transparent"></div>
+            <div class="absolute bottom-2 left-3 text-white text-xs font-black uppercase tracking-wide">Poste</div>
+          </div>
+          
+          <div class="flex flex-wrap items-center gap-4">
+            <div class="flex items-center gap-2 bg-slate-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-slate-500">
+              <span>📍</span> ${escapeHtml(o.localisation || 'Tunisie')}
+            </div>
+            ${o.remuneration ? `
+              <div class="flex items-center gap-2 bg-green-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-green-600">
+                <span>💰</span> ${Number(o.remuneration).toLocaleString()} DT / mois
+              </div>
+            ` : ''}
+            <div class="flex items-center gap-2 bg-brand-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-brand-600">
+              <span>${getDomainIcon(o.domaine?.nom || '')}</span> ${escapeHtml(o.domaine?.nom || 'Général')}
+            </div>
+            ${o.experience ? `
+              <div class="flex items-center gap-2 bg-purple-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-purple-600">
+                <span>⚡</span> ${escapeHtml(o.experience)}
+              </div>
+            ` : ''}
+            ${o.mode_travail ? `
+              <div class="flex items-center gap-2 bg-blue-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-blue-600">
+                <span>🏠</span> ${escapeHtml(o.mode_travail)}
+              </div>
+            ` : ''}
+            ${o.niveau_etude ? `
+              <div class="flex items-center gap-2 bg-emerald-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-emerald-600">
+                <span>🎓</span> ${escapeHtml(o.niveau_etude)}
+              </div>
+            ` : ''}
+          </div>
+
+        </div>
+        <div class="flex md:flex-col gap-2 w-full md:w-auto mt-4 md:mt-0">
+          <a href="/offres/${o.idOffre}" class="btn w-full md:w-44 justify-center py-3.5 px-6 border-2 border-amber-700 bg-amber-600 text-white font-black shadow-md hover:bg-amber-700 hover:border-amber-800 hover:shadow-lg transition-all">
+            Voir détails
+          </a>
+          ${o.dejaPostule ? `
+            <button disabled class="btn w-full md:w-44 justify-center py-3.5 px-6 border-2 border-emerald-300 bg-emerald-50 text-emerald-700 opacity-70 cursor-not-allowed font-black">
+              Déjà postulé
+            </button>
+          ` : `
+            <a href="/offres/${o.idOffre}" class="btn w-full md:w-44 justify-center py-3.5 px-6 border-2 border-brand-900 bg-brand-800 text-white font-black shadow-lg shadow-brand-900/30 hover:bg-brand-900 hover:border-brand-900 hover:shadow-brand-900/40 transition-all">
+              Postuler maintenant
+            </a>
+          `}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderGroupedOffers(items) {
+  const grouped = items.reduce((acc, item) => {
+    const key = item?.domaine?.nom || 'Autres domaines';
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(item);
+    return acc;
+  }, {});
+
+  return Object.entries(grouped).map(([domain, offers]) => `
+    <section class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg md:text-xl font-black text-slate-900 flex items-center gap-2">
+          <span>${getDomainIcon(domain)}</span>
+          <span>${escapeHtml(domain)}</span>
+        </h3>
+        <span class="text-xs font-black uppercase tracking-wider text-slate-400">${offers.length} offre${offers.length > 1 ? 's' : ''}</span>
+      </div>
+      <div class="space-y-5">
+        ${offers.map(renderOfferCard).join('')}
+      </div>
+    </section>
+  `).join('');
+}
 
 async function load(page = 1) {
   const q = document.getElementById('f-q').value;
@@ -168,71 +365,7 @@ async function load(page = 1) {
       return;
     }
 
-    listEl.innerHTML = items.map(o => `
-      <div class="card card-hover p-8 group border-slate-100 animate-slide-up relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-50 rounded-full -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-        <div class="flex flex-col md:flex-row gap-8 items-start relative z-10">
-          <div class="w-16 h-16 rounded-[24px] flex items-center justify-center text-white font-black text-2xl flex-shrink-0 shadow-xl shadow-brand-500/10 transition-transform duration-500 group-hover:scale-110 overflow-hidden" 
-               style="background:linear-gradient(135deg,#2B5CE6,#1535a0)">
-            ${o.entreprise?.logo_path ? `<img src="/storage/${o.entreprise.logo_path}" alt="Logo ${o.entreprise?.raison_sociale || 'entreprise'}" class="w-full h-full object-cover">` : (o.entreprise?.raison_sociale || '?').charAt(0).toUpperCase()}
-          </div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-start justify-between gap-4 mb-3 flex-wrap">
-              <div>
-                <h3 class="text-2xl font-black text-slate-900 group-hover:text-brand-600 transition-colors leading-tight mb-1" style="font-family:Outfit">${o.titre}</h3>
-                <div class="flex items-center gap-2">
-                  <span class="text-base font-bold text-brand-600">${o.entreprise?.raison_sociale || 'Entreprise'}</span>
-                  <span class="w-1 h-1 bg-slate-200 rounded-full"></span>
-                  <span class="text-sm font-bold text-slate-400">Publiée ${new Date(o.datePublication).toLocaleDateString('fr-FR')}</span>
-                </div>
-              </div>
-              <span class="badge ${cc[o.typeContrat] || 'badge-slate'} px-4 py-1.5 text-xs font-black uppercase tracking-widest">${o.typeContrat}</span>
-            </div>
-            
-            <p class="text-sm text-slate-500 font-medium mb-6 line-clamp-2 leading-relaxed">
-              ${o.description ? o.description.substring(0, 160) : ''}...
-            </p>
-            
-            <div class="flex flex-wrap items-center gap-4">
-              <div class="flex items-center gap-2 bg-slate-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-slate-500">
-                <span>📍</span> ${o.localisation}
-              </div>
-              ${o.remuneration ? `
-                <div class="flex items-center gap-2 bg-green-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-green-600">
-                  <span>💰</span> ${Number(o.remuneration).toLocaleString()} DT / mois
-                </div>
-              ` : ''}
-              <div class="flex items-center gap-2 bg-brand-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-brand-600">
-                <span>🏷️</span> ${o.domaine?.nom || 'Général'}
-              </div>
-              ${o.experience ? `
-                <div class="flex items-center gap-2 bg-purple-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-purple-600">
-                  <span>⚡</span> ${o.experience}
-                </div>
-              ` : ''}
-              ${o.mode_travail ? `
-                <div class="flex items-center gap-2 bg-blue-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-blue-600">
-                  <span>🏠</span> ${o.mode_travail}
-                </div>
-              ` : ''}
-              ${o.niveau_etude ? `
-                <div class="flex items-center gap-2 bg-emerald-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-emerald-600">
-                  <span>🎓</span> ${o.niveau_etude}
-                </div>
-              ` : ''}
-            </div>
-          </div>
-          <div class="flex md:flex-col gap-2 w-full md:w-auto mt-4 md:mt-0">
-            <a href="/offres/${o.idOffre}" class="btn btn-secondary flex-1 justify-center py-3.5 px-8">Détails</a>
-            ${o.dejaPostule ? `
-              <button disabled class="btn btn-primary flex-1 justify-center py-3.5 px-8 opacity-50 cursor-not-allowed">Déjà postulé</button>
-            ` : `
-              <a href="/offres/${o.idOffre}" class="btn btn-primary flex-1 justify-center py-3.5 px-8">Postuler</a>
-            `}
-          </div>
-        </div>
-      </div>
-    `).join('');
+    listEl.innerHTML = dom ? items.map(renderOfferCard).join('') : renderGroupedOffers(items);
 
     // Pagination
     const lp = data.last_page || 1;
@@ -268,8 +401,9 @@ function reset() {
   const fill = (sid, items, pk) => {
     const s = document.getElementById(sid);
     if (!s || !items) return;
-    const defaultText = sid === 'f-reg' ? 'Toute la Tunisie' : 'Tous les domaines';
-    s.innerHTML = `<option value="">${defaultText}</option>`;
+    s.innerHTML = sid === 'f-dom'
+      ? '<option value="">Tous les domaines</option>'
+      : '<option value="">Toute la Tunisie</option>';
     items.forEach(x => {
       const o = document.createElement('option');
       o.value = x[pk];

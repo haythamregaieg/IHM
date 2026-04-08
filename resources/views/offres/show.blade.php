@@ -177,9 +177,9 @@
 const oid = location.pathname.split('/').pop();
 const cc = {
   CDI: 'badge-blue',
-  CDD: 'badge-amber',
-  Stage: 'badge-green',
-  Freelance: 'badge-purple',
+  CDD: 'badge-blue',
+  Stage: 'badge-blue',
+  Freelance: 'badge-blue',
   Alternance: 'badge-slate'
 };
 
@@ -187,7 +187,7 @@ function updateCVName(input) {
   const label = document.getElementById('cv-file-name');
   if (input.files && input.files.length > 0) {
     label.textContent = input.files[0].name;
-    label.className = "text-sm font-black text-green-600";
+    label.className = "text-sm font-black text-brand-600";
   }
 }
 
@@ -195,7 +195,7 @@ function updateLMName(input) {
   const label = document.getElementById('lm-file-name');
   if (input.files && input.files.length > 0) {
     label.textContent = input.files[0].name;
-    label.className = "text-sm font-black text-green-600 block";
+    label.className = "text-sm font-black text-brand-600 block";
     // Désactiver le textarea si un fichier est fourni
     document.getElementById('c-lettre').disabled = true;
     document.getElementById('c-lettre').placeholder = "Lettre fournie en PDF";
@@ -229,17 +229,24 @@ function toggleCVUpload(show) {
     
     const o = await res.json();
     const isC = API.isLogged() && API.type() === 'candidat';
+    const publicationDate = o.datePublication ? new Date(o.datePublication).toLocaleDateString('fr-FR') : 'Non précisée';
+    const limitDate = o.dateLimite ? new Date(o.dateLimite).toLocaleDateString('fr-FR') : 'Non définie';
+    const isExpired = o.dateLimite ? (new Date(o.dateLimite) < new Date()) : false;
+    const competences = (o.competencesRequises || '')
+      .split(',')
+      .map(c => c.trim())
+      .filter(Boolean);
     document.getElementById('b-title').textContent = o.titre;
 
     document.getElementById('detail').className = "grid grid-cols-1 lg:grid-cols-3 gap-10 animate-slide-up";
     document.getElementById('detail').innerHTML = `
       <!-- Main Content -->
       <div class="lg:col-span-2 space-y-8">
-        <div class="card p-10 relative overflow-hidden">
+        <div class="card p-8 lg:p-10 relative overflow-hidden border-slate-100 shadow-xl shadow-slate-200/40">
           <div class="absolute top-0 right-0 w-64 h-64 bg-brand-50 rounded-full -translate-y-1/2 translate-x-1/2 opacity-50 -z-0"></div>
           
           <div class="relative z-10">
-            <div class="flex flex-col md:flex-row items-start gap-8 mb-10">
+            <div class="flex flex-col md:flex-row items-start gap-8 mb-8">
               <div class="w-24 h-24 rounded-[32px] flex items-center justify-center text-white font-black text-4xl shadow-2xl shadow-brand-500/20 flex-shrink-0 overflow-hidden" 
                    style="background:linear-gradient(135deg,#2B5CE6,#1535a0)">
                 ${o.entreprise?.logo_path ? `<img src="/storage/${o.entreprise.logo_path}" alt="Logo ${o.entreprise?.raison_sociale || 'entreprise'}" class="w-full h-full object-cover">` : (o.entreprise?.raison_sociale || '?').charAt(0).toUpperCase()}
@@ -253,58 +260,65 @@ function toggleCVUpload(show) {
                 <div class="flex items-center gap-2">
                   <span class="text-xl font-bold text-brand-600">${o.entreprise?.raison_sociale || 'Entreprise'}</span>
                   <span class="w-1.5 h-1.5 bg-slate-200 rounded-full"></span>
-                  <span class="text-slate-400 font-bold">Inscrite depuis ${new Date(o.entreprise?.created_at).getFullYear()}</span>
+                  <span class="text-slate-500 font-bold">Inscrite depuis ${new Date(o.entreprise?.created_at).getFullYear()}</span>
                 </div>
               </div>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 py-8 border-y border-slate-50 mb-10">
-              <div class="space-y-1">
+            <div class="flex flex-wrap gap-3 mb-8">
+              <span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-100 text-slate-700 text-sm font-black">📍 ${o.localisation}</span>
+              <span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-50 text-brand-700 text-sm font-black">💰 ${o.remuneration ? Number(o.remuneration).toLocaleString() + ' DT' : 'À négocier'}</span>
+              <span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-100 text-slate-700 text-sm font-black">🏠 ${o.mode_travail || 'Mode non précisé'}</span>
+              <span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-100 text-brand-700 text-sm font-black">⚡ ${o.experience || 'Expérience non précisée'}</span>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 py-7 border-y border-slate-100 mb-10">
+              <div class="rounded-2xl bg-slate-50 p-4 space-y-1">
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Localisation</p>
                 <p class="font-bold text-slate-700">📍 ${o.localisation}</p>
               </div>
-              <div class="space-y-1">
+              <div class="rounded-2xl bg-slate-50 p-4 space-y-1">
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Salaire</p>
-                <p class="font-bold text-green-600">${o.remuneration ? Number(o.remuneration).toLocaleString() + ' DT' : 'À négocier'}</p>
+                <p class="font-bold text-brand-700">${o.remuneration ? Number(o.remuneration).toLocaleString() + ' DT' : 'À négocier'}</p>
               </div>
-              <div class="space-y-1">
+              <div class="rounded-2xl bg-slate-50 p-4 space-y-1">
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Vues</p>
                 <p class="font-bold text-slate-700">👁️ ${o.vues || 0}</p>
               </div>
-              <div class="space-y-1">
+              <div class="rounded-2xl bg-slate-50 p-4 space-y-1">
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Publiée</p>
-                <p class="font-bold text-slate-700">📅 ${new Date(o.datePublication).toLocaleDateString('fr-FR')}</p>
+                <p class="font-bold text-slate-700">📅 ${publicationDate}</p>
               </div>
-              <div class="space-y-1">
+              <div class="rounded-2xl bg-slate-50 p-4 space-y-1">
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Expérience</p>
                 <p class="font-bold text-slate-700">⚡ ${o.experience || 'Non spécifiée'}</p>
               </div>
-              <div class="space-y-1">
+              <div class="rounded-2xl bg-slate-50 p-4 space-y-1">
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Mode</p>
                 <p class="font-bold text-slate-700">🏠 ${o.mode_travail || 'Non spécifié'}</p>
               </div>
-              <div class="space-y-1">
+              <div class="rounded-2xl bg-slate-50 p-4 space-y-1">
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Études</p>
                 <p class="font-bold text-slate-700">🎓 ${o.niveau_etude || 'Non spécifié'}</p>
               </div>
             </div>
 
             <div class="space-y-10">
-              <div>
+              <div class="rounded-3xl border border-slate-100 bg-white p-6 lg:p-8">
                 <h2 class="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
                   <span class="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center text-lg">📄</span> Description du poste
                 </h2>
-                <div class="text-slate-600 leading-relaxed text-lg whitespace-pre-line">${o.description}</div>
+                <div class="text-slate-600 leading-relaxed text-base lg:text-lg whitespace-pre-line">${o.description}</div>
               </div>
 
-              <div>
+              <div class="rounded-3xl border border-slate-100 bg-white p-6 lg:p-8">
                 <h2 class="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
                   <span class="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center text-lg">⚡</span> Compétences clés
                 </h2>
                 <div class="flex flex-wrap gap-3">
-                  ${o.competencesRequises.split(',').map(c => `
+                  ${(competences.length ? competences : ['Non spécifiées']).map(c => `
                     <span class="px-5 py-2.5 rounded-2xl bg-white border border-slate-100 shadow-sm text-brand-600 font-bold text-sm hover:border-brand-200 transition-all cursor-default">
-                      ${c.trim()}
+                      ${c}
                     </span>
                   `).join('')}
                 </div>
@@ -319,7 +333,12 @@ function toggleCVUpload(show) {
         <div class="lg:sticky lg:top-24 space-y-8">
           <!-- Card Postuler -->
           <div class="card p-8 border-slate-100 shadow-2xl shadow-slate-200/50">
-            <h3 class="font-black text-slate-900 mb-6 text-xl tracking-tight">Postuler à l'offre</h3>
+            <div class="flex items-center justify-between mb-6">
+              <h3 class="font-black text-slate-900 text-xl tracking-tight">Postuler à l'offre</h3>
+              ${isC ? `
+                <button onclick="toggleFav(${o.idOffre},this)" id="btn-fav" class="btn btn-secondary h-10 w-10 p-0 !rounded-xl flex items-center justify-center text-lg" title="Sauvegarder l'offre" aria-label="Sauvegarder l'offre">🔖</button>
+              ` : ''}
+            </div>
             
             <div class="space-y-4 mb-8">
               <div class="flex items-center justify-between text-sm py-2 border-b border-slate-50">
@@ -328,35 +347,40 @@ function toggleCVUpload(show) {
               </div>
               <div class="flex items-center justify-between text-sm py-2 border-b border-slate-50">
                 <span class="text-slate-400 font-medium">Date limite</span>
-                <span class="font-black text-red-500">${o.dateLimite ? new Date(o.dateLimite).toLocaleDateString('fr-FR') : 'Non définie'}</span>
+                <span class="font-black ${isExpired ? 'text-red-600' : 'text-red-500'}">${limitDate}</span>
               </div>
               <div class="flex items-center justify-between text-sm py-2">
                 <span class="text-slate-400 font-medium">Domaine</span>
                 <span class="font-black text-slate-700">${o.domaine?.nom || 'Général'}</span>
               </div>
             </div>
-
+            ${isExpired ? `
+              <div class="p-4 rounded-2xl bg-red-50 text-red-700 text-sm font-bold text-center border border-red-100 mb-4">
+                Cette offre est expirée. La candidature est fermée.
+              </div>
+            ` : ''}
             ${isC ? `
               ${o.dejaPostule ? `
-                <div class="p-4 rounded-2xl bg-green-50 text-green-700 text-sm font-black text-center border border-green-100 mb-3">
+                <div class="p-4 rounded-2xl bg-brand-50 text-brand-700 text-sm font-black text-center border border-brand-100 mb-3">
                   ✅ Vous avez déjà postulé à cette offre.
                 </div>
                 <button disabled class="btn btn-primary w-full justify-center h-14 text-lg opacity-50 cursor-not-allowed mb-3">✉️ Candidature envoyée</button>
               ` : `
-                <button onclick="openPostuler(${o.idOffre})" class="btn btn-primary w-full justify-center h-14 text-lg shadow-xl shadow-brand-500/30 mb-3">✉️ Postuler maintenant</button>
+                <div class="grid grid-cols-2 gap-3">
+                  <button onclick="openPostuler(${o.idOffre})" ${isExpired ? 'disabled' : ''} class="btn btn-primary justify-center h-12 text-sm font-black shadow-lg shadow-brand-500/25 ${isExpired ? 'opacity-50 cursor-not-allowed' : ''}">✉️ Postuler</button>
+                  <button onclick="openSignal(${o.idOffre})" class="btn btn-ghost justify-center h-12 text-sm font-black border-red-200 text-red-500 hover:bg-red-50 hover:text-red-700">🚩 Signaler</button>
+                </div>
               `}
-              <div class="grid grid-cols-2 gap-3">
-                <button onclick="toggleFav(${o.idOffre},this)" id="btn-fav" class="btn btn-secondary justify-center h-14 text-lg flex-1">🔖 Sauvegarder</button>
-                <button onclick="openSignal(${o.idOffre})" class="btn btn-ghost justify-center h-14 text-lg flex-1 border-red-100 text-red-400 hover:bg-red-50 hover:text-red-600">🚩 Signaler</button>
-              </div>
             ` : API.isLogged() ? `
               <div class="p-4 rounded-2xl bg-amber-50 text-amber-700 text-sm font-bold text-center border border-amber-100 mb-4">
                 Seul un candidat peut postuler à cette offre.
               </div>
               <button onclick="openSignal(${o.idOffre})" class="btn btn-ghost w-full justify-center h-14 text-lg border-red-100 text-red-400 hover:bg-red-50 hover:text-red-600">🚩 Signaler l'offre</button>
             ` : `
-              <a href="/connexion" class="btn btn-primary w-full justify-center h-14 text-lg mb-3">Se connecter pour postuler</a>
-              <a href="/inscription?type=candidat" class="btn btn-secondary w-full justify-center h-14 text-lg">Créer un compte candidat</a>
+              <div class="grid grid-cols-2 gap-3">
+                <a href="/connexion?redirect=${encodeURIComponent(location.pathname)}" class="btn btn-primary justify-center h-11 text-sm">Se connecter</a>
+                <a href="/inscription?type=candidat" class="btn btn-secondary justify-center h-11 text-sm">Créer un compte</a>
+              </div>
             `}
           </div>
 
@@ -414,7 +438,7 @@ function fillUserData() {
 
 function openPostuler(id) {
   if (!API.isLogged() || API.type() !== 'candidat') {
-    window.location.href = '/connexion';
+    window.location.href = '/connexion?redirect=' + encodeURIComponent(location.pathname);
     return;
   }
   
@@ -427,7 +451,7 @@ function closeM() {
 }
 
 function openSignal(id) {
-  if (!API.isLogged()) { window.location.href = '/connexion'; return; }
+  if (!API.isLogged()) { window.location.href = '/connexion?redirect=' + encodeURIComponent(location.pathname); return; }
   document.getElementById('s-id').value = id;
   document.getElementById('modal-s').classList.remove('hidden');
 }
@@ -473,12 +497,14 @@ document.getElementById('c-lettre')?.addEventListener('input', function () {
 });
 
 async function toggleFav(id, btn) {
-  if (!API.isLogged()) { window.location.href = '/connexion'; return; }
+  if (!API.isLogged()) { window.location.href = '/connexion?redirect=' + encodeURIComponent(location.pathname); return; }
   try {
     const r = await API.post('/candidat/favoris/toggle/' + id);
     const d = await r.json();
     if (r.ok) {
-      btn.innerHTML = d.saved ? '✅ Sauvegardé' : '🔖 Sauvegarder';
+      btn.innerHTML = d.saved ? '✅' : '🔖';
+      btn.title = d.saved ? "Offre enregistrée" : "Sauvegarder l'offre";
+      btn.setAttribute('aria-label', btn.title);
       toast(d.saved ? 'Offre sauvegardée !' : 'Retirée des favoris', d.saved ? 'success' : 'info');
     } else {
       console.error('Fav Toggle Error:', d);
@@ -559,6 +585,7 @@ async function submitC(e) {
     btn.textContent = 'Envoyer ma candidature ✓';
   }
 }
+
 </script>
 @endpush
 @endsection

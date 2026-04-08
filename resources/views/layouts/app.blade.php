@@ -28,16 +28,16 @@ h1,h2,h3,h4,h5{font-family:'Outfit',sans-serif;letter-spacing:-0.02em}
 .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); }
 
 /* Modern Buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:.75rem 1.5rem;border-radius:16px;font-weight:600;font-size:.9rem;transition:all .2s cubic-bezier(0.4, 0, 0.2, 1);cursor:pointer;border:none;outline:none;white-space:nowrap}
-.btn-primary{background:linear-gradient(135deg,#2B5CE6,#1a44c9);color:#fff;box-shadow:0 10px 15px -3px rgba(43,92,230,0.3)}
-.btn-primary:hover{transform:translateY(-1px);box-shadow:0 20px 25px -5px rgba(43,92,230,0.4);filter:brightness(1.05)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:.7rem 1.5rem;border-radius:14px;font-weight:500;font-size:.9rem;transition:all .2s cubic-bezier(0.4, 0, 0.2, 1);cursor:pointer;border:none;outline:none;white-space:nowrap}
+.btn-primary{background:linear-gradient(135deg,#2B5CE6,#3b6cf0);color:#fff;box-shadow:0 4px 12px rgba(43,92,230,0.2)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(43,92,230,0.3);filter:brightness(1.05)}
 .btn-primary:active{transform:translateY(0)}
 
-.btn-secondary{background:#fff;color:#1e293b;border:1px solid #e2e8f0;box-shadow:0 1px 2px 0 rgba(0,0,0,0.05)}
-.btn-secondary:hover{background:#f8fafc;border-color:#cbd5e1;transform:translateY(-1px)}
+.btn-secondary{background:#fff;color:#475569;border:1px solid #e2e8f0;box-shadow:0 1px 2px 0 rgba(0,0,0,0.05)}
+.btn-secondary:hover{background:#f8fafc;border-color:#cbd5e1;color:#1e293b;transform:translateY(-1px)}
 
-.btn-gold{background:linear-gradient(135deg,#F6A623,#E8950E);color:#fff;box-shadow:0 10px 15px -3px rgba(246,166,35,0.3)}
-.btn-gold:hover{transform:translateY(-1px);box-shadow:0 20px 25px -5px rgba(246,166,35,0.4)}
+.btn-gold{background:linear-gradient(135deg,#F6A623,#fbbf24);color:#fff;box-shadow:0 4px 12px rgba(246,166,35,0.2)}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(246,166,35,0.3)}
 
 .btn-ghost{background:transparent;color:#64748b}
 .btn-ghost:hover{background:#f1f5f9;color:#1e293b}
@@ -82,54 +82,25 @@ h1,h2,h3,h4,h5{font-family:'Outfit',sans-serif;letter-spacing:-0.02em}
 .card-dark h1, .card-dark h2, .card-dark h3 { color: #fff!important; }
 .card-dark p { color: #94a3b8!important; }
 .card-dark .border-t { border-color: #1e293b!important; }
-
-/* Bouton brand (alias btn-primary) */
-.btn-brand{background:linear-gradient(135deg,#2B5CE6,#1a44c9);color:#fff;box-shadow:0 10px 15px -3px rgba(43,92,230,0.3)}
-.btn-brand:hover{transform:translateY(-1px);box-shadow:0 20px 25px -5px rgba(43,92,230,0.4);filter:brightness(1.05)}
-.btn-brand:active{transform:translateY(0)}
-
-/* Boutons admin */
-.btn-success{background:#16a34a;color:#fff;box-shadow:0 4px 6px -1px rgba(22,163,74,0.3)}
-.btn-success:hover{filter:brightness(1.1);transform:translateY(-1px)}
-.btn-danger{background:#dc2626;color:#fff;box-shadow:0 4px 6px -1px rgba(220,38,38,0.3)}
-.btn-danger:hover{filter:brightness(1.1);transform:translateY(-1px)}
-
-/* Shadow supplémentaire */
-.shadow-3xl{box-shadow:0 35px 60px -15px rgba(0,0,0,0.3)}
-
-/* Animations feedback */
-@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
-.animate-shake{animation:shake .4s ease}
-
-/* Masquer scrollbar sur nav mobile */
-.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
-.no-scrollbar::-webkit-scrollbar{display:none}
-
-/* Focus visible pour accessibilité clavier */
-:focus-visible{outline:2px solid #2B5CE6;outline-offset:2px}
-button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid #2B5CE6;outline-offset:2px}
 </style>
 @stack('styles')
 </head>
 <body>
 <!-- NAVBAR -->
-<nav class="bg-white border-b border-slate-100 sticky top-0 z-40" style="box-shadow:0 1px 0 rgba(0,0,0,.05)">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16 gap-4">
+<nav class="bg-white/95 backdrop-blur border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-17 min-h-[68px] gap-4">
     <a href="/" class="flex items-center gap-2.5 flex-shrink-0">
       <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,#2B5CE6,#1a44c9)">
         <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
       </div>
-      <span style="font-family:Outfit,sans-serif;font-weight:800;font-size:1.15rem" class="text-slate-800">Job<span style="color:#2B5CE6">Platform</span></span>
+      <span style="font-family:Outfit,sans-serif;font-weight:700;font-size:1.15rem" class="text-slate-800">Job<span style="color:#2B5CE6">Platform</span></span>
     </a>
-    <div class="hidden md:flex items-center gap-6">
-      <a href="/offres" id="nav-offres" class="text-sm font-semibold text-slate-600 hover:text-brand-600 transition-colors px-3 py-2 rounded-xl hover:bg-slate-50">Offres d'emploi</a>
-    </div>
-    <div id="nav-auth" class="flex items-center gap-2"></div>
+    <div id="nav-auth" class="flex items-center gap-2 md:gap-3"></div>
   </div>
 </nav>
 <!-- TOAST -->
-<div id="toast" role="alert" aria-live="polite" aria-atomic="true" class="fixed top-5 right-5 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl text-white text-sm font-semibold shadow-2xl transition-all duration-400 translate-x-96 opacity-0 max-w-xs" style="min-width:220px">
-  <span id="toast-icon" class="text-base" aria-hidden="true"></span><span id="toast-txt"></span>
+<div id="toast" class="fixed top-5 right-5 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl text-white text-sm font-semibold shadow-2xl transition-all duration-400 translate-x-96 opacity-0 max-w-xs" style="min-width:220px">
+  <span id="toast-icon" class="text-base"></span><span id="toast-txt"></span>
 </div>
 @yield('content')
 <footer class="mt-20 bg-slate-900 text-slate-400">
@@ -185,15 +156,6 @@ window.toast=function(msg,type='success'){
   el.classList.remove('translate-x-96','opacity-0');
   setTimeout(()=>el.classList.add('translate-x-96','opacity-0'),3200)
 };
-// ── Active nav link ──────────────────────────────────────────────────
-(function(){
-  const path = window.location.pathname;
-  const el = document.getElementById('nav-offres');
-  if(el && path.startsWith('/offres')){
-    el.classList.add('text-brand-600','bg-brand-50');
-    el.setAttribute('aria-current','page');
-  }
-})();
 // ── Navbar ───────────────────────────────────────────────────────────
 (function(){
   const nav=document.getElementById('nav-auth');
@@ -206,13 +168,13 @@ window.toast=function(msg,type='success'){
     const imgPath = type==='candidat' ? u.photo_path : (type==='entreprise' ? u.logo_path : null);
     const colors={admin:'#dc2626',candidat:'#2B5CE6',entreprise:'#F6A623'};
     
-    const avatar = imgPath
+    const avatar = imgPath 
       ? `<img src="/storage/${imgPath}" class="w-full h-full object-cover">`
       : init;
 
-    nav.innerHTML=`<a href="${href}" class="flex items-center gap-2 px-3 py-1.5 rounded-xl hover:bg-slate-50"><div class="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold overflow-hidden" style="background:${colors[type]}">${avatar}</div><span class="font-semibold text-sm text-slate-700">${name.substring(0,20)}</span></a><button onclick="API.logout()" class="btn btn-ghost btn-sm">Déconnexion</button>`;
+    nav.innerHTML=`<a href="${href}" class="flex items-center gap-2 px-3 py-2 rounded-xl border border-transparent hover:bg-slate-50 hover:border-slate-200 transition-all"><div class="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold overflow-hidden shadow-sm" style="background:${colors[type]}">${avatar}</div><span class="font-semibold text-sm text-slate-700">${name.substring(0,20)}</span></a><button onclick="API.logout()" class="btn btn-ghost btn-sm border border-slate-200 hover:border-slate-300">Déconnexion</button>`;
   }else{
-    nav.innerHTML=`<a href="/connexion" class="btn btn-secondary btn-sm">Connexion</a><a href="/inscription" class="btn btn-primary btn-sm">S'inscrire</a>`;
+    nav.innerHTML=`<a href="/connexion" class="btn btn-secondary btn-sm border border-slate-200">Connexion</a><a href="/inscription" class="btn btn-primary btn-sm">S'inscrire</a>`;
   }
 })();
 </script>
