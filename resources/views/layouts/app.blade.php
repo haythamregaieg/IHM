@@ -28,16 +28,16 @@ h1,h2,h3,h4,h5{font-family:'Outfit',sans-serif;letter-spacing:-0.02em}
 .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); }
 
 /* Modern Buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:.75rem 1.5rem;border-radius:16px;font-weight:600;font-size:.9rem;transition:all .2s cubic-bezier(0.4, 0, 0.2, 1);cursor:pointer;border:none;outline:none;white-space:nowrap}
-.btn-primary{background:linear-gradient(135deg,#2B5CE6,#1a44c9);color:#fff;box-shadow:0 10px 15px -3px rgba(43,92,230,0.3)}
-.btn-primary:hover{transform:translateY(-1px);box-shadow:0 20px 25px -5px rgba(43,92,230,0.4);filter:brightness(1.05)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:.7rem 1.5rem;border-radius:14px;font-weight:500;font-size:.9rem;transition:all .2s cubic-bezier(0.4, 0, 0.2, 1);cursor:pointer;border:none;outline:none;white-space:nowrap}
+.btn-primary{background:linear-gradient(135deg,#2B5CE6,#3b6cf0);color:#fff;box-shadow:0 4px 12px rgba(43,92,230,0.2)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(43,92,230,0.3);filter:brightness(1.05)}
 .btn-primary:active{transform:translateY(0)}
 
-.btn-secondary{background:#fff;color:#1e293b;border:1px solid #e2e8f0;box-shadow:0 1px 2px 0 rgba(0,0,0,0.05)}
-.btn-secondary:hover{background:#f8fafc;border-color:#cbd5e1;transform:translateY(-1px)}
+.btn-secondary{background:#fff;color:#475569;border:1px solid #e2e8f0;box-shadow:0 1px 2px 0 rgba(0,0,0,0.05)}
+.btn-secondary:hover{background:#f8fafc;border-color:#cbd5e1;color:#1e293b;transform:translateY(-1px)}
 
-.btn-gold{background:linear-gradient(135deg,#F6A623,#E8950E);color:#fff;box-shadow:0 10px 15px -3px rgba(246,166,35,0.3)}
-.btn-gold:hover{transform:translateY(-1px);box-shadow:0 20px 25px -5px rgba(246,166,35,0.4)}
+.btn-gold{background:linear-gradient(135deg,#F6A623,#fbbf24);color:#fff;box-shadow:0 4px 12px rgba(246,166,35,0.2)}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(246,166,35,0.3)}
 
 .btn-ghost{background:transparent;color:#64748b}
 .btn-ghost:hover{background:#f1f5f9;color:#1e293b}
@@ -93,7 +93,7 @@ h1,h2,h3,h4,h5{font-family:'Outfit',sans-serif;letter-spacing:-0.02em}
       <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,#2B5CE6,#1a44c9)">
         <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
       </div>
-      <span style="font-family:Outfit,sans-serif;font-weight:800;font-size:1.15rem" class="text-slate-800">Job<span style="color:#2B5CE6">Platform</span></span>
+      <span style="font-family:Outfit,sans-serif;font-weight:700;font-size:1.15rem" class="text-slate-800">Job<span style="color:#2B5CE6">Platform</span></span>
     </a>
     <div class="hidden md:flex items-center gap-6">
       <a href="/offres" class="nav-link">Offres d'emploi</a>

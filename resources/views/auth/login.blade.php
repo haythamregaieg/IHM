@@ -10,7 +10,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
         </svg>
       </div>
-      <h1 class="text-4xl font-black text-slate-900 tracking-tight mb-2" style="font-family:Outfit">Bon retour ! 👋</h1>
+      <h1 class="text-4xl font-bold text-slate-900 tracking-tight mb-2" style="font-family:Outfit">Bon retour ! 👋</h1>
       <p class="text-slate-500 font-medium">Connectez-vous pour accéder à votre espace personnalisé.</p>
     </div>
 
@@ -25,7 +25,7 @@
         
         <form id="lf" onsubmit="doLogin(event)" class="space-y-6">
           <div class="space-y-2">
-            <label class="label text-xs font-black uppercase tracking-widest text-slate-400">Adresse Email</label>
+            <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Adresse Email</label>
             <div class="relative group">
               <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-brand-500 transition-colors">✉️</span>
               <input id="l-email" type="email" class="input pl-12 h-14 font-medium" placeholder="nom@exemple.com" required autocomplete="email">
@@ -34,7 +34,7 @@
           
           <div class="space-y-2">
             <div class="flex justify-between items-center">
-              <label class="label text-xs font-black uppercase tracking-widest text-slate-400">Mot de passe</label>
+              <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Mot de passe</label>
               <a href="/forgot-password" class="text-xs font-bold text-brand-600 hover:underline">Oublié ?</a>
             </div>
             <div class="relative group">
@@ -57,7 +57,7 @@
         <div class="mt-10 pt-8 border-t border-slate-50 text-center">
           <p id="register-hint" class="text-sm font-medium text-slate-500">
             Nouveau sur JobPlatform ? 
-            <a href="/inscription?type=candidat" class="font-black text-brand-600 hover:text-brand-700 ml-1 transition-colors">Créer un compte</a>
+            <a href="/inscription?type=candidat" class="font-bold text-brand-600 hover:text-brand-700 ml-1 transition-colors">Créer un compte</a>
           </p>
         </div>
       </div>

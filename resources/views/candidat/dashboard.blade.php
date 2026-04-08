@@ -17,7 +17,7 @@
         </div>
         <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-green-500 border-4 border-white rounded-full shadow-sm"></div>
       </div>
-      <h2 class="font-black text-slate-900 text-xl leading-tight mb-1" x-text="uname" style="font-family:Outfit"></h2>
+      <h2 class="font-bold text-slate-900 text-xl leading-tight mb-1" x-text="uname" style="font-family:Outfit"></h2>
       <p class="text-slate-400 text-xs font-bold uppercase tracking-widest" x-text="profil.specialite || 'Candidat'"></p>
     </div>
 
@@ -37,7 +37,7 @@
     </nav>
 
     <div class="p-6 border-t border-slate-50">
-      <button @click="API.logout()" class="flex items-center gap-3 w-full px-5 py-4 rounded-2xl text-red-500 font-black text-sm hover:bg-red-50 transition-all active:scale-95">
+      <button @click="API.logout()" class="flex items-center gap-3 w-full px-5 py-4 rounded-2xl text-red-500 font-bold text-sm hover:bg-red-50 transition-all active:scale-95">
         <span class="text-lg">🚪</span> Déconnexion
       </button>
     </div>
