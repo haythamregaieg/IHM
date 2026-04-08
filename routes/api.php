@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthAdminController;
 use App\Http\Controllers\Auth\AuthCandidatController;
 use App\Http\Controllers\Auth\AuthEntrepriseController;
+use App\Http\Controllers\Auth\UnifiedAuthController;
 
 use App\Http\Controllers\AdminsController;
 use App\Http\Controllers\CandidatsController;
@@ -23,6 +24,9 @@ use App\Http\Controllers\SignalementController;
 // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // ROUTES PUBLIQUES
 // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+// Auth Unifié
+Route::post('/auth/login', [UnifiedAuthController::class, 'login']);
 
 // Auth - Admin
 Route::post('/admin/register', [AuthAdminController::class, 'register']);

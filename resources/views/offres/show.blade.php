@@ -356,7 +356,7 @@ function toggleCVUpload(show) {
               <button onclick="openSignal(${o.idOffre})" class="btn btn-ghost w-full justify-center h-14 text-lg border-red-100 text-red-400 hover:bg-red-50 hover:text-red-600">🚩 Signaler l'offre</button>
             ` : `
               <a href="/connexion" class="btn btn-primary w-full justify-center h-14 text-lg mb-3">Se connecter pour postuler</a>
-              <a href="/inscription/candidat" class="btn btn-secondary w-full justify-center h-14 text-lg">Créer un compte candidat</a>
+              <a href="/inscription?type=candidat" class="btn btn-secondary w-full justify-center h-14 text-lg">Créer un compte candidat</a>
             `}
           </div>
 

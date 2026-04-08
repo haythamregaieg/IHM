@@ -285,20 +285,44 @@
       <div x-show="tab==='settings'" x-cloak>
         <h2 class="text-2xl font-black text-slate-800 mb-1" style="font-family:Outfit">Paramètres Système</h2>
         <p class="text-slate-400 text-sm mb-8">Gérer les domaines, catégories et régions</p>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Domaines -->
           <div class="card p-6">
-            <h3 class="font-bold text-slate-800 mb-4 text-xs uppercase tracking-widest">Domaines</h3>
-            <div class="flex gap-2 mb-4"><input x-model="newDom" class="input text-xs" placeholder="Nouveau..."><button @click="addDom()" class="btn btn-primary btn-sm">+</button></div>
-            <div class="space-y-2 max-h-64 overflow-y-auto pr-2">
+            <h3 class="font-bold text-slate-800 mb-4 text-xs uppercase tracking-widest flex items-center gap-2">
+              <span>🏷️</span> Domaines d'activité
+            </h3>
+            <div class="flex gap-2 mb-4">
+              <input x-model="newDom" class="input text-xs h-10" placeholder="Nouveau domaine...">
+              <button @click="addDom()" class="btn btn-primary btn-sm px-4">+</button>
+            </div>
+            <div class="space-y-2 max-h-80 overflow-y-auto pr-2 custom-scrollbar">
               <template x-for="d in domaines" :key="d.idDomaine">
-                <div class="flex justify-between items-center p-2 rounded-lg bg-slate-50 text-xs font-medium text-slate-600">
+                <div class="flex justify-between items-center p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs font-bold text-slate-700 hover:border-brand-200 transition-colors group">
                   <span x-text="d.nom"></span>
-                  <button @click="delDom(d.idDomaine)" class="text-slate-300 hover:text-red-500">×</button>
+                  <button @click="delDom(d.idDomaine)" class="text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">✕</button>
                 </div>
               </template>
             </div>
           </div>
-          <!-- Categories & Regions can be added similarly -->
+
+          <!-- Régions -->
+          <div class="card p-6">
+            <h3 class="font-bold text-slate-800 mb-4 text-xs uppercase tracking-widest flex items-center gap-2">
+              <span>📍</span> Régions / Gouvernorats
+            </h3>
+            <div class="flex gap-2 mb-4">
+              <input x-model="newReg" class="input text-xs h-10" placeholder="Nouvelle ville...">
+              <button @click="addReg()" class="btn btn-primary btn-sm px-4">+</button>
+            </div>
+            <div class="space-y-2 max-h-80 overflow-y-auto pr-2 custom-scrollbar">
+              <template x-for="r in regions" :key="r.idRegion">
+                <div class="flex justify-between items-center p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs font-bold text-slate-700 hover:border-brand-200 transition-colors group">
+                  <span x-text="r.ville"></span>
+                  <button @click="delReg(r.idRegion)" class="text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">✕</button>
+                </div>
+              </template>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -376,7 +400,9 @@ function appA(){
     offres: [],
     signalements: [],
     domaines: [],
+    regions: [],
     newDom: '',
+    newReg: '',
     nav: [
       {id:'stats', label:'Vue d\'ensemble', icon:'📊'},
       {id:'entreprises', label:'Entreprises', icon:'🏢'},
@@ -404,13 +430,14 @@ function appA(){
       this.loadAll();
     },
     async loadAll(){
-      const [s, e, c, o, sig, d] = await Promise.all([
+      const [s, e, c, o, sig, d, r] = await Promise.all([
         API.get('/admin/dashboard'),
         API.get('/admin/entreprises'),
         API.get('/admin/candidats'),
         API.get('/admin/offres'),
         API.get('/admin/signalements'),
-        API.get('/domaines')
+        API.get('/domaines'),
+        API.get('/regions')
       ]);
       if(s?.ok) this.stats = await s.json();
       if(e?.ok) {
@@ -421,6 +448,7 @@ function appA(){
       if(o?.ok) this.offres = await o.json();
       if(sig?.ok) this.signalements = await sig.json();
       if(d?.ok) this.domaines = await d.json();
+      if(r?.ok) this.regions = await r.json();
     },
     async validerE(id, status){
       const r = await API.patch('/admin/entreprises/'+id+'/statut', {statut: status});
@@ -469,6 +497,16 @@ function appA(){
       if(!confirm('Supprimer ce domaine ?')) return;
       const r = await API.del('/admin/domaines/'+id);
       if(r?.ok) { toast('Domaine supprimé'); this.loadAll(); }
+    },
+    async addReg(){
+      if(!this.newReg) return;
+      const r = await API.post('/admin/regions', {ville: this.newReg});
+      if(r?.ok) { this.newReg=''; toast('Région ajoutée'); this.loadAll(); }
+    },
+    async delReg(id){
+      if(!confirm('Supprimer cette région ?')) return;
+      const r = await API.del('/admin/regions/'+id);
+      if(r?.ok) { toast('Région supprimée'); this.loadAll(); }
     }
   }
 }

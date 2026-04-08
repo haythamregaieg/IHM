@@ -43,7 +43,7 @@
           </div>
           <div class="relative group">
             <div class="absolute -inset-2 bg-gold-500/20 rounded-[40px] blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <a href="/inscription/entreprise" class="relative flex flex-col items-center gap-6 p-8 bg-white border-2 border-slate-100 text-slate-900 rounded-[32px] shadow-xl hover:border-gold-500 transition-all">
+            <a href="/inscription?type=entreprise" class="relative flex flex-col items-center gap-6 p-8 bg-white border-2 border-slate-100 text-slate-900 rounded-[32px] shadow-xl hover:border-gold-500 transition-all">
               <div class="w-20 h-20 bg-gold-50 rounded-[24px] flex items-center justify-center text-5xl group-hover:scale-110 transition-transform">📢</div>
               <div class="text-center">
                 <div class="font-black text-2xl mb-1">Je veux recruter</div>
@@ -219,7 +219,7 @@
         <h2 class="text-5xl md:text-7xl font-black text-white mb-12 leading-tight">Prêt à changer <br><span class="text-brand-500">de vie ?</span></h2>
         <p class="text-2xl text-slate-400 mb-16 font-bold leading-relaxed">Rejoignez des milliers de tunisiens qui ont trouvé leur bonheur sur JobPlatform.</p>
         <div class="flex flex-col sm:flex-row justify-center gap-8">
-          <a href="/inscription/candidat" class="btn btn-brand btn-lg py-7 px-16 text-2xl shadow-3xl shadow-brand-500/40 rounded-[28px]">Créer mon compte gratuit</a>
+          <a href="/inscription?type=candidat" class="btn btn-brand btn-lg py-7 px-16 text-2xl shadow-3xl shadow-brand-500/40 rounded-[28px]">Créer mon compte gratuit</a>
           <a href="/offres" class="btn btn-ghost text-white border-2 border-slate-700 hover:bg-slate-800 py-7 px-16 text-2xl rounded-[28px]">Parcourir les offres</a>
         </div>
       </div>

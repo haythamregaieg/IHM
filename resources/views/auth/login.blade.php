@@ -14,18 +14,7 @@
       <p class="text-slate-500 font-medium">Connectez-vous pour accéder à votre espace personnalisé.</p>
     </div>
 
-    <!-- Role Selector Tabs -->
-    <div class="flex p-1.5 bg-white rounded-2xl shadow-sm border border-slate-100 mb-8" id="role-tabs">
-      <button onclick="switchTab('candidat')" id="tab-candidat" class="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-black transition-all bg-brand-600 text-white shadow-lg shadow-brand-500/20">
-        <span>👤</span> Candidat
-      </button>
-      <button onclick="switchTab('entreprise')" id="tab-entreprise" class="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-black transition-all text-slate-500 hover:bg-slate-50">
-        <span>🏢</span> Entreprise
-      </button>
-      <button onclick="switchTab('admin')" id="tab-admin" class="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-black transition-all text-slate-500 hover:bg-slate-50">
-        <span>⚙️</span> Admin
-      </button>
-    </div>
+    <!-- Role Selector Tabs (REMOVED) -->
 
     <!-- Login Card -->
     <div class="card card-dark p-10 relative overflow-hidden">
@@ -68,7 +57,7 @@
         <div class="mt-10 pt-8 border-t border-slate-50 text-center">
           <p id="register-hint" class="text-sm font-medium text-slate-500">
             Nouveau sur JobPlatform ? 
-            <a href="/inscription/candidat" class="font-black text-brand-600 hover:text-brand-700 ml-1 transition-colors">Créer un compte</a>
+            <a href="/inscription?type=candidat" class="font-black text-brand-600 hover:text-brand-700 ml-1 transition-colors">Créer un compte</a>
           </p>
         </div>
       </div>
@@ -78,39 +67,10 @@
 
 @push('scripts')
 <script>
-let cType = 'candidat';
-
 function togglePwd(btn) {
   const input = btn.previousElementSibling;
   input.type = input.type === 'password' ? 'text' : 'password';
   btn.textContent = input.type === 'password' ? '👁️' : '🙈';
-}
-
-function switchTab(t) {
-  cType = t;
-  const roles = ['candidat', 'entreprise', 'admin'];
-  roles.forEach(role => {
-    const btn = document.getElementById('tab-' + role);
-    if (role === t) {
-      btn.className = "flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-black transition-all bg-brand-600 text-white shadow-lg shadow-brand-500/20";
-    } else {
-      btn.className = "flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-black transition-all text-slate-500 hover:bg-slate-50";
-    }
-  });
-
-  const hint = document.getElementById('register-hint');
-  const btn = document.getElementById('l-btn');
-  
-  if (t === 'candidat') {
-    hint.innerHTML = 'Nouveau sur JobPlatform ? <a href="/inscription/candidat" class="font-black text-brand-600 hover:text-brand-700 ml-1 transition-colors">Créer un compte</a>';
-    btn.className = "btn btn-primary btn-lg w-full justify-center h-14 text-lg shadow-xl shadow-brand-500/30";
-  } else if (t === 'entreprise') {
-    hint.innerHTML = 'Recruteur ? <a href="/inscription/entreprise" class="font-black text-amber-600 hover:text-amber-700 ml-1 transition-colors">Inscrire mon entreprise</a>';
-    btn.className = "btn btn-gold btn-lg w-full justify-center h-14 text-lg shadow-xl shadow-amber-500/30";
-  } else {
-    hint.innerHTML = '';
-    btn.className = "btn btn-secondary btn-lg w-full justify-center h-14 text-lg shadow-xl shadow-slate-200/50";
-  }
 }
 
 async function doLogin(e) {
@@ -122,10 +82,8 @@ async function doLogin(e) {
   btn.innerHTML = '<span class="animate-spin mr-3">⏳</span> Connexion...';
   errEl.classList.add('hidden');
   
-  const ep = {admin:'/admin/login', candidat:'/candidat/login', entreprise:'/entreprise/login'}[cType];
-  
   try {
-    const res = await API.post(ep, {
+    const res = await API.post('/auth/login', {
       email: document.getElementById('l-email').value,
       motDePasse: document.getElementById('l-pwd').value
     });
@@ -138,12 +96,12 @@ async function doLogin(e) {
       return;
     }
     
-    const key = {admin:'admin', candidat:'candidat', entreprise:'entreprise'}[cType];
-    API.save(data.token, cType, data[key]);
+    const type = data.type;
+    API.save(data.token, type, data.user);
     toast('Heureux de vous revoir ! 🎉');
     
     setTimeout(() => {
-      window.location.href = {admin:'/admin', candidat:'/mon-espace', entreprise:'/recruteur'}[cType];
+      window.location.href = {admin:'/admin', candidat:'/mon-espace', entreprise:'/recruteur'}[type];
     }, 800);
     
   } catch (err) {
@@ -163,11 +121,6 @@ if (urlParams.get('msg') === 'pending') {
   err.innerHTML = '<span>ℹ️</span> Votre compte entreprise est en attente de validation par un administrateur.';
   err.className = 'mb-6 p-4 rounded-2xl text-sm font-bold border border-amber-100 bg-amber-50 text-amber-600 flex items-center gap-3';
   err.classList.remove('hidden');
-}
-
-// Auto-switch tab based on type parameter
-if (urlParams.get('type')) {
-  switchTab(urlParams.get('type'));
 }
 </script>
 @endpush
