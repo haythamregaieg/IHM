@@ -177,9 +177,9 @@
 const oid = location.pathname.split('/').pop();
 const cc = {
   CDI: 'badge-blue',
-  CDD: 'badge-amber',
-  Stage: 'badge-green',
-  Freelance: 'badge-purple',
+  CDD: 'badge-blue',
+  Stage: 'badge-blue',
+  Freelance: 'badge-blue',
   Alternance: 'badge-slate'
 };
 
@@ -187,7 +187,7 @@ function updateCVName(input) {
   const label = document.getElementById('cv-file-name');
   if (input.files && input.files.length > 0) {
     label.textContent = input.files[0].name;
-    label.className = "text-sm font-black text-green-600";
+    label.className = "text-sm font-black text-brand-600";
   }
 }
 
@@ -195,7 +195,7 @@ function updateLMName(input) {
   const label = document.getElementById('lm-file-name');
   if (input.files && input.files.length > 0) {
     label.textContent = input.files[0].name;
-    label.className = "text-sm font-black text-green-600 block";
+    label.className = "text-sm font-black text-brand-600 block";
     // Désactiver le textarea si un fichier est fourni
     document.getElementById('c-lettre').disabled = true;
     document.getElementById('c-lettre').placeholder = "Lettre fournie en PDF";
@@ -267,9 +267,9 @@ function toggleCVUpload(show) {
 
             <div class="flex flex-wrap gap-3 mb-8">
               <span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-100 text-slate-700 text-sm font-black">📍 ${o.localisation}</span>
-              <span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-green-50 text-green-700 text-sm font-black">💰 ${o.remuneration ? Number(o.remuneration).toLocaleString() + ' DT' : 'À négocier'}</span>
-              <span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-50 text-blue-700 text-sm font-black">🏠 ${o.mode_travail || 'Mode non précisé'}</span>
-              <span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-50 text-purple-700 text-sm font-black">⚡ ${o.experience || 'Expérience non précisée'}</span>
+              <span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-50 text-brand-700 text-sm font-black">💰 ${o.remuneration ? Number(o.remuneration).toLocaleString() + ' DT' : 'À négocier'}</span>
+              <span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-100 text-slate-700 text-sm font-black">🏠 ${o.mode_travail || 'Mode non précisé'}</span>
+              <span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-100 text-brand-700 text-sm font-black">⚡ ${o.experience || 'Expérience non précisée'}</span>
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 py-7 border-y border-slate-100 mb-10">
@@ -279,7 +279,7 @@ function toggleCVUpload(show) {
               </div>
               <div class="rounded-2xl bg-slate-50 p-4 space-y-1">
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Salaire</p>
-                <p class="font-bold text-green-600">${o.remuneration ? Number(o.remuneration).toLocaleString() + ' DT' : 'À négocier'}</p>
+                <p class="font-bold text-brand-700">${o.remuneration ? Number(o.remuneration).toLocaleString() + ' DT' : 'À négocier'}</p>
               </div>
               <div class="rounded-2xl bg-slate-50 p-4 space-y-1">
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Vues</p>
@@ -361,7 +361,7 @@ function toggleCVUpload(show) {
             ` : ''}
             ${isC ? `
               ${o.dejaPostule ? `
-                <div class="p-4 rounded-2xl bg-green-50 text-green-700 text-sm font-black text-center border border-green-100 mb-3">
+                <div class="p-4 rounded-2xl bg-brand-50 text-brand-700 text-sm font-black text-center border border-brand-100 mb-3">
                   ✅ Vous avez déjà postulé à cette offre.
                 </div>
                 <button disabled class="btn btn-primary w-full justify-center h-14 text-lg opacity-50 cursor-not-allowed mb-3">✉️ Candidature envoyée</button>
