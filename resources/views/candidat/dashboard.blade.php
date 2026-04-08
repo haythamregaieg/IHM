@@ -9,7 +9,7 @@
         <div class="w-24 h-24 rounded-[32px] flex items-center justify-center text-white font-black text-3xl shadow-2xl shadow-brand-500/20 transition-transform hover:scale-105 duration-500 overflow-hidden" 
              style="background:linear-gradient(135deg,#2B5CE6,#1535a0)">
           <template x-if="profil.photo_path">
-            <img :src="'/storage/'+profil.photo_path" class="w-full h-full object-cover">
+            <img :src="'/storage/'+profil.photo_path" :alt="(profil.prenom || '') + ' ' + (profil.nom || '')" class="w-full h-full object-cover">
           </template>
           <template x-if="!profil.photo_path">
             <span x-text="ini"></span>
@@ -174,7 +174,7 @@
                     <div class="flex items-center gap-5">
                       <div class="w-14 h-14 rounded-2xl bg-white flex items-center justify-center text-brand-600 font-black text-xl shadow-sm group-hover:scale-110 transition-transform border border-slate-50 overflow-hidden">
                         <template x-if="c.offre?.entreprise?.logo_path">
-                          <img :src="'/storage/'+c.offre.entreprise.logo_path" class="w-full h-full object-cover">
+                          <img :src="'/storage/'+c.offre.entreprise.logo_path" :alt="'Logo ' + (c.offre?.entreprise?.raison_sociale || 'entreprise')" class="w-full h-full object-cover">
                         </template>
                         <template x-if="!c.offre?.entreprise?.logo_path">
                           <span x-text="(c.offre?.entreprise?.raison_sociale || '?').charAt(0).toUpperCase()"></span>
@@ -272,7 +272,7 @@
                 <div class="w-16 h-16 rounded-[24px] flex items-center justify-center text-white font-black text-2xl shadow-xl shadow-brand-500/10 group-hover:scale-110 transition-transform duration-500 overflow-hidden" 
                      style="background:linear-gradient(135deg,#2B5CE6,#1535a0)">
                   <template x-if="o.entreprise?.logo_path">
-                    <img :src="'/storage/'+o.entreprise.logo_path" class="w-full h-full object-cover">
+                    <img :src="'/storage/'+o.entreprise.logo_path" :alt="'Logo ' + (o.entreprise?.raison_sociale || 'entreprise')" class="w-full h-full object-cover">
                   </template>
                   <template x-if="!o.entreprise?.logo_path">
                     <span x-text="(o.entreprise?.raison_sociale || '?').charAt(0).toUpperCase()"></span>
@@ -502,7 +502,7 @@
               <div class="flex flex-col items-center gap-6 p-8 rounded-[32px] bg-slate-50/50 border-2 border-dashed border-slate-200">
                 <div class="w-32 h-32 rounded-[32px] bg-white flex items-center justify-center text-5xl shadow-xl border border-slate-100 overflow-hidden">
                   <template x-if="profil.photo_path">
-                    <img :src="'/storage/'+profil.photo_path" class="w-full h-full object-cover">
+                    <img :src="'/storage/'+profil.photo_path" :alt="(profil.prenom || '') + ' ' + (profil.nom || '')" class="w-full h-full object-cover">
                   </template>
                   <template x-if="!profil.photo_path">
                     <span x-text="ini"></span>
@@ -560,7 +560,7 @@
                 <div class="w-16 h-16 rounded-[24px] flex items-center justify-center text-white font-black text-2xl shadow-xl shadow-brand-500/10 group-hover:scale-110 transition-transform duration-500 overflow-hidden" 
                      style="background:linear-gradient(135deg,#2B5CE6,#1535a0)">
                   <template x-if="f.offre?.entreprise?.logo_path">
-                    <img :src="'/storage/'+f.offre.entreprise.logo_path" class="w-full h-full object-cover">
+                    <img :src="'/storage/'+f.offre.entreprise.logo_path" :alt="'Logo ' + (f.offre?.entreprise?.raison_sociale || 'entreprise')" class="w-full h-full object-cover">
                   </template>
                   <template x-if="!f.offre?.entreprise?.logo_path">
                     <span x-text="(f.offre?.entreprise?.raison_sociale || '?').charAt(0).toUpperCase()"></span>
@@ -772,7 +772,7 @@
                   <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-white font-black text-xl flex-shrink-0 shadow-sm transition-transform group-hover:scale-105 overflow-hidden" 
                        style="background:linear-gradient(135deg,#F6A623,#d97706)">
                     <template x-if="cv.entreprise?.logo_path">
-                      <img :src="'/storage/'+cv.entreprise.logo_path" class="w-full h-full object-cover">
+                      <img :src="'/storage/'+cv.entreprise.logo_path" :alt="'Logo ' + (cv.entreprise?.raison_sociale || 'entreprise')" class="w-full h-full object-cover">
                     </template>
                     <template x-if="!cv.entreprise?.logo_path">
                       <span x-text="(cv.entreprise?.raison_sociale || '?').charAt(0).toUpperCase()"></span>
@@ -807,7 +807,7 @@
                   <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white font-black text-lg shadow-sm overflow-hidden" 
                        style="background:linear-gradient(135deg,#F6A623,#d97706)">
                     <template x-if="activConv?.logo_path">
-                      <img :src="'/storage/'+activConv.logo_path" class="w-full h-full object-cover">
+                      <img :src="'/storage/'+activConv.logo_path" :alt="'Logo ' + (activConv?.raison_sociale || 'entreprise')" class="w-full h-full object-cover">
                     </template>
                     <template x-if="!activConv?.logo_path">
                       <span x-text="(activConv?.raison_sociale || '?').charAt(0).toUpperCase()"></span>
@@ -848,7 +848,7 @@
 </div>
 
 <!-- Modal postuler rapide -->
-<div id="pm" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-md" x-data="{}" @click.self="document.getElementById('pm').classList.add('hidden')">
+<div id="pm" role="dialog" aria-modal="true" aria-labelledby="pm-title" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-md" x-data="{}" @click.self="document.getElementById('pm').classList.add('hidden')">
   <div class="flex items-center justify-center min-h-full p-4">
     <div class="bg-white rounded-[40px] p-10 w-full max-w-xl shadow-2xl animate-pop-in relative overflow-hidden">
       <div class="absolute top-0 right-0 w-32 h-32 bg-brand-50 rounded-full -translate-y-1/2 translate-x-1/2 -z-0"></div>
@@ -856,7 +856,7 @@
       <div class="relative z-10">
         <div class="flex justify-between items-center mb-10">
           <div>
-            <h3 class="text-3xl font-black text-slate-900 tracking-tight">Postuler <span class="text-brand-600">vite</span></h3>
+            <h3 id="pm-title" class="text-3xl font-black text-slate-900 tracking-tight">Postuler <span class="text-brand-600">vite</span></h3>
             <p class="text-slate-400 font-medium">Laissez un message convaincant au recruteur.</p>
           </div>
           <button onclick="document.getElementById('pm').classList.add('hidden')" class="w-12 h-12 rounded-2xl bg-slate-50 text-slate-400 hover:text-slate-600 flex items-center justify-center text-3xl">&times;</button>

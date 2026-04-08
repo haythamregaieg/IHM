@@ -17,7 +17,7 @@
   </div>
 
   <!-- Modal Signalement -->
-  <div id="modal-s" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-md" onclick="if(event.target===this)closeS()">
+  <div id="modal-s" role="dialog" aria-modal="true" aria-labelledby="modal-s-title" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-md" onclick="if(event.target===this)closeS()">
     <div class="flex items-center justify-center min-h-full p-4">
       <div class="bg-white rounded-[40px] p-10 w-full max-w-lg shadow-2xl animate-pop-in relative overflow-hidden">
         <div class="absolute top-0 right-0 w-32 h-32 bg-red-50 rounded-full -translate-y-1/2 translate-x-1/2 -z-0"></div>
@@ -25,7 +25,7 @@
         <div class="relative z-10">
           <div class="flex justify-between items-center mb-8">
             <div>
-              <h3 class="text-3xl font-black text-slate-900 tracking-tight">Signaler <span class="text-red-600">l'offre</span></h3>
+              <h3 id="modal-s-title" class="text-3xl font-black text-slate-900 tracking-tight">Signaler <span class="text-red-600">l'offre</span></h3>
               <p class="text-slate-400 font-medium">Aidez-nous à garder JobPlatform sûr.</p>
             </div>
             <button onclick="closeS()" class="w-12 h-12 rounded-2xl bg-slate-50 text-slate-400 hover:text-slate-600 flex items-center justify-center text-3xl">&times;</button>
@@ -249,7 +249,7 @@ function toggleCVUpload(show) {
             <div class="flex flex-col md:flex-row items-start gap-8 mb-8">
               <div class="w-24 h-24 rounded-[32px] flex items-center justify-center text-white font-black text-4xl shadow-2xl shadow-brand-500/20 flex-shrink-0 overflow-hidden" 
                    style="background:linear-gradient(135deg,#2B5CE6,#1535a0)">
-                ${o.entreprise?.logo_path ? `<img src="/storage/${o.entreprise.logo_path}" class="w-full h-full object-cover">` : (o.entreprise?.raison_sociale || '?').charAt(0).toUpperCase()}
+                ${o.entreprise?.logo_path ? `<img src="/storage/${o.entreprise.logo_path}" alt="Logo ${o.entreprise?.raison_sociale || 'entreprise'}" class="w-full h-full object-cover">` : (o.entreprise?.raison_sociale || '?').charAt(0).toUpperCase()}
               </div>
               <div class="flex-1 min-w-0">
                 <div class="flex flex-wrap items-center gap-3 mb-3">
@@ -391,7 +391,7 @@ function toggleCVUpload(show) {
             </h3>
             <div class="flex items-center gap-4 mb-6">
               <div class="w-14 h-14 rounded-2xl bg-brand-600 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-brand-500/20 overflow-hidden">
-                ${o.entreprise?.logo_path ? `<img src="/storage/${o.entreprise.logo_path}" class="w-full h-full object-cover">` : (o.entreprise?.raison_sociale || '?').charAt(0).toUpperCase()}
+                ${o.entreprise?.logo_path ? `<img src="/storage/${o.entreprise.logo_path}" alt="Logo ${o.entreprise?.raison_sociale || 'entreprise'}" class="w-full h-full object-cover">` : (o.entreprise?.raison_sociale || '?').charAt(0).toUpperCase()}
               </div>
               <div>
                 <p class="font-black text-slate-900 leading-tight">${o.entreprise?.raison_sociale}</p>
