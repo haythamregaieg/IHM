@@ -319,7 +319,12 @@ function toggleCVUpload(show) {
         <div class="lg:sticky lg:top-24 space-y-8">
           <!-- Card Postuler -->
           <div class="card p-8 border-slate-100 shadow-2xl shadow-slate-200/50">
-            <h3 class="font-black text-slate-900 mb-6 text-xl tracking-tight">Postuler à l'offre</h3>
+            <div class="flex items-center justify-between mb-6">
+              <h3 class="font-black text-slate-900 text-xl tracking-tight">Postuler à l'offre</h3>
+              ${isC ? `
+                <button onclick="toggleFav(${o.idOffre},this)" id="btn-fav" class="btn btn-secondary h-10 w-10 p-0 !rounded-xl flex items-center justify-center text-lg" title="Sauvegarder l'offre" aria-label="Sauvegarder l'offre">🔖</button>
+              ` : ''}
+            </div>
             
             <div class="space-y-4 mb-8">
               <div class="flex items-center justify-between text-sm py-2 border-b border-slate-50">
@@ -343,20 +348,21 @@ function toggleCVUpload(show) {
                 </div>
                 <button disabled class="btn btn-primary w-full justify-center h-14 text-lg opacity-50 cursor-not-allowed mb-3">✉️ Candidature envoyée</button>
               ` : `
-                <button onclick="openPostuler(${o.idOffre})" class="btn btn-primary w-full justify-center h-14 text-lg shadow-xl shadow-brand-500/30 mb-3">✉️ Postuler maintenant</button>
+                <div class="grid grid-cols-2 gap-3">
+                  <button onclick="openPostuler(${o.idOffre})" class="btn btn-primary justify-center h-12 text-sm font-black shadow-lg shadow-brand-500/25">✉️ Postuler</button>
+                  <button onclick="openSignal(${o.idOffre})" class="btn btn-ghost justify-center h-12 text-sm font-black border-red-200 text-red-500 hover:bg-red-50 hover:text-red-700">🚩 Signaler</button>
+                </div>
               `}
-              <div class="grid grid-cols-2 gap-3">
-                <button onclick="toggleFav(${o.idOffre},this)" id="btn-fav" class="btn btn-secondary justify-center h-14 text-lg flex-1">🔖 Sauvegarder</button>
-                <button onclick="openSignal(${o.idOffre})" class="btn btn-ghost justify-center h-14 text-lg flex-1 border-red-100 text-red-400 hover:bg-red-50 hover:text-red-600">🚩 Signaler</button>
-              </div>
             ` : API.isLogged() ? `
               <div class="p-4 rounded-2xl bg-amber-50 text-amber-700 text-sm font-bold text-center border border-amber-100 mb-4">
                 Seul un candidat peut postuler à cette offre.
               </div>
               <button onclick="openSignal(${o.idOffre})" class="btn btn-ghost w-full justify-center h-14 text-lg border-red-100 text-red-400 hover:bg-red-50 hover:text-red-600">🚩 Signaler l'offre</button>
             ` : `
-              <a href="/connexion" class="btn btn-primary w-full justify-center h-14 text-lg mb-3">Se connecter pour postuler</a>
-              <a href="/inscription?type=candidat" class="btn btn-secondary w-full justify-center h-14 text-lg">Créer un compte candidat</a>
+              <div class="grid grid-cols-2 gap-3">
+                <a href="/connexion?redirect=${encodeURIComponent(location.pathname)}" class="btn btn-primary justify-center h-11 text-sm">Se connecter</a>
+                <a href="/inscription?type=candidat" class="btn btn-secondary justify-center h-11 text-sm">Créer un compte</a>
+              </div>
             `}
           </div>
 
@@ -414,7 +420,7 @@ function fillUserData() {
 
 function openPostuler(id) {
   if (!API.isLogged() || API.type() !== 'candidat') {
-    window.location.href = '/connexion';
+    window.location.href = '/connexion?redirect=' + encodeURIComponent(location.pathname);
     return;
   }
   
@@ -427,7 +433,7 @@ function closeM() {
 }
 
 function openSignal(id) {
-  if (!API.isLogged()) { window.location.href = '/connexion'; return; }
+  if (!API.isLogged()) { window.location.href = '/connexion?redirect=' + encodeURIComponent(location.pathname); return; }
   document.getElementById('s-id').value = id;
   document.getElementById('modal-s').classList.remove('hidden');
 }
@@ -473,12 +479,14 @@ document.getElementById('c-lettre')?.addEventListener('input', function () {
 });
 
 async function toggleFav(id, btn) {
-  if (!API.isLogged()) { window.location.href = '/connexion'; return; }
+  if (!API.isLogged()) { window.location.href = '/connexion?redirect=' + encodeURIComponent(location.pathname); return; }
   try {
     const r = await API.post('/candidat/favoris/toggle/' + id);
     const d = await r.json();
     if (r.ok) {
-      btn.innerHTML = d.saved ? '✅ Sauvegardé' : '🔖 Sauvegarder';
+      btn.innerHTML = d.saved ? '✅' : '🔖';
+      btn.title = d.saved ? "Offre enregistrée" : "Sauvegarder l'offre";
+      btn.setAttribute('aria-label', btn.title);
       toast(d.saved ? 'Offre sauvegardée !' : 'Retirée des favoris', d.saved ? 'success' : 'info');
     } else {
       console.error('Fav Toggle Error:', d);
@@ -559,6 +567,7 @@ async function submitC(e) {
     btn.textContent = 'Envoyer ma candidature ✓';
   }
 }
+
 </script>
 @endpush
 @endsection

@@ -100,8 +100,15 @@ async function doLogin(e) {
     API.save(data.token, type, data.user);
     toast('Heureux de vous revoir ! 🎉');
     
+    const redirectParam = new URLSearchParams(location.search).get('redirect');
+    const safeRedirect = redirectParam && redirectParam.startsWith('/') ? redirectParam : null;
+    const storedRedirect = localStorage.getItem('login_redirect_after_auth');
+    const finalRedirect = safeRedirect || (storedRedirect && storedRedirect.startsWith('/') ? storedRedirect : null);
+
+    if (storedRedirect) localStorage.removeItem('login_redirect_after_auth');
+
     setTimeout(() => {
-      window.location.href = {admin:'/admin', candidat:'/mon-espace', entreprise:'/recruteur'}[type];
+      window.location.href = finalRedirect || {admin:'/admin', candidat:'/mon-espace', entreprise:'/recruteur'}[type];
     }, 800);
     
   } catch (err) {

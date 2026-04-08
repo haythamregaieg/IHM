@@ -125,22 +125,22 @@
 </section>
 
 <!-- SECTION : APPEL À L'ACTION FINAL (Très compacte) -->
-<section class="py-20">
+<section class="py-14">
   <div class="max-w-7xl mx-auto px-6">
-    <div class="bg-slate-900 rounded-[48px] p-12 md:p-24 relative overflow-hidden text-center">
+    <div class="bg-slate-900 rounded-[40px] p-8 md:p-14 relative overflow-hidden text-center">
       <!-- Ornements de fond -->
       <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-500/20 blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
       <div class="absolute bottom-0 left-0 w-[300px] h-[300px] bg-brand-400/10 blur-[100px] translate-y-1/2 -translate-x-1/2"></div>
       
       <div class="relative z-10 max-w-3xl mx-auto">
-        <h2 class="text-4xl md:text-6xl font-bold text-white mb-8 leading-tight" style="font-family:Outfit">Prêt à changer <br><span class="text-brand-400">de vie ?</span></h2>
-        <p class="text-xl text-slate-400 mb-12 font-medium">Rejoignez des milliers de tunisiens et trouvez l'opportunité qui vous correspond vraiment.</p>
+        <h2 class="text-3xl md:text-5xl font-bold text-white mb-5 leading-tight" style="font-family:Outfit">Prêt à changer <br><span class="text-brand-400">de vie ?</span></h2>
+        <p class="text-lg text-slate-400 mb-8 font-medium">Rejoignez des milliers de tunisiens et trouvez l'opportunité qui vous correspond vraiment.</p>
         
-        <div class="flex flex-col sm:flex-row justify-center items-center gap-6">
-          <a href="/inscription?type=candidat" class="w-full sm:w-auto px-10 py-5 bg-white text-slate-900 rounded-2xl text-xl font-bold shadow-2xl hover:bg-brand-50 hover:scale-105 transition-all duration-300">
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+          <a href="/inscription?type=candidat" class="w-full sm:w-auto px-8 py-4 bg-white text-slate-900 rounded-2xl text-lg font-bold shadow-2xl hover:bg-brand-50 hover:scale-105 transition-all duration-300">
             Créer mon compte gratuit
           </a>
-          <a href="/offres" class="w-full sm:w-auto px-10 py-5 bg-transparent text-white border-2 border-white/30 rounded-2xl text-xl font-bold hover:bg-white/10 hover:border-white transition-all duration-300">
+          <a href="/offres" class="w-full sm:w-auto px-8 py-4 bg-transparent text-white border-2 border-white/30 rounded-2xl text-lg font-bold hover:bg-white/10 hover:border-white transition-all duration-300">
             Parcourir les offres
           </a>
         </div>
