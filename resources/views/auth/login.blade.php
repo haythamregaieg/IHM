@@ -27,7 +27,7 @@
           <div class="rounded-2xl border border-brand-300 bg-brand-100/70 p-4 space-y-5">
             <div class="text-[11px] font-black uppercase tracking-widest text-slate-400"></div>
           <div class="space-y-2">
-            <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Adresse Email</label>
+            <label class="label text-xs font-bold uppercase tracking-widest text-slate-700">Adresse Email</label>
             <div class="relative group">
               <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-brand-500 transition-colors">✉️</span>
               <input id="l-email" type="email" class="input pl-12 h-14 font-medium" placeholder="nom@exemple.com" required autocomplete="email">
@@ -36,7 +36,7 @@
           
           <div class="space-y-2">
             <div class="flex justify-between items-center">
-              <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Mot de passe</label>
+              <label class="label text-xs font-bold uppercase tracking-widest text-slate-700">Mot de passe</label>
               <a href="/forgot-password" class="text-xs font-bold text-brand-600 hover:underline">Oublié ?</a>
             </div>
             <div class="relative group">

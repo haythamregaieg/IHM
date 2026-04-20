@@ -48,7 +48,7 @@
       <div class="relative z-10">
         <!-- Info Banner for Company -->
         <template x-if="!isCandidat">
-          <div class="mb-8 p-4 rounded-2xl bg-slate-300 border border-slate-400 flex gap-4 items-start">
+          <div class="mb-8 p-4 rounded-2xl bg-slate-300 border border-slate-500 flex gap-4 items-start">
             <span class="text-2xl">ℹ️</span>
             <p class="text-sm font-bold text-slate-700 leading-relaxed">
               Pour garantir la qualité de notre plateforme, chaque compte entreprise est soumis à une validation manuelle par nos administrateurs.
@@ -63,21 +63,21 @@
           <!-- Candidat Specific Fields -->
           <template x-if="isCandidat">
             <div class="space-y-6 rounded-2xl border border-brand-300 bg-brand-100/70 p-4 md:p-5">
-              <div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Informations personnelles</div>
+              <div class="text-[11px] font-black uppercase tracking-widest text-slate-700">Informations personnelles</div>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
-                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Prénom *</label>
+                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Prénom *</label>
                   <input x-model="form.prenom" type="text" class="input h-14 font-medium" required placeholder="Ex: Ahmed" autocomplete="given-name">
                 </div>
                 <div class="space-y-2">
-                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Nom *</label>
+                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Nom *</label>
                   <input x-model="form.nom" type="text" class="input h-14 font-medium" required placeholder="Ex: Ben Ali" autocomplete="family-name">
                 </div>
               </div>
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
-                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Domaine d'activité</label>
+                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Domaine d'activité</label>
                   <select x-model="form.idDomaine" class="input h-14 font-medium appearance-none cursor-pointer">
                     <option value="">Sélectionner un domaine</option>
                     <template x-for="d in domaines" :key="d.idDomaine">
@@ -86,14 +86,14 @@
                   </select>
                 </div>
                 <div class="space-y-2">
-                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Spécialité</label>
+                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Spécialité</label>
                   <input x-model="form.specialite" type="text" class="input h-14 font-medium" placeholder="Ex: Développeur PHP">
                 </div>
               </div>
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
-                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Niveau d'études</label>
+                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Niveau d'études</label>
                   <select x-model="form.niveauEtude" class="input h-14 font-medium appearance-none cursor-pointer">
                     <option value="">Niveau d'études</option>
                     <option>Baccalauréat</option>
@@ -104,7 +104,7 @@
                   </select>
                 </div>
                 <div class="space-y-2">
-                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Expérience</label>
+                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Expérience</label>
                   <select x-model="form.niveauExperience" class="input h-14 font-medium appearance-none cursor-pointer">
                     <option value="">Expérience</option>
                     <option>Débutant (0 an)</option>
@@ -121,26 +121,26 @@
           <!-- Entreprise Specific Fields -->
           <template x-if="!isCandidat">
             <div class="space-y-6 rounded-2xl border border-brand-300 bg-brand-100/70 p-4 md:p-5">
-              <div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Informations entreprise</div>
+              <div class="text-[11px] font-black uppercase tracking-widest text-slate-700">Informations entreprise</div>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
-                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Raison Sociale *</label>
+                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Raison Sociale *</label>
                   <input x-model="form.raisonSociale" type="text" class="input h-14 font-medium" required placeholder="Nom de l'entreprise" autocomplete="organization">
                 </div>
                 <div class="space-y-2">
-                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Identifiant Légal *</label>
+                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Identifiant Légal *</label>
                   <input x-model="form.identifiantLegal" type="text" class="input h-14 font-medium" required placeholder="MF / SIRET / Registre">
                 </div>
               </div>
 
               <div class="space-y-2">
-                <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Description courte</label>
+                <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Description courte</label>
                 <textarea x-model="form.description" class="input p-4 min-h-[100px] font-medium" placeholder="Décrivez brièvement votre activité..."></textarea>
               </div>
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
-                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Secteur d'activité</label>
+                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Secteur d'activité</label>
                   <select x-model="form.idDomaine" class="input h-14 font-medium appearance-none cursor-pointer">
                     <option value="">Sélectionner un secteur</option>
                     <template x-for="d in domaines" :key="d.idDomaine">
@@ -149,18 +149,18 @@
                   </select>
                 </div>
                 <div class="space-y-2">
-                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Téléphone</label>
+                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Téléphone</label>
                   <input x-model="form.telephone" type="tel" class="input h-14 font-medium" placeholder="+216 71 000 000" autocomplete="tel">
                 </div>
               </div>
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
-                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Pays</label>
+                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Pays</label>
                   <input x-model="form.pays" type="text" class="input h-14 font-medium" value="Tunisie" autocomplete="country-name">
                 </div>
                 <div class="space-y-2">
-                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Région</label>
+                  <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Région</label>
                   <select x-model="form.idRegion" class="input h-14 font-medium appearance-none cursor-pointer">
                     <option value="">Sélectionner une région</option>
                     <template x-for="r in regions" :key="r.idRegion">
@@ -171,12 +171,12 @@
               </div>
 
               <div class="space-y-2">
-                <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Ville (optionnel)</label>
+                <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Ville (optionnel)</label>
                 <input x-model="form.ville" type="text" class="input h-14 font-medium" placeholder="Ex: Tunis centre" autocomplete="address-level2">
               </div>
 
               <div class="space-y-2">
-                <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Site Web</label>
+                <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Site Web</label>
                 <input x-model="form.siteWeb" type="url" class="input h-14 font-medium" placeholder="https://www.votre-entreprise.tn">
               </div>
             </div>
@@ -184,25 +184,25 @@
 
           <!-- Common Fields -->
           <div class="space-y-2 rounded-2xl border border-brand-300 bg-brand-100/70 p-4">
-            <div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Compte</div>
-            <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Adresse Email *</label>
+            <div class="text-[11px] font-black uppercase tracking-widest text-slate-700">Compte</div>
+            <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Adresse Email *</label>
             <input x-model="form.email" type="email" class="input h-14 font-medium" required placeholder="votre@email.com" autocomplete="email">
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6 rounded-2xl border border-brand-300 bg-brand-100/70 p-4">
             <div class="space-y-2">
-              <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Mot de passe *</label>
+              <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Mot de passe *</label>
               <input x-model="form.motDePasse" type="password" class="input h-14 font-medium" required minlength="8" placeholder="••••••••" autocomplete="new-password">
             </div>
             <div class="space-y-2">
-              <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Confirmation *</label>
+              <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Confirmation *</label>
               <input x-model="form.motDePasse_confirmation" type="password" class="input h-14 font-medium" required placeholder="••••••••" autocomplete="new-password">
             </div>
           </div>
-          <p class="text-xs text-slate-400 font-semibold -mt-3">Mot de passe: au moins 8 caracteres avec lettres et chiffres.</p>
+          <p class="text-xs text-slate-500 font-semibold -mt-3">Mot de passe: au moins 8 caracteres avec lettres et chiffres.</p>
 
           <div class="space-y-2" x-show="isCandidat">
-            <label class="label text-xs font-bold uppercase tracking-widest text-slate-400">Région</label>
+            <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Région</label>
             <select x-model="form.localisation" class="input h-14 font-medium appearance-none cursor-pointer">
               <option value="">Sélectionner une région</option>
               <template x-for="r in regions" :key="r.idRegion">
