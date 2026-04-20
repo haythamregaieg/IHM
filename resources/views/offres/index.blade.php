@@ -230,6 +230,8 @@ function renderOfferCard(o) {
                 <span class="text-base font-bold text-brand-600">${escapeHtml(o.entreprise?.raison_sociale || 'Entreprise')}</span>
                 <span class="w-1 h-1 bg-slate-200 rounded-full"></span>
                 <span class="text-sm font-bold text-slate-400">Publiée ${new Date(o.datePublication).toLocaleDateString('fr-FR')}</span>
+                <span class="w-1 h-1 bg-slate-200 rounded-full"></span>
+                <span class="text-sm font-bold ${new Date(o.dateLimite) < new Date() ? 'text-red-500' : 'text-amber-600'}">Expire le ${new Date(o.dateLimite).toLocaleDateString('fr-FR')}</span>
               </div>
             </div>
             <span class="badge ${cc[o.typeContrat] || 'badge-slate'} px-4 py-1.5 text-xs font-black uppercase tracking-widest">${escapeHtml(o.typeContrat || 'Contrat')}</span>
@@ -277,7 +279,11 @@ function renderOfferCard(o) {
           <a href="/offres/${o.idOffre}" class="btn w-full md:w-44 justify-center py-3.5 px-6 border-2 border-amber-700 bg-amber-600 text-white font-black shadow-md hover:bg-amber-700 hover:border-amber-800 hover:shadow-lg transition-all">
             Voir détails
           </a>
-          ${o.dejaPostule ? `
+          ${new Date(o.dateLimite) < new Date() ? `
+            <button disabled class="btn w-full md:w-44 justify-center py-3.5 px-6 border-2 border-red-200 bg-red-50 text-red-600 opacity-70 cursor-not-allowed font-black">
+              Offre expirée
+            </button>
+          ` : o.dejaPostule ? `
             <button disabled class="btn w-full md:w-44 justify-center py-3.5 px-6 border-2 border-emerald-300 bg-emerald-50 text-emerald-700 opacity-70 cursor-not-allowed font-black">
               Déjà postulé
             </button>

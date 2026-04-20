@@ -14,7 +14,7 @@ class Candidat extends Authenticatable
 
     protected $fillable = [
         'nom', 'prenom', 'email', 'password', 'telephone',
-        'idDomaine', 'specialite', 'niveau_etudes', 'niveau_experience',
+        'idDomaine', 'idRegion', 'specialite', 'niveau_etudes', 'niveau_experience',
         'localisation', 'cv_path', 'photo_path',
     ];
 
@@ -23,6 +23,11 @@ class Candidat extends Authenticatable
     public function domaine()
     {
         return $this->belongsTo(Domaine::class, 'idDomaine', 'idDomaine');
+    }
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class, 'idRegion', 'idRegion');
     }
 
     public function candidatures()

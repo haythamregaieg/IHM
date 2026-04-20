@@ -38,11 +38,7 @@
       </template>
     </nav>
 
-    <div class="p-6 border-t border-slate-50">
-      <button @click="API.logout()" class="flex items-center gap-3 w-full px-5 py-4 rounded-2xl text-red-500 font-black text-sm hover:bg-red-50 transition-all active:scale-95">
-        <span class="text-lg">🚪</span> Déconnexion
-      </button>
-    </div>
+   
   </aside>
 
   <!-- Main Content -->
@@ -782,10 +778,23 @@ function appE() {
                 this.ini = (u.raison_sociale || '?').substring(0, 2).toUpperCase();
                 this.eprofil = { ...u };
             }
+            
+            // Sync tab with URL
+            const p = new URLSearchParams(location.search);
+            const urlTab = p.get('tab') || location.pathname.split('/').filter(Boolean)[1];
+            if(urlTab && this.nav.find(n => n.id === urlTab)) this.tab = urlTab;
+
             const resRegions = await API.get('/regions');
             if (resRegions?.ok) this.regions = await resRegions.json();
             await this.loadAll();
             
+            // Auto-open conversation if id is in URL
+            const convId = p.get('id');
+            if (this.tab === 'messages' && convId) {
+                const targetConv = this.convs.find(c => (c.idCandidat || c.candidat?.idCandidat) == convId);
+                if (targetConv) this.openConv(targetConv);
+            }
+
             // Fetch fresh profile data
             const resMe = await API.get('/entreprise/me');
             if (resMe?.ok) {

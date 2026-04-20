@@ -36,11 +36,6 @@
       </template>
     </nav>
 
-    <div class="p-6 border-t border-slate-50">
-      <button @click="API.logout()" class="flex items-center gap-3 w-full px-5 py-4 rounded-2xl text-red-500 font-bold text-sm hover:bg-red-50 transition-all active:scale-95">
-        <span class="text-lg">🚪</span> Déconnexion
-      </button>
-    </div>
   </aside>
 
   <!-- Main Content -->
@@ -448,10 +443,10 @@
                 </div>
                 <div class="space-y-2">
                   <label class="label">Région</label>
-                  <select x-model="profileRegion" class="input">
+                  <select x-model="profil.idRegion" class="input">
                     <option value="">Sélectionnez une région</option>
                     <template x-for="r in regions" :key="r.idRegion">
-                      <option :value="r.ville" x-text="r.ville"></option>
+                      <option :value="r.idRegion" x-text="r.ville"></option>
                     </template>
                   </select>
                 </div>
@@ -912,7 +907,6 @@ function appC(){
     searchContrat: '',
     searchResults: {},
     initialSearchDone: false,
-    profileRegion: '',
     pwdForm: {ancien:'', nouveau:'', conf:''},
     completion: 0,
     nav: [
@@ -941,22 +935,28 @@ function appC(){
       const u = API.user();
       if(u){
         this.profil = {...u};
-        this.profileRegion = u.localisation || '';
         this.updateHeader(u);
       }
 
       // Sync tab with URL if needed
-      const urlTab = location.pathname.split('/').filter(Boolean)[1];
+      const p = new URLSearchParams(location.search);
+      const urlTab = p.get('tab') || location.pathname.split('/').filter(Boolean)[1];
       if(urlTab && this.nav.find(n => n.id === urlTab)) this.tab = urlTab;
 
       await this.loadAll();
+      
+      // Auto-open conversation if id is in URL
+      const convId = p.get('id');
+      if (this.tab === 'messages' && convId) {
+        const targetConv = this.convs.find(c => (c.idEntreprise || c.entreprise?.idEntreprise) == convId);
+        if (targetConv) this.openConv(targetConv);
+      }
       
       // Fetch fresh user data from API
       const resMe = await API.get('/candidat/me');
       if(resMe?.ok){
         const freshUser = await resMe.json();
         this.profil = {...freshUser};
-        this.profileRegion = freshUser.localisation || '';
         this.updateHeader(freshUser);
         localStorage.setItem('jp_usr', JSON.stringify(freshUser));
       }
@@ -1055,9 +1055,10 @@ function appC(){
         prenom: this.profil.prenom || '',
         telephone: this.profil.telephone || '',
         idDomaine: this.profil.idDomaine ? this.profil.idDomaine : null,
+        idRegion: this.profil.idRegion ? this.profil.idRegion : null,
         niveau_etudes: this.profil.niveau_etudes || '',
         niveau_experience: this.profil.niveau_experience || '',
-        localisation: this.profileRegion || '',
+        localisation: this.profil.localisation || '',
         specialite: this.profil.specialite || '',
       };
       const r = await API.post('/candidat/profile', payload);
@@ -1065,7 +1066,6 @@ function appC(){
         const u = await r.json();
         localStorage.setItem('jp_usr', JSON.stringify(u));
         this.profil = {...u};
-        this.profileRegion = u.localisation || '';
         this.updateHeader(u);
         toast('Profil mis à jour ! ✓');
         this.calcCompletion();

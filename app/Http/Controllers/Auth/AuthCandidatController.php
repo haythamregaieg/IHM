@@ -70,7 +70,7 @@ class AuthCandidatController extends Controller
 
     public function me(Request $request)
     {
-        return response()->json($request->user()->load(['domaine', 'certificats']));
+        return response()->json($request->user()->load(['domaine', 'certificats', 'region']));
     }
 
     public function updateProfile(Request $request)
@@ -82,6 +82,7 @@ class AuthCandidatController extends Controller
             'prenom'            => 'sometimes|string|max:255',
             'telephone'         => 'nullable|string|max:20',
             'idDomaine'         => 'nullable|exists:domaines,idDomaine',
+            'idRegion'          => 'nullable|exists:regions,idRegion',
             'niveau_etudes'     => 'nullable|string|max:255',
             'niveau_experience' => 'nullable|string|max:255',
             'localisation'      => 'nullable|string|max:255',
@@ -103,7 +104,7 @@ class AuthCandidatController extends Controller
         unset($validated['photo'], $validated['cv']);
         $candidat->update($validated);
 
-        return response()->json($candidat->fresh()->load('domaine'));
+        return response()->json($candidat->fresh()->load(['domaine', 'region']));
     }
 
     public function importCV(Request $request)

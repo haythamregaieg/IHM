@@ -1,6 +1,12 @@
 @extends('layouts.app')
 @section('title','Administration — JobPlatform')
 @section('content')
+<style>
+  .modal-bg { position: fixed; inset: 0; z-index: 50; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; padding: 1rem; }
+  .modal { background: #fff; border-radius: 32px; padding: 2.5rem; width: 100%; max-width: 42rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); position: relative; overflow: hidden; }
+  .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+</style>
 <div class="flex min-h-[calc(100vh-64px)]" x-data="appA()" x-init="init()">
   <!-- Sidebar -->
   <div class="sidebar hidden lg:flex flex-col">
@@ -15,9 +21,7 @@
         <span x-text="n.label"></span>
       </button>
     </template>
-    <div class="mt-auto pt-3 border-t border-slate-100">
-      <button @click="API.logout()" class="sidebar-link text-red-500 hover:bg-red-50 w-full">🚪 Déconnexion</button>
-    </div>
+   
   </div>
 
   <!-- Main -->
@@ -281,6 +285,42 @@
         </div>
       </div>
 
+      <!-- GESTION ADMINS -->
+      <div x-show="tab==='admins'" x-cloak>
+        <div class="flex justify-between items-center mb-8">
+          <div>
+            <h2 class="text-2xl font-black text-slate-800 mb-1" style="font-family:Outfit">Gestion des Administrateurs</h2>
+            <p class="text-slate-400 text-sm">Gérer les accès à la plateforme</p>
+          </div>
+          <button @click="showModalAdmin=true;editAdmin={}" class="btn btn-primary">+ Nouvel Admin</button>
+        </div>
+
+        <div class="card overflow-hidden">
+          <table class="w-full text-left border-collapse">
+            <thead class="bg-slate-50 text-slate-400 text-[10px] uppercase font-bold tracking-widest border-b border-slate-100">
+              <tr>
+                <th class="px-6 py-4">Nom</th>
+                <th class="px-6 py-4">Email</th>
+                <th class="px-6 py-4">Date d'ajout</th>
+                <th class="px-6 py-4">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <template x-for="a in admins" :key="a.idAdmin">
+                <tr class="hover:bg-slate-50 transition-colors">
+                  <td class="px-6 py-4 font-bold text-slate-800 text-sm" x-text="a.prenom + ' ' + a.nom"></td>
+                  <td class="px-6 py-4 text-xs text-slate-500" x-text="a.email"></td>
+                  <td class="px-6 py-4 text-xs text-slate-500" x-text="new Date(a.created_at).toLocaleDateString()"></td>
+                  <td class="px-6 py-4">
+                    <button @click="deleteAdmin(a.idAdmin)" class="text-slate-300 hover:text-red-500 transition-colors">🗑</button>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <!-- AUTRES ONGLETS (Domaines, Régions, etc.) -->
       <div x-show="tab==='settings'" x-cloak>
         <h2 class="text-2xl font-black text-slate-800 mb-1" style="font-family:Outfit">Paramètres Système</h2>
@@ -384,6 +424,41 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal Nouvel Admin -->
+  <div x-show="showModalAdmin" class="modal-bg" x-cloak @click.self="showModalAdmin=false">
+    <div class="modal animate-pop-in max-w-md">
+      <div class="flex justify-between items-center mb-8">
+        <h3 class="text-2xl font-black text-slate-800 tracking-tight">Nouvel <span class="text-red-600">Admin</span></h3>
+        <button @click="showModalAdmin=false" class="text-slate-300 hover:text-slate-600 text-2xl">&times;</button>
+      </div>
+      
+      <div class="space-y-5">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <label class="label">Prénom</label>
+            <input x-model="editAdmin.prenom" class="input" placeholder="Prénom">
+          </div>
+          <div class="space-y-2">
+            <label class="label">Nom</label>
+            <input x-model="editAdmin.nom" class="input" placeholder="Nom">
+          </div>
+        </div>
+        <div class="space-y-2">
+          <label class="label">Email</label>
+          <input type="email" x-model="editAdmin.email" class="input" placeholder="email@exemple.com">
+        </div>
+        <div class="space-y-2">
+          <label class="label">Mot de passe</label>
+          <input type="password" x-model="editAdmin.password" class="input" placeholder="••••••••">
+        </div>
+        <div class="flex gap-3 pt-6">
+          <button @click="showModalAdmin=false" class="btn btn-secondary flex-1">Annuler</button>
+          <button @click="saveAdmin()" class="btn btn-primary flex-1">Ajouter ✓</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 @push('scripts')
@@ -396,6 +471,9 @@ function appA(){
     entreprises: [],
     selectedE: null,
     showModalE: false,
+    showModalAdmin: false,
+    editAdmin: {},
+    admins: [],
     candidats: [],
     offres: [],
     signalements: [],
@@ -409,6 +487,7 @@ function appA(){
       {id:'candidats', label:'Candidats', icon:'👥'},
       {id:'offres', label:'Offres d\'emploi', icon:'📄'},
       {id:'signalements', label:'Signalements', icon:'🚩'},
+      {id:'admins', label:'Administrateurs', icon:'🛡️'},
       {id:'settings', label:'Paramètres', icon:'⚙️'}
     ],
     getActorName(a, type) {
@@ -430,14 +509,15 @@ function appA(){
       this.loadAll();
     },
     async loadAll(){
-      const [s, e, c, o, sig, d, r] = await Promise.all([
+      const [s, e, c, o, sig, d, r, adm] = await Promise.all([
         API.get('/admin/dashboard'),
         API.get('/admin/entreprises'),
         API.get('/admin/candidats'),
         API.get('/admin/offres'),
         API.get('/admin/signalements'),
         API.get('/domaines'),
-        API.get('/regions')
+        API.get('/regions'),
+        API.get('/admin/admins')
       ]);
       if(s?.ok) this.stats = await s.json();
       if(e?.ok) {
@@ -449,6 +529,27 @@ function appA(){
       if(sig?.ok) this.signalements = await sig.json();
       if(d?.ok) this.domaines = await d.json();
       if(r?.ok) this.regions = await r.json();
+      if(adm?.ok) this.admins = await adm.json();
+    },
+    async saveAdmin(){
+      if(!this.editAdmin.nom || !this.editAdmin.prenom || !this.editAdmin.email || !this.editAdmin.password){
+        toast('Veuillez remplir tous les champs.', 'warn');
+        return;
+      }
+      const r = await API.post('/admin/admins', this.editAdmin);
+      if(r?.ok) {
+        toast('Nouvel administrateur ajouté !');
+        this.showModalAdmin = false;
+        this.loadAll();
+      } else {
+        const err = await r.json();
+        toast(err.message || 'Erreur lors de l\'ajout.', 'error');
+      }
+    },
+    async deleteAdmin(id){
+      if(!confirm('Supprimer cet administrateur ?')) return;
+      const r = await API.del('/admin/admins/'+id);
+      if(r?.ok) { toast('Administrateur supprimé'); this.loadAll(); }
     },
     async validerE(id, status){
       const r = await API.patch('/admin/entreprises/'+id+'/statut', {statut: status});
@@ -500,7 +601,7 @@ function appA(){
     },
     async addReg(){
       if(!this.newReg) return;
-      const r = await API.post('/admin/regions', {ville: this.newReg});
+      const r = await API.post('/admin/regions', {ville: this.newReg, pays: 'Tunisie'});
       if(r?.ok) { this.newReg=''; toast('Région ajoutée'); this.loadAll(); }
     },
     async delReg(id){
