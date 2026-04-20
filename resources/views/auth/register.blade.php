@@ -252,13 +252,20 @@ function registerApp() {
     },
     termsAccepted: false,
     async init() {
+      // Redirect if already logged in
+      if (API.isLogged()) {
+        const _t = API.type();
+        window.location.replace({admin:'/admin', candidat:'/mon-espace', entreprise:'/recruteur'}[_t] || '/');
+        return;
+      }
+
       const [resDomaines, resRegions] = await Promise.all([
         API.get('/domaines'),
         API.get('/regions')
       ]);
       if (resDomaines?.ok) this.domaines = await resDomaines.json();
       if (resRegions?.ok) this.regions = await resRegions.json();
-      
+
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('type') === 'entreprise') this.isCandidat = false;
     },

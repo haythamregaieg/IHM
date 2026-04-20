@@ -175,6 +175,12 @@ class OffreController extends Controller
             ->where('idEntreprise', $request->user()->idEntreprise)
             ->firstOrFail();
 
+        if ($offre->dateLimite >= now()->startOfDay()) {
+            return response()->json([
+                'message' => "Vous ne pouvez supprimer cette offre qu'après la date limite (" . $offre->dateLimite->format('d/m/Y') . ")."
+            ], 422);
+        }
+
         $offre->delete();
         return response()->json(null, 204);
     }

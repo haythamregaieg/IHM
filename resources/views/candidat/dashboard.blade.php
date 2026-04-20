@@ -1050,8 +1050,17 @@ function appC(){
       }
     },
     async saveProfile(){
-      this.profil.localisation = this.profileRegion || '';
-      const r = await API.post('/candidat/profile', this.profil);
+      const payload = {
+        nom: this.profil.nom || '',
+        prenom: this.profil.prenom || '',
+        telephone: this.profil.telephone || '',
+        idDomaine: this.profil.idDomaine ? this.profil.idDomaine : null,
+        niveau_etudes: this.profil.niveau_etudes || '',
+        niveau_experience: this.profil.niveau_experience || '',
+        localisation: this.profileRegion || '',
+        specialite: this.profil.specialite || '',
+      };
+      const r = await API.post('/candidat/profile', payload);
       if(r?.ok){
         const u = await r.json();
         localStorage.setItem('jp_usr', JSON.stringify(u));
@@ -1060,7 +1069,10 @@ function appC(){
         this.updateHeader(u);
         toast('Profil mis à jour ! ✓');
         this.calcCompletion();
-      } else toast('Erreur lors de la sauvegarde.', 'error');
+      } else {
+        const d = await r.json().catch(() => ({}));
+        toast(d.message || 'Erreur lors de la sauvegarde.', 'error');
+      }
     },
     async importCV(){
       const file = document.getElementById('cv-file')?.files?.[0];

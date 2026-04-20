@@ -69,7 +69,7 @@
       <!-- SECTION : TABLEAU DE BORD -->
       <div x-show="tab==='dashboard'" x-cloak class="space-y-10">
         <div>
-          <h1 class="text-3xl lg:text-5xl font-black text-slate-900 mb-3 tracking-tight">Espace <span class="text-amber-500">Recruteur</span></h1>
+          <h1 class="text-3xl lg:text-5xl font-black text-slate-900 mb-3 tracking-tight">Espace <span class="text-amber-500">Entreprise</span></h1>
           <p class="text-slate-500 font-medium text-lg">Gérez vos talents et vos offres d'emploi en toute simplicité.</p>
         </div>
 
@@ -211,7 +211,10 @@
                           :title="o.statut==='active' ? (new Date().toISOString().split('T')[0] < o.dateLimite ? 'Désactivation impossible avant le ' + new Date(o.dateLimite).toLocaleDateString() : 'Suspendre') : 'Activer'">
                     <span x-text="o.statut==='active'?'⏸':'▶'"></span>
                   </button>
-                  <button @click="delOffre(o.idOffre)" class="p-3 text-red-300 hover:text-red-500 hover:bg-red-50 rounded-2xl transition-all" title="Supprimer">🗑</button>
+                  <button @click="delOffre(o.idOffre)"
+                          :disabled="new Date(o.dateLimite) >= new Date()"
+                          :class="new Date(o.dateLimite) >= new Date() ? 'p-3 text-slate-200 cursor-not-allowed rounded-2xl' : 'p-3 text-red-300 hover:text-red-500 hover:bg-red-50 rounded-2xl transition-all'"
+                          :title="new Date(o.dateLimite) >= new Date() ? 'Suppression impossible avant le ' + new Date(o.dateLimite).toLocaleDateString('fr-FR') : 'Supprimer'">🗑</button>
                 </div>
               </div>
             </div>
@@ -585,9 +588,9 @@
       </div>
 
       <!-- Modal Offre -->
-      <div id="om" role="dialog" aria-modal="true" aria-labelledby="om-title" x-show="omOpen" x-cloak class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-md" @click.self="closeOM()">
-        <div class="flex items-center justify-center min-h-full p-4">
-          <div class="card p-0 w-full max-w-3xl shadow-2xl animate-pop-in relative overflow-hidden max-h-[95vh] border border-amber-300 bg-amber-100/70 flex flex-col">
+      <div id="om" role="dialog" aria-modal="true" aria-labelledby="om-title" x-show="omOpen" x-cloak class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-md overflow-y-auto" @click.self="closeOM()">
+        <div class="flex items-start justify-center min-h-full p-4 md:py-8">
+          <div class="card p-0 w-full max-w-3xl shadow-2xl animate-pop-in relative border border-amber-300 bg-amber-100/70 flex flex-col my-2 md:my-6">
             <div class="absolute top-0 right-0 w-48 h-48 bg-amber-200 rounded-full -translate-y-1/2 translate-x-1/2 -z-0"></div>
             
             <div class="relative z-10 flex flex-col min-h-0">
@@ -598,12 +601,14 @@
                 </div>
                 <button @click="closeOM()" class="w-12 h-12 rounded-2xl bg-white text-slate-500 hover:text-slate-700 flex items-center justify-center text-3xl transition-colors">&times;</button>
               </div>
-              <div class="p-6 md:p-8 overflow-y-auto">
+              <div class="p-6 md:p-8">
               <div id="om-err" class="hidden mb-6 p-4 rounded-2xl bg-red-50 text-red-600 text-sm font-bold border border-red-100"></div>
-              <form @submit.prevent="submitOM" class="space-y-8 pb-2">
+              <form @submit.prevent="submitOM" class="space-y-6 pb-2">
                 <input type="hidden" id="om-id">
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                <div class="rounded-2xl border border-amber-200 bg-white/80 p-5 md:p-6 space-y-5">
+                  <div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Informations du poste</div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div class="space-y-3">
                     <label class="label">Titre du poste *</label>
                     <input id="om-titre" class="input" required placeholder="Ex: Développeur Laravel Senior">
@@ -636,7 +641,9 @@
                     <input id="om-date" type="date" class="input" required>
                   </div>
                 </div>
+                </div>
 
+                <div class="rounded-2xl border border-amber-200 bg-white/80 p-5 md:p-6 space-y-5">
                 <div class="space-y-3">
                   <label class="label">Description complète *</label>
                   <textarea id="om-desc" class="input p-6 min-h-[150px]" required placeholder="Missions, responsabilités, environnement..."></textarea>
@@ -646,7 +653,9 @@
                   <label class="label">Compétences requises * <span class="text-xs font-bold text-slate-400">(séparées par des virgules)</span></label>
                   <input id="om-comp" class="input" required placeholder="Ex: PHP, Laravel, Docker, English...">
                 </div>
+                </div>
 
+                <div class="rounded-2xl border border-amber-200 bg-white/80 p-5 md:p-6 space-y-5">
                 <div class="space-y-3">
                   <label class="label">Expérience demandée *</label>
                   <input id="om-exp" class="input" required placeholder="Ex: 2-3 ans, Débutant accepté...">
@@ -678,10 +687,11 @@
                     <select id="om-cat" class="input" required><option value="">Sélectionnez une catégorie</option></select>
                   </div>
                 </div>
+                </div>
 
-                <div class="flex gap-4 pt-2 sticky bottom-0 bg-amber-100/95 backdrop-blur-sm pb-1">
-                  <button type="button" @click="closeOM()" class="btn btn-secondary flex-1 justify-center py-5 font-black text-lg">Annuler</button>
-                  <button type="submit" id="om-btn" class="btn btn-gold flex-1 justify-center py-5 font-black text-lg shadow-xl shadow-amber-500/30">Enregistrer l'offre ✓</button>
+                <div class="flex gap-4 pt-2">
+                  <button type="button" @click="closeOM()" class="btn flex-1 justify-center py-4 font-black text-base border-2 border-slate-300 bg-white text-slate-700 hover:bg-slate-50">Annuler</button>
+                  <button type="submit" id="om-btn" class="btn flex-1 justify-center py-4 font-black text-base border-2 border-amber-700 bg-amber-600 text-white hover:bg-amber-700 shadow-xl shadow-amber-500/30">Publier l'offre</button>
                 </div>
               </form>
               </div>
@@ -989,6 +999,9 @@ function appE() {
             if (r?.ok) {
                 toast('Offre supprimée.', 'info');
                 await this.loadAll();
+            } else {
+                const d = await r.json().catch(() => ({}));
+                toast(d.message || 'Suppression impossible.', 'error');
             }
         },
         

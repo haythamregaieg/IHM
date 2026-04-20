@@ -367,7 +367,7 @@ function toggleCVUpload(show) {
                 <button disabled class="btn btn-primary w-full justify-center h-14 text-lg opacity-50 cursor-not-allowed mb-3">✉️ Candidature envoyée</button>
               ` : `
                 <div class="grid grid-cols-2 gap-3">
-                  <button onclick="openPostuler(${o.idOffre})" ${isExpired ? 'disabled' : ''} class="btn btn-primary justify-center h-12 text-sm font-black shadow-lg shadow-brand-500/25 ${isExpired ? 'opacity-50 cursor-not-allowed' : ''}">✉️ Postuler</button>
+                  <button ${isExpired ? 'disabled' : `onclick="openPostuler(${o.idOffre})"`} class="btn ${isExpired ? 'bg-red-50 text-red-400 border border-red-100 cursor-not-allowed' : 'btn-primary shadow-lg shadow-brand-500/25'} justify-center h-12 text-sm font-black">${isExpired ? '🔒 Offre expirée' : '✉️ Postuler'}</button>
                   <button onclick="openSignal(${o.idOffre})" class="btn btn-ghost justify-center h-12 text-sm font-black border-red-200 text-red-500 hover:bg-red-50 hover:text-red-700">🚩 Signaler</button>
                 </div>
               `}

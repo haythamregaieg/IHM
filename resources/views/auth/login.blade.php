@@ -130,6 +130,12 @@ async function doLogin(e) {
   }
 }
 
+// Redirect if already logged in
+if (API.isLogged()) {
+  const _t = API.type();
+  window.location.replace({admin:'/admin', candidat:'/mon-espace', entreprise:'/recruteur'}[_t] || '/');
+}
+
 // Auto-check for pending status
 const urlParams = new URLSearchParams(location.search);
 if (urlParams.get('msg') === 'pending') {
