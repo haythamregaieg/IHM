@@ -5,7 +5,53 @@
 <title>@yield('title','JobPlatform')</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-@vite(['resources/css/app.css', 'resources/js/app.js'])
+<script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Inter', 'sans-serif'],
+          display: ['Outfit', 'sans-serif'],
+          body: ['Inter', 'sans-serif'],
+        },
+        colors: {
+          brand: {
+            50: '#f0f4ff',
+            100: '#dce6ff',
+            200: '#baccff',
+            300: '#8aadff',
+            400: '#5585ff',
+            500: '#2B5CE6',
+            600: '#1a44c9',
+            700: '#1535a0',
+            800: '#122d85',
+            900: '#0d1f5c',
+          },
+          gold: {
+            400: '#F6A623',
+            500: '#E8950E',
+          },
+        },
+        keyframes: {
+          up: {
+            '0%': { opacity: 0, transform: 'translateY(20px)' },
+            '100%': { opacity: 1, transform: 'translateY(0)' },
+          },
+          pop: {
+            '0%': { opacity: 0, transform: 'scale(.95)' },
+            '100%': { opacity: 1, transform: 'scale(1)' },
+          },
+        },
+        animation: {
+          'fade-up': 'up .5s ease both',
+          'pop-in': 'pop .3s ease both',
+        },
+      },
+    },
+  }
+</script>
 <style>
 *{-webkit-font-smoothing:antialiased;box-sizing:border-box}
 body{font-family:'Inter',sans-serif;background:#F8FAFC;color:#1e293b;overflow-x:hidden}
