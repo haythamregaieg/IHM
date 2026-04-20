@@ -3,9 +3,9 @@
 @section('content')
 
 <!-- HERO SECTION MODERNE & GUIDÉE -->
-<div class="relative overflow-hidden bg-white pt-16 pb-20">
+<div class="relative overflow-hidden bg-white pt-16 pb-20 transition-colors duration-300">
   <div class="absolute inset-0 bg-grid opacity-[0.03] pointer-events-none"></div>
-  <div class="absolute -top-24 -right-24 w-[500px] h-[500px] bg-brand-500 rounded-full blur-[140px] opacity-[0.08]"></div>
+  <div class="absolute -top-24 -right-24 w-[500px] h-[500px] bg-brand-50 rounded-full blur-[140px] opacity-[0.08]"></div>
   <div class="absolute top-1/2 -left-24 w-80 h-80 bg-gold-400 rounded-full blur-[120px] opacity-[0.08]"></div>
 
   <div class="relative max-w-7xl mx-auto px-6 text-center lg:text-left">
@@ -46,7 +46,7 @@
         </div>
 
         <!-- RECHERCHE RAPIDE -->
-        <div class="bg-white p-2 rounded-2xl shadow-xl border border-slate-100 flex flex-col md:flex-row gap-2 animate-fade-up" style="animation-delay: 0.3s">
+        <div class="bg-white p-2 rounded-2xl shadow-xl border border-slate-100 flex flex-col md:flex-row gap-2 animate-fade-up transition-colors duration-300" style="animation-delay: 0.3s">
           <div class="flex-1 relative">
             <div class="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300">
               <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
@@ -76,7 +76,7 @@
 </div>
 
 <!-- SECTION : EXPLORER PAR DOMAINE (Remplace Jobs à la une) -->
-<section class="py-20 bg-slate-50 relative overflow-hidden">
+<section class="py-20 bg-slate-50 relative overflow-hidden transition-colors duration-300">
   <div class="max-w-7xl mx-auto px-6">
     <div class="text-center max-w-2xl mx-auto mb-16">
       <h2 class="text-4xl font-bold text-slate-900 mb-4 tracking-tight">Explorez par <span class="text-brand-600">domaine</span></h2>
@@ -96,7 +96,7 @@
 </section>
 
 <!-- SECTION : COMMENT ÇA MARCHE (Plus compacte) -->
-<section class="py-20 bg-white">
+<section class="py-20 bg-white transition-colors duration-300">
   <div class="max-w-7xl mx-auto px-6">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
       <div class="flex items-center gap-6 group">

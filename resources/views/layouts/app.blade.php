@@ -69,21 +69,12 @@ h1,h2,h3,h4,h5{font-family:'Outfit',sans-serif;letter-spacing:-0.02em}
 
 /* Grid backgrounds */
 .bg-grid { background-image: radial-gradient(#e2e8f0 1px, transparent 1px); background-size: 32px 32px; }
-
-/* Dark Forms Theme */
-.card-dark { background: #0f172a!important; border-color: #1e293b!important; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5)!important; }
-.card-dark .label { color: #94a3b8!important; }
-.card-dark .input { background: #020617!important; border-color: #1e293b!important; color: #f8fafc!important; }
-.card-dark .input:focus { border-color: #2B5CE6!important; box-shadow: 0 0 0 4px rgba(43,92,230,0.2)!important; }
-.card-dark h1, .card-dark h2, .card-dark h3 { color: #fff!important; }
-.card-dark p { color: #94a3b8!important; }
-.card-dark .border-t { border-color: #1e293b!important; }
 </style>
 @stack('styles')
 </head>
 <body>
 <!-- NAVBAR -->
-<nav class="bg-white/95 backdrop-blur border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+<nav class="bg-white/95 backdrop-blur border-b border-slate-200 sticky top-0 z-40 shadow-sm transition-colors duration-300">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-17 min-h-[68px] gap-4">
     <a href="/" class="flex items-center gap-2.5 flex-shrink-0">
       <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,#2B5CE6,#1a44c9)">
@@ -99,11 +90,11 @@ h1,h2,h3,h4,h5{font-family:'Outfit',sans-serif;letter-spacing:-0.02em}
   <span id="toast-icon" class="text-base"></span><span id="toast-txt"></span>
 </div>
 @yield('content')
-<footer class="mt-20 bg-slate-900 text-slate-400">
+<footer class="mt-20 bg-slate-900 text-slate-400 border-t border-slate-800 transition-colors duration-300">
   <div class="max-w-7xl mx-auto px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
     <div><div class="flex items-center gap-2 mb-3"><div class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:#2B5CE6"><svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div><span class="font-bold text-white text-sm" style="font-family:Outfit">JobPlatform</span></div><p class="text-xs">La plateforme de recrutement #1 en Tunisie</p></div>
     <div><h4 class="text-white font-semibold text-sm mb-3">Candidats</h4><ul class="space-y-1.5 text-xs"><li><a href="/offres" class="hover:text-white">Rechercher des offres</a></li><li><a href="/inscription?type=candidat" class="hover:text-white">Créer un compte</a></li><li><a href="/mon-espace" class="hover:text-white">Mon espace</a></li></ul></div>
-    <div><h4 class="text-white font-semibold text-sm mb-3">Recruteurs</h4><ul class="space-y-1.5 text-xs"><li><a href="/inscription?type=entreprise" class="hover:text-white">Inscrire mon entreprise</a></li><li><a href="/recruteur" class="hover:text-white">Espace recruteur</a></li></ul></div>
+    <div><h4 class="text-white font-semibold text-sm mb-3">Entreprises</h4><ul class="space-y-1.5 text-xs"><li><a href="/inscription?type=entreprise" class="hover:text-white">Inscrire mon entreprise</a></li><li><a href="/recruteur" class="hover:text-white">Espace recruteur</a></li></ul></div>
     <div><h4 class="text-white font-semibold text-sm mb-3">Contact</h4><ul class="space-y-1.5 text-xs"><li>contact@jobplatform.tn</li><li>+216 71 000 000</li><li>Tunis, Tunisie</li></ul></div>
   </div>
   <div class="border-t border-slate-800 py-4 text-center text-xs">© 2026 JobPlatform — Tous droits réservés</div>

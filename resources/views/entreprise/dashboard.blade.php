@@ -386,8 +386,8 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div class="lg:col-span-2 space-y-8">
-            <div class="card p-10 border border-brand-300 bg-brand-200/75">
-              <h3 class="text-xl font-black mb-8 flex items-center gap-3">
+            <div class="card p-10 border border-brand-300 bg-brand-200/75 transition-colors duration-300">
+              <h3 class="text-xl font-black text-slate-900 mb-8 flex items-center gap-3">
                 <span class="w-10 h-10 rounded-xl bg-brand-100 flex items-center justify-center text-lg">🏢</span> Informations entreprise
               </h3>
               <div class="space-y-6">
@@ -452,10 +452,10 @@
       </div>
 
       <!-- Modal Détails Candidature -->
-      <div id="dm-c" role="dialog" aria-modal="true" aria-labelledby="dm-c-title" x-show="dmOpen" x-cloak class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md" @click.self="dmOpen=false">
+      <div id="dm-c" role="dialog" aria-modal="true" aria-labelledby="dm-c-title" x-show="dmOpen" x-cloak class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm" @click.self="dmOpen=false">
         <div class="flex items-center justify-center min-h-full p-4">
-          <div class="card card-dark p-0 w-full max-w-4xl shadow-2xl animate-pop-in relative overflow-hidden max-h-[90vh] flex flex-col">
-            <div class="p-8 border-b border-slate-800 flex justify-between items-center bg-slate-900/50">
+          <div class="card p-0 w-full max-w-4xl shadow-2xl animate-pop-in relative overflow-hidden max-h-[90vh] flex flex-col bg-white">
+            <div class="p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
               <div class="flex items-center gap-4">
                 <div class="w-12 h-12 rounded-xl bg-amber-500 flex items-center justify-center text-white font-black text-xl overflow-hidden">
                   <template x-if="selCand?.candidat?.photo_path">
@@ -466,37 +466,37 @@
                   </template>
                 </div>
                 <div>
-                  <h3 id="dm-c-title" class="text-xl font-black text-white" x-text="(selCand?.candidat?.prenom||'')+' '+(selCand?.candidat?.nom||'')"></h3>
+                  <h3 id="dm-c-title" class="text-xl font-black text-slate-900" x-text="(selCand?.candidat?.prenom||'')+' '+(selCand?.candidat?.nom||'')"></h3>
                   <p class="text-xs font-bold text-slate-400 uppercase tracking-widest" x-text="'Postulé le ' + new Date(selCand?.dateCandidature).toLocaleDateString('fr-FR')"></p>
                 </div>
               </div>
-              <button @click="dmOpen=false" class="w-10 h-10 rounded-xl bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center text-2xl">&times;</button>
+              <button @click="dmOpen=false" class="w-10 h-10 rounded-xl bg-slate-100 text-slate-400 hover:text-slate-600 flex items-center justify-center text-2xl transition-colors">&times;</button>
             </div>
 
             <div class="flex-1 overflow-y-auto p-8 space-y-8 no-scrollbar">
               <!-- Grid Infos -->
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="p-4 rounded-2xl bg-slate-800/50 border border-slate-700">
+                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
                   <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Email de contact</p>
                   <p class="font-bold text-amber-500" x-text="selCand?.email_contact || 'N/A'"></p>
                 </div>
-                <div class="p-4 rounded-2xl bg-slate-800/50 border border-slate-700">
+                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
                   <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Téléphone</p>
                   <p class="font-bold text-amber-500" x-text="selCand?.telephone || 'N/A'"></p>
                 </div>
-                <div class="p-4 rounded-2xl bg-slate-800/50 border border-slate-700">
+                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
                   <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Spécialité</p>
-                  <p class="font-bold text-white" x-text="selCand?.specialite || 'N/A'"></p>
+                  <p class="font-bold text-slate-900" x-text="selCand?.specialite || 'N/A'"></p>
                 </div>
-                <div class="p-4 rounded-2xl bg-slate-800/50 border border-slate-700">
+                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
                   <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Expérience</p>
-                  <p class="font-bold text-white" x-text="selCand?.niveau_experience || 'N/A'"></p>
+                  <p class="font-bold text-slate-900" x-text="selCand?.niveau_experience || 'N/A'"></p>
                 </div>
-                <div class="p-4 rounded-2xl bg-slate-800/50 border border-slate-700">
+                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
                   <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Localisation</p>
-                  <p class="font-bold text-white" x-text="selCand?.candidat?.localisation || 'Tunisie'"></p>
+                  <p class="font-bold text-slate-900" x-text="selCand?.candidat?.localisation || 'Tunisie'"></p>
                 </div>
-                <div class="p-4 rounded-2xl bg-slate-800/50 border border-slate-700">
+                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
                   <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Statut actuel</p>
                   <span class="badge" :class="{'badge-amber':selCand?.statut==='en_attente','badge-blue':selCand?.statut==='en_cours','badge-green':selCand?.statut==='retenu','badge-red':selCand?.statut==='refuse'}" x-text="statLabel(selCand?.statut)"></span>
                 </div>
@@ -504,23 +504,23 @@
 
               <!-- Lettre de motivation -->
               <div class="space-y-3">
-                <h4 class="font-black text-white flex items-center gap-2">
+                <h4 class="font-black text-slate-900 flex items-center gap-2">
                   <span class="text-amber-500">📝</span> Lettre de motivation
                 </h4>
-                <div class="p-6 rounded-3xl bg-slate-800/30 border border-slate-700 text-slate-300 leading-relaxed whitespace-pre-line" x-html="selCand?.lettreMotivation?.startsWith('[Fichier PDF joint]') ? 'Le candidat a joint un fichier PDF pour sa lettre de motivation. <br><br> <a href=\'/storage/' + selCand.lettreMotivation.split('] ')[1] + '\' target=\'_blank\' class=\'btn btn-gold btn-sm inline-flex mt-2\'>📄 Ouvrir la lettre PDF</a>' : selCand?.lettreMotivation">
+                <div class="p-6 rounded-3xl bg-slate-50 border border-slate-100 text-slate-600 leading-relaxed whitespace-pre-line" x-html="selCand?.lettreMotivation?.startsWith('[Fichier PDF joint]') ? 'Le candidat a joint un fichier PDF pour sa lettre de motivation. <br><br> <a href=\'/storage/' + selCand.lettreMotivation.split('] ')[1] + '\' target=\'_blank\' class=\'btn btn-gold btn-sm inline-flex mt-2\'>📄 Ouvrir la lettre PDF</a>' : selCand?.lettreMotivation">
                 </div>
               </div>
 
               <!-- Diplômes & Certifications -->
               <div class="space-y-3">
-                <h4 class="font-black text-white flex items-center gap-2">
+                <h4 class="font-black text-slate-900 flex items-center gap-2">
                   <span class="text-amber-500">🎓</span> Diplômes & Certifications
                 </h4>
                 <div class="grid grid-cols-1 gap-4">
                   <template x-for="cert in selCand?.candidat?.certificats" :key="cert.id">
-                    <div class="p-4 rounded-2xl bg-slate-800/50 border border-slate-700 flex justify-between items-center">
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex justify-between items-center">
                       <div>
-                        <p class="font-bold text-white" x-text="cert.nom"></p>
+                        <p class="font-bold text-slate-900" x-text="cert.nom"></p>
                         <p class="text-xs text-slate-400" x-text="cert.organisme + ' • ' + new Date(cert.dateObtention).toLocaleDateString()"></p>
                       </div>
                       <span class="text-2xl">📜</span>
@@ -534,21 +534,21 @@
 
               <!-- Expériences Professionnelles -->
               <div class="space-y-3">
-                <h4 class="font-black text-white flex items-center gap-2">
+                <h4 class="font-black text-slate-900 flex items-center gap-2">
                   <span class="text-amber-500">💼</span> Expériences Professionnelles
                 </h4>
                 <div class="grid grid-cols-1 gap-4">
                   <template x-for="exp in selCand?.candidat?.experiences" :key="exp.id">
-                    <div class="p-5 rounded-2xl bg-slate-800/50 border border-slate-700 space-y-2">
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
                       <div class="flex justify-between items-start">
                         <div>
-                          <p class="font-bold text-white text-lg" x-text="exp.poste"></p>
+                          <p class="font-bold text-slate-900 text-lg" x-text="exp.poste"></p>
                           <p class="font-bold text-amber-500" x-text="exp.entreprise"></p>
                         </div>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest bg-slate-900 px-2 py-1 rounded-md" 
+                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest bg-white px-2 py-1 rounded-md border border-slate-100 shadow-sm" 
                               x-text="new Date(exp.dateDebut).toLocaleDateString('fr-FR', {month:'short', year:'numeric'}) + ' - ' + (exp.dateFin ? new Date(exp.dateFin).toLocaleDateString('fr-FR', {month:'short', year:'numeric'}) : 'Présent')"></span>
                       </div>
-                      <p class="text-sm text-slate-400 leading-relaxed" x-text="exp.description"></p>
+                      <p class="text-sm text-slate-500 leading-relaxed" x-text="exp.description"></p>
                     </div>
                   </template>
                   <template x-if="!selCand?.candidat?.experiences?.length">
@@ -559,23 +559,23 @@
 
               <!-- CV Viewer -->
               <div class="space-y-3">
-                <h4 class="font-black text-white flex items-center gap-2">
+                <h4 class="font-black text-slate-900 flex items-center gap-2">
                   <span class="text-amber-500">📄</span> Curriculum Vitae (CV)
                 </h4>
                 <template x-if="selCand?.cv_path">
-                  <div class="rounded-3xl border border-slate-700 overflow-hidden bg-slate-800 h-[500px]">
+                  <div class="rounded-3xl border border-slate-200 overflow-hidden bg-slate-100 h-[500px]">
                     <iframe :src="selCand ? '/storage/' + selCand.cv_path : ''" class="w-full h-full border-none"></iframe>
                   </div>
                 </template>
                 <template x-if="!selCand?.cv_path">
-                  <div class="p-12 text-center bg-slate-800/30 rounded-3xl border-2 border-dashed border-slate-700">
-                    <p class="text-slate-500 font-bold">Aucun CV n'a été fourni.</p>
+                  <div class="p-12 text-center bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
+                    <p class="text-slate-400 font-bold">Aucun CV n'a été fourni.</p>
                   </div>
                 </template>
               </div>
             </div>
 
-            <div class="p-6 border-t border-slate-800 flex gap-4 bg-slate-900/50">
+            <div class="p-6 border-t border-slate-100 flex gap-4 bg-slate-50/50">
               <button @click="dmOpen=false" class="btn btn-secondary flex-1 justify-center py-4 font-black">Fermer</button>
               <a x-show="selCand?.cv_path" :href="selCand ? '/storage/' + selCand.cv_path : '#'" download class="btn btn-gold flex-1 justify-center py-4 font-black">Télécharger le CV</a>
             </div>

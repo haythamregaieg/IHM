@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('title',"Offres d'emploi — JobPlatform")
 @section('content')
-<div class="bg-[#F8FAFC] min-h-[calc(100vh-64px)]">
+<div class="bg-[#F8FAFC] min-h-[calc(100vh-64px)] transition-colors duration-300">
   <!-- Hero Search Section -->
-  <div class="bg-white border-b border-slate-100 py-12 lg:py-16 relative overflow-hidden">
+  <div class="bg-white border-b border-slate-100 py-12 lg:py-16 relative overflow-hidden transition-colors duration-300">
     <div class="absolute top-0 right-0 w-96 h-96 bg-brand-50 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl opacity-50"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 text-center">
       <h1 class="text-4xl lg:text-6xl font-black text-slate-900 tracking-tight mb-4" style="font-family:Outfit">Trouvez votre <span class="text-brand-600">futur job</span></h1>
@@ -30,7 +30,7 @@
       <!-- Sidebar filtres -->
       <aside class="w-full lg:w-80 flex-shrink-0">
         <div class="lg:sticky lg:top-24 space-y-8">
-          <div class="card p-8 border-slate-100">
+          <div class="card p-8 border-slate-100 transition-colors duration-300">
             <h3 class="font-black text-slate-900 mb-8 flex items-center gap-2">
               <span>🎯</span> Filtres avancés
             </h3>
@@ -66,7 +66,7 @@
           </div>
 
           <!-- Premium Banner -->
-          <div class="card p-8 bg-gradient-to-br from-brand-600 to-brand-900 text-white relative overflow-hidden group">
+          <div class="card p-8 bg-gradient-to-br from-brand-600 to-brand-900 text-white relative overflow-hidden group border-none">
             <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl transition-transform group-hover:scale-150 duration-700"></div>
             <div class="relative z-10">
               <h4 class="font-black text-lg mb-2">Soyez le premier informé !</h4>
@@ -215,7 +215,7 @@ function escapeHtml(str = '') {
 
 function renderOfferCard(o) {
   return `
-    <div class="card card-hover p-8 group border-slate-100 animate-slide-up relative overflow-hidden">
+    <div class="card card-hover p-8 group border-slate-100 animate-slide-up relative overflow-hidden bg-white transition-colors duration-300">
       <div class="absolute top-0 right-0 w-32 h-32 bg-brand-50 rounded-full -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
       <div class="flex flex-col md:flex-row gap-8 items-start relative z-10">
         <div class="w-16 h-16 rounded-[24px] flex items-center justify-center text-white font-black text-2xl flex-shrink-0 shadow-xl shadow-brand-500/10 transition-transform duration-500 group-hover:scale-110 overflow-hidden" 
@@ -242,33 +242,33 @@ function renderOfferCard(o) {
                  alt="Illustration de l'offre ${escapeHtml(o.titre)}"
                  class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-r from-slate-900/55 via-slate-900/25 to-transparent"></div>
-            <div class="absolute bottom-2 left-3 text-white text-xs font-black uppercase tracking-wide">Poste</div>
+            <div class="absolute bottom-2 left-3 text-white text-[10px] font-black uppercase tracking-widest">Aperçu du poste</div>
           </div>
           
           <div class="flex flex-wrap items-center gap-4">
-            <div class="flex items-center gap-2 bg-slate-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-slate-500">
+            <div class="flex items-center gap-2 bg-slate-50 px-3.5 py-1.5 rounded-xl text-[10px] font-black text-slate-500 uppercase tracking-widest">
               <span>📍</span> ${escapeHtml(o.localisation || 'Tunisie')}
             </div>
             ${o.remuneration ? `
-              <div class="flex items-center gap-2 bg-green-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-green-600">
+              <div class="flex items-center gap-2 bg-green-50 px-3.5 py-1.5 rounded-xl text-[10px] font-black text-green-600 uppercase tracking-widest">
                 <span>💰</span> ${Number(o.remuneration).toLocaleString()} DT / mois
               </div>
             ` : ''}
-            <div class="flex items-center gap-2 bg-brand-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-brand-600">
+            <div class="flex items-center gap-2 bg-brand-50 px-3.5 py-1.5 rounded-xl text-[10px] font-black text-brand-600 uppercase tracking-widest">
               <span>${getDomainIcon(o.domaine?.nom || '')}</span> ${escapeHtml(o.domaine?.nom || 'Général')}
             </div>
             ${o.experience ? `
-              <div class="flex items-center gap-2 bg-purple-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-purple-600">
+              <div class="flex items-center gap-2 bg-purple-50 px-3.5 py-1.5 rounded-xl text-[10px] font-black text-purple-600 uppercase tracking-widest">
                 <span>⚡</span> ${escapeHtml(o.experience)}
               </div>
             ` : ''}
             ${o.mode_travail ? `
-              <div class="flex items-center gap-2 bg-blue-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-blue-600">
+              <div class="flex items-center gap-2 bg-blue-50 px-3.5 py-1.5 rounded-xl text-[10px] font-black text-blue-600 uppercase tracking-widest">
                 <span>🏠</span> ${escapeHtml(o.mode_travail)}
               </div>
             ` : ''}
             ${o.niveau_etude ? `
-              <div class="flex items-center gap-2 bg-emerald-50 px-3.5 py-1.5 rounded-xl text-xs font-black text-emerald-600">
+              <div class="flex items-center gap-2 bg-emerald-50 px-3.5 py-1.5 rounded-xl text-[10px] font-black text-emerald-600 uppercase tracking-widest">
                 <span>🎓</span> ${escapeHtml(o.niveau_etude)}
               </div>
             ` : ''}

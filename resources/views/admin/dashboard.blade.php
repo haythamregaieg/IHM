@@ -7,9 +7,9 @@
   .custom-scrollbar::-webkit-scrollbar { width: 4px; }
   .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
 </style>
-<div class="flex min-h-[calc(100vh-64px)]" x-data="appA()" x-init="init()">
+<div class="flex min-h-[calc(100vh-64px)] bg-[#F8FAFC] transition-colors duration-300" x-data="appA()" x-init="init()">
   <!-- Sidebar -->
-  <div class="sidebar hidden lg:flex flex-col">
+  <div class="sidebar hidden lg:flex flex-col bg-white border-r border-slate-100 transition-colors duration-300">
     <div class="px-2 py-4 mb-2 text-center">
       <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-white font-black text-xl mx-auto mb-3 shadow-lg shadow-red-200" style="background:linear-gradient(135deg,#dc2626,#991b1b)">AD</div>
       <div class="font-bold text-slate-800 text-sm" style="font-family:Outfit">Administrateur</div>
@@ -72,7 +72,7 @@
             <div x-show="pendingE.length===0" class="text-center py-10 text-slate-400 text-sm">Aucune demande en attente.</div>
             <div class="space-y-3">
               <template x-for="e in pendingE" :key="e.idEntreprise">
-                <div class="flex items-center justify-between p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                <div class="flex items-center justify-between p-4 rounded-2xl bg-slate-50 border border-slate-100 transition-colors">
                   <div>
                     <div class="font-bold text-slate-800 text-sm" x-text="e.raison_sociale"></div>
                     <div class="text-xs text-slate-400" x-text="e.email"></div>
