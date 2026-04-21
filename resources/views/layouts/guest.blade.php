@@ -38,5 +38,32 @@
                 {{ $slot }}
             </div>
         </div>
+        <!-- Scroll to top button -->
+        <button id="scroll-top-btn"
+          onclick="window.scrollTo({top:0,behavior:'smooth'})"
+          title="Retour en haut"
+          style="display:none;position:fixed;bottom:2rem;right:2rem;z-index:999;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#2B5CE6,#1a44c9);color:#fff;border:none;cursor:pointer;box-shadow:0 8px 24px rgba(43,92,230,0.35);transition:opacity .3s ease,transform .3s ease;align-items:center;justify-content:center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/>
+          </svg>
+        </button>
+        <script>
+        (function(){
+          var btn = document.getElementById('scroll-top-btn');
+          window.addEventListener('scroll', function(){
+            if(window.scrollY > 300){
+              btn.style.display = 'flex';
+              btn.style.opacity = '1';
+              btn.style.transform = 'translateY(0)';
+            } else {
+              btn.style.opacity = '0';
+              btn.style.transform = 'translateY(12px)';
+              setTimeout(function(){ if(window.scrollY<=300) btn.style.display='none'; }, 300);
+            }
+          }, {passive:true});
+          btn.addEventListener('mouseenter', function(){ this.style.transform='translateY(-3px) scale(1.08)'; this.style.boxShadow='0 12px 32px rgba(43,92,230,0.45)'; });
+          btn.addEventListener('mouseleave', function(){ this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 24px rgba(43,92,230,0.35)'; });
+        })();
+        </script>
     </body>
 </html>

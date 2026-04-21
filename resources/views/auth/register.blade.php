@@ -79,9 +79,9 @@
                 <div class="space-y-2">
                   <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Domaine d'activité</label>
                   <select x-model="form.idDomaine" class="input h-14 font-medium appearance-none cursor-pointer">
-                    <option value="">Sélectionner un domaine</option>
+                    <option value="">🏷️ Sélectionner un domaine</option>
                     <template x-for="d in domaines" :key="d.idDomaine">
-                      <option :value="d.idDomaine" x-text="d.nom"></option>
+                      <option :value="d.idDomaine" x-text="domainIcon(d.nom) + ' ' + d.nom"></option>
                     </template>
                   </select>
                 </div>
@@ -95,23 +95,23 @@
                 <div class="space-y-2">
                   <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Niveau d'études</label>
                   <select x-model="form.niveauEtude" class="input h-14 font-medium appearance-none cursor-pointer">
-                    <option value="">Niveau d'études</option>
-                    <option>Baccalauréat</option>
-                    <option>Licence / Bachelor</option>
-                    <option>Master / Ingénieur</option>
-                    <option>Doctorat</option>
-                    <option>Formation Pro</option>
+                    <option value="">🎓 Niveau d'études</option>
+                    <option>📄 Baccalauréat</option>
+                    <option>📚 Licence / Bachelor</option>
+                    <option>🏆 Master / Ingénieur</option>
+                    <option>🔬 Doctorat</option>
+                    <option>🛠️ Formation Pro</option>
                   </select>
                 </div>
                 <div class="space-y-2">
                   <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Expérience</label>
                   <select x-model="form.niveauExperience" class="input h-14 font-medium appearance-none cursor-pointer">
-                    <option value="">Expérience</option>
-                    <option>Débutant (0 an)</option>
-                    <option>Junior (1-3 ans)</option>
-                    <option>Confirmé (3-5 ans)</option>
-                    <option>Senior (5-10 ans)</option>
-                    <option>Expert (+10 ans)</option>
+                    <option value="">💼 Expérience</option>
+                    <option>🌱 Débutant (0 an)</option>
+                    <option>📈 Junior (1-3 ans)</option>
+                    <option>💡 Confirmé (3-5 ans)</option>
+                    <option>⭐ Senior (5-10 ans)</option>
+                    <option>🚀 Expert (+10 ans)</option>
                   </select>
                 </div>
               </div>
@@ -142,9 +142,9 @@
                 <div class="space-y-2">
                   <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Secteur d'activité</label>
                   <select x-model="form.idDomaine" class="input h-14 font-medium appearance-none cursor-pointer">
-                    <option value="">Sélectionner un secteur</option>
+                    <option value="">🏷️ Sélectionner un secteur</option>
                     <template x-for="d in domaines" :key="d.idDomaine">
-                      <option :value="d.idDomaine" x-text="d.nom"></option>
+                      <option :value="d.idDomaine" x-text="domainIcon(d.nom) + ' ' + d.nom"></option>
                     </template>
                   </select>
                 </div>
@@ -171,7 +171,7 @@
               </div>
 
               <div class="space-y-2">
-                <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Ville (optionnel)</label>
+                <label class="label text-xs font-bold uppercase tracking-widest text-slate-500">Adresse (optionnel)</label>
                 <input x-model="form.ville" type="text" class="input h-14 font-medium" placeholder="Ex: Tunis centre" autocomplete="address-level2">
               </div>
 
@@ -226,9 +226,37 @@
           </button>
         </form>
 
-        <div class="mt-10 pt-8 border-t border-slate-50 text-center">
+        <!-- Social signup -->
+        <div class="mt-8">
+          <div class="flex items-center gap-4 mb-6">
+            <div class="flex-1 h-px bg-slate-100"></div>
+            <span class="text-xs font-black uppercase tracking-widest text-slate-400">ou s'inscrire avec</span>
+            <div class="flex-1 h-px bg-slate-100"></div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <button type="button" onclick="alert('Inscription Google bientôt disponible.')"
+                    class="flex items-center justify-center gap-2.5 px-4 py-3 rounded-2xl border-2 border-slate-100 bg-white hover:bg-slate-50 hover:border-slate-200 active:scale-95 transition-all font-bold text-sm text-slate-700 shadow-sm">
+              <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+              </svg>
+              Google
+            </button>
+            <button type="button" onclick="alert('Inscription LinkedIn bientôt disponible.')"
+                    class="flex items-center justify-center gap-2.5 px-4 py-3 rounded-2xl border-2 border-[#0A66C2]/20 bg-white hover:bg-[#0A66C2]/5 hover:border-[#0A66C2]/30 active:scale-95 transition-all font-bold text-sm text-[#0A66C2] shadow-sm">
+              <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="#0A66C2">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+              LinkedIn
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-8 pt-8 border-t border-slate-50 text-center">
           <p class="text-sm font-medium text-slate-500">
-            Déjà inscrit ? 
+            Déjà inscrit ?
             <a href="/connexion" class="font-bold text-brand-600 hover:text-brand-700 ml-1 transition-colors">Se connecter</a>
           </p>
         </div>
@@ -251,6 +279,31 @@ function registerApp() {
       motDePasse: '', motDePasse_confirmation: ''
     },
     termsAccepted: false,
+    domainIcon(nom) {
+      const n = (nom || '').toLowerCase();
+      if (n.includes('info') || n.includes('digital') || n.includes('tech') || n.includes('logiciel') || n.includes('web') || n.includes('développ')) return '💻';
+      if (n.includes('finance') || n.includes('comptab') || n.includes('audit') || n.includes('fiscal')) return '💰';
+      if (n.includes('banque') || n.includes('assur')) return '🏦';
+      if (n.includes('market') || n.includes('publicité') || n.includes('comm')) return '📣';
+      if (n.includes('rh') || n.includes('ressources humaines') || n.includes('recrutement')) return '👥';
+      if (n.includes('vente') || n.includes('commercial') || n.includes('commerce')) return '🛒';
+      if (n.includes('industri') || n.includes('manufactur')) return '🏭';
+      if (n.includes('mécan') || n.includes('mécatr') || n.includes('ingénier')) return '⚙️';
+      if (n.includes('électr') || n.includes('énergie') || n.includes('energie')) return '⚡';
+      if (n.includes('santé') || n.includes('médic') || n.includes('pharma') || n.includes('paramédic')) return '🏥';
+      if (n.includes('éducation') || n.includes('formation') || n.includes('enseign')) return '📚';
+      if (n.includes('transport') || n.includes('logistique')) return '🚚';
+      if (n.includes('btp') || n.includes('construct') || n.includes('architect') || n.includes('génie civil')) return '🏗️';
+      if (n.includes('agri') || n.includes('agroalim')) return '🌾';
+      if (n.includes('tourisme') || n.includes('hôtel') || n.includes('restaur')) return '✈️';
+      if (n.includes('juridique') || n.includes('droit') || n.includes('notari')) return '⚖️';
+      if (n.includes('design') || n.includes('art') || n.includes('graphi') || n.includes('créatif')) return '🎨';
+      if (n.includes('telecom') || n.includes('télécommunic') || n.includes('réseau')) return '📡';
+      if (n.includes('chimie') || n.includes('science') || n.includes('recherche') || n.includes('lab')) return '🔬';
+      if (n.includes('immobil')) return '🏠';
+      if (n.includes('media') || n.includes('journalis') || n.includes('presse')) return '📰';
+      return '🏷️';
+    },
     async init() {
       // Redirect if already logged in
       if (API.isLogged()) {

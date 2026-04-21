@@ -31,11 +31,14 @@ class OffreController extends Controller
 
         // Tri
         $sort = $request->get('sort', 'latest');
-        if ($sort === 'salary') {
-            $query->orderBy('remuneration', 'desc');
-        } else {
-            $query->orderBy('created_at', 'desc');
-        }
+        match($sort) {
+            'salary'    => $query->orderByRaw('remuneration IS NULL ASC')->orderBy('remuneration', 'desc'),
+            'salary_asc'=> $query->orderByRaw('remuneration IS NULL DESC')->orderBy('remuneration', 'asc'),
+            'popular'   => $query->withCount('candidatures')->orderBy('candidatures_count', 'desc'),
+            'deadline'  => $query->orderBy('dateLimite', 'asc'),
+            'oldest'    => $query->orderBy('created_at', 'asc'),
+            default     => $query->orderBy('created_at', 'desc'),
+        };
 
         $paginator = $query->paginate(10);
 

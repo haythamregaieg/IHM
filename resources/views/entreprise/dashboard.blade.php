@@ -410,7 +410,7 @@
                     </select>
                   </div>
                   <div class="space-y-2">
-                    <label class="label">Ville (optionnel)</label>
+                    <label class="label">Adresse (optionnel)</label>
                     <input x-model="eprofil.ville" class="input" placeholder="Ex: Tunis centre">
                   </div>
                   <div class="space-y-2">
@@ -583,121 +583,166 @@
         </div>
       </div>
 
-      <!-- Modal Offre -->
-      <div id="om" role="dialog" aria-modal="true" aria-labelledby="om-title" x-show="omOpen" x-cloak class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-md overflow-y-auto" @click.self="closeOM()">
-        <div class="flex items-start justify-center min-h-full p-4 md:py-8">
-          <div class="card p-0 w-full max-w-3xl shadow-2xl animate-pop-in relative border border-amber-300 bg-amber-100/70 flex flex-col my-2 md:my-6">
-            <div class="absolute top-0 right-0 w-48 h-48 bg-amber-200 rounded-full -translate-y-1/2 translate-x-1/2 -z-0"></div>
-            
-            <div class="relative z-10 flex flex-col min-h-0">
-              <div class="flex justify-between items-center p-6 md:p-8 border-b border-amber-200 bg-amber-100/80 sticky top-0 z-10">
-                <div>
-                  <h3 id="om-title" class="text-3xl font-black tracking-tight">Publier une <span class="text-amber-500">offre</span></h3>
-                  <p class="font-medium">Décrivez le poste pour attirer les meilleurs candidats.</p>
-                </div>
-                <button @click="closeOM()" class="w-12 h-12 rounded-2xl bg-white text-slate-500 hover:text-slate-700 flex items-center justify-center text-3xl transition-colors">&times;</button>
-              </div>
-              <div class="p-6 md:p-8">
-              <div id="om-err" class="hidden mb-6 p-4 rounded-2xl bg-red-50 text-red-600 text-sm font-bold border border-red-100"></div>
-              <form @submit.prevent="submitOM" class="space-y-6 pb-2">
-                <input type="hidden" id="om-id">
-
-                <div class="rounded-2xl border border-amber-200 bg-white/80 p-5 md:p-6 space-y-5">
-                  <div class="text-[11px] font-black uppercase tracking-widest text-slate-400">Informations du poste</div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div class="space-y-3">
-                    <label class="label">Titre du poste *</label>
-                    <input id="om-titre" class="input" required placeholder="Ex: Développeur Laravel Senior">
-                  </div>
-                  <div class="space-y-3">
-                    <label class="label">Type de contrat *</label>
-                    <select id="om-con" class="input" required>
-                      <option value="">Sélectionnez un contrat</option>
-                      <option>CDI</option>
-                      <option>CDD</option>
-                      <option>Stage</option>
-                      <option>Freelance</option>
-                      <option>Alternance</option>
-                    </select>
-                  </div>
-                  <div class="space-y-3">
-                    <label class="label">Domaine d'activité *</label>
-                    <select id="om-dom" class="input" required><option value="">Sélectionnez un domaine</option></select>
-                  </div>
-                  <div class="space-y-3">
-                    <label class="label">Région *</label>
-                    <select id="om-reg" class="input" required><option value="">Sélectionnez une région</option></select>
-                  </div>
-                  <div class="space-y-3">
-                    <label class="label">Localisation précise *</label>
-                    <input id="om-loc" class="input" required placeholder="Ex: Tunis, Berges du Lac">
-                  </div>
-                  <div class="space-y-3">
-                    <label class="label">Date limite *</label>
-                    <input id="om-date" type="date" class="input" required>
-                  </div>
-                </div>
-                </div>
-
-                <div class="rounded-2xl border border-amber-200 bg-white/80 p-5 md:p-6 space-y-5">
-                <div class="space-y-3">
-                  <label class="label">Description complète *</label>
-                  <textarea id="om-desc" class="input p-6 min-h-[150px]" required placeholder="Missions, responsabilités, environnement..."></textarea>
-                </div>
-
-                <div class="space-y-3">
-                  <label class="label">Compétences requises * <span class="text-xs font-bold text-slate-400">(séparées par des virgules)</span></label>
-                  <input id="om-comp" class="input" required placeholder="Ex: PHP, Laravel, Docker, English...">
-                </div>
-                </div>
-
-                <div class="rounded-2xl border border-amber-200 bg-white/80 p-5 md:p-6 space-y-5">
-                <div class="space-y-3">
-                  <label class="label">Expérience demandée *</label>
-                  <input id="om-exp" class="input" required placeholder="Ex: 2-3 ans, Débutant accepté...">
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div class="space-y-3">
-                    <label class="label">Mode de travail *</label>
-                    <select id="om-mode" class="input" required>
-                      <option value="">Sélectionnez un mode</option>
-                      <option>Télétravail</option>
-                      <option>Sur site</option>
-                      <option>Hybride</option>
-                    </select>
-                  </div>
-                  <div class="space-y-3">
-                    <label class="label">Niveau d'étude *</label>
-                    <input id="om-etude" class="input" required placeholder="Ex: Bac+3, Master, Ingénieur...">
-                  </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div class="space-y-3">
-                    <label class="label">Rémunération mensuelle (DT)</label>
-                    <input id="om-rem" type="number" class="input" placeholder="Ex: 2500">
-                  </div>
-                  <div class="space-y-3">
-                    <label class="label">Catégorie d'offre *</label>
-                    <select id="om-cat" class="input" required><option value="">Sélectionnez une catégorie</option></select>
-                  </div>
-                </div>
-                </div>
-
-                <div class="flex gap-4 pt-2">
-                  <button type="button" @click="closeOM()" class="btn flex-1 justify-center py-4 font-black text-base border-2 border-slate-300 bg-white text-slate-700 hover:bg-slate-50">Annuler</button>
-                  <button type="submit" id="om-btn" class="btn flex-1 justify-center py-4 font-black text-base border-2 border-amber-700 bg-amber-600 text-white hover:bg-amber-700 shadow-xl shadow-amber-500/30">Publier l'offre</button>
-                </div>
-              </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
     </div>
   </main>
+
+  <!-- Modal Offre – Plein écran (hors du conteneur transformé) -->
+  <div id="om" role="dialog" aria-modal="true" aria-labelledby="om-title"
+       x-show="omOpen" x-cloak
+       class="fixed inset-0 z-50 flex flex-col"
+       style="background:#F8FAFC">
+    <form @submit.prevent="submitOM" class="flex flex-col h-full min-h-0">
+
+          <!-- En-tête fixe -->
+          <div class="flex items-center justify-between px-6 md:px-12 py-4 bg-white border-b border-slate-100 flex-shrink-0" style="box-shadow:0 4px 20px rgba(246,166,35,0.08)">
+            <div class="flex items-center gap-4">
+              <button type="button" @click="closeOM()"
+                      class="w-10 h-10 rounded-xl hover:bg-amber-50 flex items-center justify-center text-slate-400 hover:text-amber-600 transition-all flex-shrink-0"
+                      title="Fermer">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+              </button>
+              <div>
+                <h3 id="om-title" class="text-xl md:text-2xl font-black tracking-tight text-slate-900">
+                  Publier une <span class="text-amber-500">offre</span>
+                </h3>
+                <p class="text-xs text-slate-400 font-medium hidden sm:block">Remplissez tous les champs pour publier votre annonce.</p>
+              </div>
+            </div>
+            <button type="button" @click="closeOM()"
+                    class="w-10 h-10 rounded-xl bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700 flex items-center justify-center text-2xl transition-all">&times;</button>
+          </div>
+
+          <!-- Barre d'erreur -->
+          <div id="om-err" class="hidden px-6 md:px-12 py-3 bg-red-50 text-red-600 text-sm font-bold border-b border-red-100 flex-shrink-0"></div>
+
+          <!-- Corps scrollable -->
+          <div class="flex-1 overflow-y-auto">
+            <div class="max-w-4xl mx-auto px-4 sm:px-8 md:px-12 py-8 space-y-8">
+              <input type="hidden" id="om-id">
+
+              <!-- Bloc 1 : Informations du poste -->
+              <div class="card p-6 md:p-8 space-y-6">
+                <div class="flex items-center gap-3 pb-4 border-b border-slate-100">
+                  <div class="w-9 h-9 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-600 font-black text-sm flex-shrink-0">1</div>
+                  <div>
+                    <h4 class="font-black text-slate-900 text-lg leading-tight">Informations du poste</h4>
+                    <p class="text-xs text-slate-400 font-medium">Identifiez clairement le poste proposé.</p>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div class="space-y-2">
+                    <label class="label">Titre du poste *</label>
+                    <input id="om-titre" class="input" required placeholder="Ex: Développeur Laravel Senior">
+                  </div>
+                  <div class="space-y-2">
+                    <label class="label">Type de contrat *</label>
+                    <select id="om-con" class="input" required>
+                      <option value="">📋 Sélectionnez un contrat</option>
+                      <option>🏢 CDI</option>
+                      <option>📅 CDD</option>
+                      <option>🎓 Stage</option>
+                      <option>🧑‍💻 Freelance</option>
+                      <option>🔄 Alternance</option>
+                    </select>
+                  </div>
+                  <div class="space-y-2">
+                    <label class="label">Domaine d'activité *</label>
+                    <select id="om-dom" class="input" required><option value="">Sélectionnez un domaine</option></select>
+                  </div>
+                  <div class="space-y-2">
+                    <label class="label">Catégorie d'offre *</label>
+                    <select id="om-cat" class="input" required><option value="">Sélectionnez une catégorie</option></select>
+                  </div>
+                  <div class="space-y-2">
+                    <label class="label">Région *</label>
+                    <select id="om-reg" class="input" required><option value="">Sélectionnez une région</option></select>
+                  </div>
+                  <div class="space-y-2">
+                    <label class="label">Localisation précise *</label>
+                    <input id="om-loc" class="input" required placeholder="Ex: Tunis, Berges du Lac">
+                  </div>
+                  <div class="space-y-2 md:col-span-2">
+                    <label class="label">Date limite *</label>
+                    <input id="om-date" type="date" class="input md:w-1/2" required>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bloc 2 : Description & Compétences -->
+              <div class="card p-6 md:p-8 space-y-6">
+                <div class="flex items-center gap-3 pb-4 border-b border-slate-100">
+                  <div class="w-9 h-9 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-600 font-black text-sm flex-shrink-0">2</div>
+                  <div>
+                    <h4 class="font-black text-slate-900 text-lg leading-tight">Description & Compétences</h4>
+                    <p class="text-xs text-slate-400 font-medium">Détaillez les missions et les compétences attendues.</p>
+                  </div>
+                </div>
+                <div class="space-y-2">
+                  <label class="label">Description complète *</label>
+                  <textarea id="om-desc" class="input p-5 min-h-[220px]" required placeholder="Missions, responsabilités, environnement de travail, avantages..."></textarea>
+                </div>
+                <div class="space-y-2">
+                  <label class="label">Compétences requises *
+                    <span class="text-xs font-bold text-slate-400 normal-case ml-1">(séparées par des virgules)</span>
+                  </label>
+                  <input id="om-comp" class="input" required placeholder="Ex: PHP, Laravel, Docker, MySQL, English...">
+                </div>
+              </div>
+
+              <!-- Bloc 3 : Profil recherché -->
+              <div class="card p-6 md:p-8 space-y-6">
+                <div class="flex items-center gap-3 pb-4 border-b border-slate-100">
+                  <div class="w-9 h-9 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-600 font-black text-sm flex-shrink-0">3</div>
+                  <div>
+                    <h4 class="font-black text-slate-900 text-lg leading-tight">Profil recherché</h4>
+                    <p class="text-xs text-slate-400 font-medium">Définissez les critères du candidat idéal.</p>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div class="space-y-2">
+                    <label class="label">Expérience demandée *</label>
+                    <input id="om-exp" class="input" required placeholder="Ex: 2-3 ans, Débutant accepté...">
+                  </div>
+                  <div class="space-y-2">
+                    <label class="label">Mode de travail *</label>
+                    <select id="om-mode" class="input" required>
+                      <option value="">🏠 Sélectionnez un mode</option>
+                      <option>🏠 Télétravail</option>
+                      <option>🏢 Sur site</option>
+                      <option>🔀 Hybride</option>
+                    </select>
+                  </div>
+                  <div class="space-y-2">
+                    <label class="label">Niveau d'étude *</label>
+                    <input id="om-etude" class="input" required placeholder="Ex: Bac+3, Master, Ingénieur...">
+                  </div>
+                  <div class="space-y-2">
+                    <label class="label">Rémunération mensuelle (DT)</label>
+                    <input id="om-rem" type="number" class="input" placeholder="Ex: 2500">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Espace bas -->
+              <div class="h-4"></div>
+            </div>
+          </div>
+
+          <!-- Pied de page fixe -->
+          <div class="flex justify-center items-center gap-3 px-6 py-4 bg-white border-t border-slate-100 flex-shrink-0" style="box-shadow:0 -4px 20px rgba(0,0,0,0.04)">
+            <button type="button" @click="closeOM()"
+                    class="btn btn-secondary px-6 py-2.5 font-bold text-sm">Annuler</button>
+            <button type="submit" id="om-btn"
+                    class="btn btn-gold px-8 py-2.5 font-bold text-sm shadow-lg shadow-amber-500/25">
+              Publier l'offre
+            </button>
+          </div>
+
+    </form>
+  </div>
 </div>
 
 @push('scripts')
@@ -711,14 +756,61 @@
             API.get('/regions')
         ]);
         
+        const _domIcon = n => {
+            n = (n||'').toLowerCase();
+            if (n.includes('info')||n.includes('digital')||n.includes('tech')||n.includes('web')||n.includes('développ')||n.includes('logiciel')) return '💻';
+            if (n.includes('finance')||n.includes('comptab')||n.includes('audit')||n.includes('fiscal')) return '💰';
+            if (n.includes('banque')||n.includes('assur')) return '🏦';
+            if (n.includes('market')||n.includes('publicité')||n.includes('comm')) return '📣';
+            if (n.includes('rh')||n.includes('ressources humaines')||n.includes('recrutement')) return '👥';
+            if (n.includes('vente')||n.includes('commercial')||n.includes('commerce')) return '🛒';
+            if (n.includes('industri')||n.includes('manufactur')) return '🏭';
+            if (n.includes('mécan')||n.includes('ingénier')) return '⚙️';
+            if (n.includes('électr')||n.includes('énergie')||n.includes('energie')) return '⚡';
+            if (n.includes('santé')||n.includes('médic')||n.includes('pharma')) return '🏥';
+            if (n.includes('éducation')||n.includes('formation')||n.includes('enseign')) return '📚';
+            if (n.includes('transport')||n.includes('logistique')) return '🚚';
+            if (n.includes('btp')||n.includes('construct')||n.includes('architect')) return '🏗️';
+            if (n.includes('agri')) return '🌾';
+            if (n.includes('tourisme')||n.includes('hôtel')||n.includes('restaur')) return '✈️';
+            if (n.includes('juridique')||n.includes('droit')) return '⚖️';
+            if (n.includes('design')||n.includes('art')||n.includes('créatif')||n.includes('graphi')) return '🎨';
+            if (n.includes('telecom')||n.includes('réseau')) return '📡';
+            if (n.includes('chimie')||n.includes('science')||n.includes('recherche')) return '🔬';
+            if (n.includes('immobil')) return '🏠';
+            return '🏷️';
+        };
+        const _catIcon = n => {
+            n = (n||'').toLowerCase();
+            if (n.includes('urgent')||n.includes('immédiat')) return '🔥';
+            if (n.includes('stage')||n.includes('pfe')||n.includes('intern')) return '🎓';
+            if (n.includes('cdi')||n.includes('permanent')||n.includes('plein')) return '💼';
+            if (n.includes('cdd')||n.includes('temporaire')||n.includes('partiel')) return '📋';
+            if (n.includes('freelance')||n.includes('indépendant')) return '🧑‍💻';
+            if (n.includes('alternance')||n.includes('apprentissage')) return '🔄';
+            if (n.includes('télétravail')||n.includes('remote')) return '🏠';
+            if (n.includes('senior')||n.includes('confirmé')||n.includes('expérimenté')) return '⭐';
+            if (n.includes('junior')||n.includes('débutant')) return '🌱';
+            if (n.includes('cadre')||n.includes('manager')||n.includes('direction')) return '👔';
+            return '📂';
+        };
         const fill = (id, items, pk) => {
             const s = document.getElementById(id);
             if (!s || !items) return;
-            s.innerHTML = '<option value="">Sélectionnez une option</option>';
+            const ph = {
+                'om-dom': '🏷️ Sélectionnez un domaine',
+                'om-cat': '📂 Sélectionnez une catégorie',
+                'om-reg': 'Sélectionnez une région',
+            }[id] || 'Sélectionnez une option';
+            s.innerHTML = `<option value="">${ph}</option>`;
             items.forEach(x => {
                 const o = document.createElement('option');
                 o.value = x[pk];
-                o.textContent = x.nom || x.ville; // Fallback pour région
+                const label = x.nom || x.ville;
+                o.textContent = id === 'om-reg' ? label
+                              : id === 'om-dom' ? _domIcon(label) + ' ' + label
+                              : id === 'om-cat' ? _catIcon(label) + ' ' + label
+                              : label;
                 s.appendChild(o);
             });
         };

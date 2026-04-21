@@ -241,9 +241,9 @@
           <div class="flex-1 relative">
             <svg class="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
             <select x-model="searchDomaine" class="input border-transparent bg-slate-50/50 pl-14 h-14 appearance-none cursor-pointer font-bold text-slate-700">
-              <option value="">Tous les domaines</option>
+              <option value="">🏷️ Tous les domaines</option>
               <template x-for="d in domaines" :key="d.idDomaine">
-                <option :value="d.idDomaine" x-text="d.nom"></option>
+                <option :value="d.idDomaine" x-text="domainIcon(d.nom) + ' ' + d.nom"></option>
               </template>
             </select>
           </div>
@@ -405,9 +405,9 @@
                 <div class="space-y-2">
                   <label class="label">Domaine d'activité</label>
                   <select x-model="profil.idDomaine" class="input">
-                    <option value="">Sélectionnez un domaine</option>
+                    <option value="">🏷️ Sélectionnez un domaine</option>
                     <template x-for="d in domaines" :key="d.idDomaine">
-                      <option :value="d.idDomaine" x-text="d.nom"></option>
+                      <option :value="d.idDomaine" x-text="domainIcon(d.nom) + ' ' + d.nom"></option>
                     </template>
                   </select>
                 </div>
@@ -418,23 +418,23 @@
                 <div class="space-y-2">
                   <label class="label">Niveau d'études</label>
                   <select x-model="profil.niveau_etudes" class="input">
-                    <option value="">Niveau d'études</option>
-                    <option>Baccalauréat</option>
-                    <option>Licence / Bachelor</option>
-                    <option>Master / Ingénieur</option>
-                    <option>Doctorat</option>
-                    <option>Formation Pro</option>
+                    <option value="">🎓 Niveau d'études</option>
+                    <option>📄 Baccalauréat</option>
+                    <option>📚 Licence / Bachelor</option>
+                    <option>🏆 Master / Ingénieur</option>
+                    <option>🔬 Doctorat</option>
+                    <option>🛠️ Formation Pro</option>
                   </select>
                 </div>
                 <div class="space-y-2">
                   <label class="label">Expérience</label>
                   <select x-model="profil.niveau_experience" class="input">
-                    <option value="">Niveau d'expérience</option>
-                    <option>Débutant (0-1 an)</option>
-                    <option>Junior (1-3 ans)</option>
-                    <option>Intermédiaire (3-5 ans)</option>
-                    <option>Senior (5-10 ans)</option>
-                    <option>Expert (10+ ans)</option>
+                    <option value="">💼 Niveau d'expérience</option>
+                    <option>🌱 Débutant (0-1 an)</option>
+                    <option>📈 Junior (1-3 ans)</option>
+                    <option>💡 Intermédiaire (3-5 ans)</option>
+                    <option>⭐ Senior (5-10 ans)</option>
+                    <option>🚀 Expert (10+ ans)</option>
                   </select>
                 </div>
                 <div class="space-y-2">
@@ -880,6 +880,30 @@
 <script>
 function appC(){
   return {
+    domainIcon(nom) {
+      const n = (nom||'').toLowerCase();
+      if (n.includes('info')||n.includes('digital')||n.includes('tech')||n.includes('web')||n.includes('développ')||n.includes('logiciel')) return '💻';
+      if (n.includes('finance')||n.includes('comptab')||n.includes('audit')||n.includes('fiscal')) return '💰';
+      if (n.includes('banque')||n.includes('assur')) return '🏦';
+      if (n.includes('market')||n.includes('publicité')||n.includes('comm')) return '📣';
+      if (n.includes('rh')||n.includes('ressources humaines')||n.includes('recrutement')) return '👥';
+      if (n.includes('vente')||n.includes('commercial')||n.includes('commerce')) return '🛒';
+      if (n.includes('industri')||n.includes('manufactur')) return '🏭';
+      if (n.includes('mécan')||n.includes('ingénier')) return '⚙️';
+      if (n.includes('électr')||n.includes('énergie')||n.includes('energie')) return '⚡';
+      if (n.includes('santé')||n.includes('médic')||n.includes('pharma')) return '🏥';
+      if (n.includes('éducation')||n.includes('formation')||n.includes('enseign')) return '📚';
+      if (n.includes('transport')||n.includes('logistique')) return '🚚';
+      if (n.includes('btp')||n.includes('construct')||n.includes('architect')) return '🏗️';
+      if (n.includes('agri')) return '🌾';
+      if (n.includes('tourisme')||n.includes('hôtel')||n.includes('restaur')) return '✈️';
+      if (n.includes('juridique')||n.includes('droit')) return '⚖️';
+      if (n.includes('design')||n.includes('art')||n.includes('créatif')||n.includes('graphi')) return '🎨';
+      if (n.includes('telecom')||n.includes('réseau')) return '📡';
+      if (n.includes('chimie')||n.includes('science')||n.includes('recherche')) return '🔬';
+      if (n.includes('immobil')) return '🏠';
+      return '🏷️';
+    },
     tab: 'accueil',
     profil: {},
     ini: '',
@@ -1110,10 +1134,10 @@ function appC(){
         toast('Les mots de passe ne correspondent pas.', 'warn');
         return;
       }
-      const r = await API.post('/candidat/password', {
-        ancien: this.pwdForm.ancien,
-        motDePasse: this.pwdForm.nouveau,
-        motDePasse_confirmation: this.pwdForm.conf
+      const r = await API.put('/candidat/password', {
+        current_password:      this.pwdForm.ancien,
+        password:              this.pwdForm.nouveau,
+        password_confirmation: this.pwdForm.conf
       });
       if(r?.ok){
         toast('Mot de passe modifié ! ✓');

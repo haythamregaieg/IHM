@@ -88,7 +88,11 @@
             <span class="text-xs font-black text-slate-400 uppercase tracking-widest">Trier par</span>
             <select id="f-sort" onchange="load(1)" class="input !py-2 !h-auto !w-auto text-xs font-black border-slate-100 shadow-sm cursor-pointer">
               <option value="latest">Plus récentes</option>
-              <option value="salary">Meilleur salaire</option>
+              <option value="oldest">Plus anciennes</option>
+              <option value="salary">Salaire déc.</option>
+              <option value="salary_asc">Salaire croiss.</option>
+              <option value="popular">Plus populaires</option>
+              <option value="deadline">Expire bientôt</option>
             </select>
           </div>
         </div>
@@ -247,7 +251,7 @@ function renderOfferCard(o) {
           
           <div class="flex flex-wrap items-center gap-4">
             <div class="flex items-center gap-2 bg-slate-50 px-3.5 py-1.5 rounded-xl text-[10px] font-black text-slate-500 uppercase tracking-widest">
-              <span>📍</span> ${escapeHtml(o.localisation || 'Tunisie')}
+              <span>📍</span> ${escapeHtml(o.region?.ville || o.localisation || 'Tunisie')}
             </div>
             ${o.remuneration ? `
               <div class="flex items-center gap-2 bg-green-50 px-3.5 py-1.5 rounded-xl text-[10px] font-black text-green-600 uppercase tracking-widest">

@@ -109,10 +109,7 @@
               </div>
             </div>
 
-            <div class="flex items-center gap-3 p-4 rounded-2xl bg-brand-50/50 border border-brand-100">
-              <input type="checkbox" id="c-update-profile" class="w-5 h-5 text-brand-600 rounded-lg focus:ring-brand-500">
-              <label for="c-update-profile" class="text-sm font-bold text-slate-700 cursor-pointer">Mettre à jour mon profil avec ces informations</label>
-            </div>
+      
 
             <div class="space-y-3">
               <label class="label text-lg">Lettre de motivation * <span class="text-xs font-bold text-slate-400">(PDF recommandé ou texte libre)</span></label>
@@ -137,7 +134,7 @@
                   <div class="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-2xl shadow-sm">👤</div>
                   <div class="flex-1">
                     <span class="text-sm font-black text-slate-900 block">Utiliser mon CV actuel</span>
-                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Celui de mon profil</span>
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest" id="profile-cv-name">Celui de mon profil</span>
                   </div>
                 </label>
 
@@ -425,15 +422,27 @@ function toggleCVUpload(show) {
   }
 })();
 
+function _applyProfileCV(u) {
+  const label = document.getElementById('profile-cv-name');
+  if (!label) return;
+  if (u?.cv_path) {
+    label.textContent = '✓ CV disponible dans votre profil';
+    label.className = 'text-[10px] font-bold text-green-500 uppercase tracking-widest';
+  } else {
+    label.textContent = '⚠ Aucun CV dans votre profil';
+    label.className = 'text-[10px] font-bold text-amber-500 uppercase tracking-widest';
+  }
+}
+
 function fillUserData() {
   const u = API.user();
-  if (u) {
-    document.getElementById('c-tel').value = u.telephone || '';
-    document.getElementById('c-email').value = u.email || '';
-    document.getElementById('c-spec').value = u.specialite || '';
-    document.getElementById('c-exp').value = u.niveau_experience || '';
-    toast('Données chargées depuis votre profil ! ✨', 'info');
-  }
+  if (!u) { toast('Aucune donnée de profil disponible.', 'error'); return; }
+  document.getElementById('c-tel').value   = u.telephone         || '';
+  document.getElementById('c-email').value = u.email             || '';
+  document.getElementById('c-spec').value  = u.specialite        || '';
+  document.getElementById('c-exp').value   = u.niveau_experience || '';
+  _applyProfileCV(u);
+  toast('Données chargées depuis votre profil ! ✨', 'info');
 }
 
 function openPostuler(id) {
@@ -441,8 +450,18 @@ function openPostuler(id) {
     window.location.href = '/connexion?redirect=' + encodeURIComponent(location.pathname);
     return;
   }
-  
   document.getElementById('c-id').value = id;
+  // Pré-remplissage automatique
+  const u = API.user();
+  if (u) {
+    document.getElementById('c-tel').value   = u.telephone         || '';
+    document.getElementById('c-email').value = u.email             || '';
+    document.getElementById('c-spec').value  = u.specialite        || '';
+    document.getElementById('c-exp').value   = u.niveau_experience || '';
+    _applyProfileCV(u);
+  }
+  // Réinitialiser l'erreur et le formulaire partiel
+  document.getElementById('c-err').classList.add('hidden');
   document.getElementById('modal-c').classList.remove('hidden');
 }
 
@@ -515,71 +534,84 @@ async function toggleFav(id, btn) {
   }
 }
 
+function showErr(errEl, msg) {
+  errEl.textContent = msg;
+  errEl.classList.remove('hidden');
+  errEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
 async function submitC(e) {
   e.preventDefault();
-  const btn = document.getElementById('c-btn');
+  const btn   = document.getElementById('c-btn');
   const errEl = document.getElementById('c-err');
-  
-  btn.disabled = true;
-  btn.innerHTML = '<span class="animate-spin mr-3">⏳</span> Envoi...';
   errEl.classList.add('hidden');
-  
-  const fd = new FormData();
-  fd.append('idOffre', document.getElementById('c-id').value);
-  fd.append('telephone', document.getElementById('c-tel').value);
-  fd.append('email_contact', document.getElementById('c-email').value);
-  fd.append('specialite', document.getElementById('c-spec').value);
-  fd.append('niveau_experience', document.getElementById('c-exp').value);
-  fd.append('update_profile', document.getElementById('c-update-profile').checked ? '1' : '0');
-  
-  // Gestion Lettre de motivation
+
+  // ── Validation champs obligatoires ──────────────────────────────
+  const tel   = document.getElementById('c-tel').value.trim();
+  const email = document.getElementById('c-email').value.trim();
+  const spec  = document.getElementById('c-spec').value.trim();
+  const exp   = document.getElementById('c-exp').value;
+
+  if (!tel)   { showErr(errEl, 'Veuillez renseigner votre téléphone.');  document.getElementById('c-tel').focus();   return; }
+  if (!email) { showErr(errEl, 'Veuillez renseigner votre email de contact.'); document.getElementById('c-email').focus(); return; }
+  if (!spec)  { showErr(errEl, 'Veuillez renseigner votre spécialité.'); document.getElementById('c-spec').focus();  return; }
+  if (!exp)   { showErr(errEl, 'Veuillez sélectionner votre niveau d\'expérience.'); document.getElementById('c-exp').focus(); return; }
+
+  // ── Validation lettre de motivation ─────────────────────────────
   const lmFile = document.getElementById('c-lm-file').files?.[0];
-  if (lmFile) {
-    fd.append('lettre_file', lmFile);
-  } else {
-    const txt = document.getElementById('c-lettre').value;
-    if (txt.length < 50) {
-      errEl.textContent = "La lettre de motivation doit faire au moins 50 caractères.";
-      errEl.classList.remove('hidden');
-      btn.disabled = false;
-      btn.textContent = 'Envoyer ma candidature ✓';
-      return;
-    }
-    fd.append('lettreMotivation', txt);
+  const txt    = document.getElementById('c-lettre').value.trim();
+  if (!lmFile && txt.length < 50) {
+    showErr(errEl, 'La lettre de motivation doit faire au moins 50 caractères (ou joindre un PDF).');
+    document.getElementById('c-lettre').focus();
+    return;
   }
 
-  // Gestion CV
-  const cvType = document.querySelector('input[name="cv_type"]:checked').value;
+  // ── Validation CV ────────────────────────────────────────────────
+  const cvTypeEl = document.querySelector('input[name="cv_type"]:checked');
+  const cvType   = cvTypeEl ? cvTypeEl.value : 'profile';
   if (cvType === 'new') {
     const cvFile = document.getElementById('c-cv').files?.[0];
     if (!cvFile) {
-      errEl.textContent = "Veuillez sélectionner un fichier PDF pour votre nouveau CV.";
-      errEl.classList.remove('hidden');
-      btn.disabled = false;
-      btn.textContent = 'Envoyer ma candidature ✓';
+      showErr(errEl, 'Veuillez sélectionner un fichier PDF pour votre nouveau CV.');
       return;
     }
-    fd.append('cv', cvFile);
+  }
+
+  // ── Envoi ────────────────────────────────────────────────────────
+  btn.disabled = true;
+  btn.innerHTML = '<span class="animate-spin mr-3">⏳</span> Envoi...';
+
+  const fd = new FormData();
+  fd.append('idOffre',          document.getElementById('c-id').value);
+  fd.append('telephone',        tel);
+  fd.append('email_contact',    email);
+  fd.append('specialite',       spec);
+  fd.append('niveau_experience', exp);
+
+  if (lmFile) {
+    fd.append('lettre_file', lmFile);
+  } else {
+    fd.append('lettreMotivation', txt);
+  }
+
+  if (cvType === 'new') {
+    fd.append('cv', document.getElementById('c-cv').files[0]);
   } else {
     fd.append('use_profile_cv', '1');
   }
-  
+
   try {
-    const res = await API.post('/candidat/candidatures', fd, true);
+    const res  = await API.post('/candidat/candidatures', fd, true);
     const data = await res.json();
     if (!res.ok) {
-      console.error('Candidature Error Details:', data);
-      errEl.textContent = data.message || (data.errors ? Object.values(data.errors).flat().join(', ') : 'Une erreur est survenue.');
-      errEl.classList.remove('hidden');
+      showErr(errEl, data.message || (data.errors ? Object.values(data.errors).flat().join(', ') : 'Une erreur est survenue.'));
       return;
     }
     closeM();
     toast('Candidature envoyée avec succès ! 🎉');
     setTimeout(() => location.reload(), 1500);
   } catch (error) {
-    console.error('Candidature Catch Error:', error);
-    errEl.textContent = 'Erreur réseau.';
-    errEl.classList.remove('hidden');
+    showErr(errEl, 'Erreur réseau. Veuillez réessayer.');
   } finally {
     btn.disabled = false;
     btn.textContent = 'Envoyer ma candidature ✓';
